@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import { ThemeProvider } from './hooks/useTheme';
 
-// Import page components
-import LandingPage from './pages/LandingPage';
+// Lazy load pages
+const Landing = lazy(() => import('./pages/Landing'));
+const IndustryTemplate = lazy(() => import('./pages/IndustryTemplate')); // Import the new template
 
 const AppRoutes = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-      </Routes>
+      <ThemeProvider>
+        <Suspense fallback={<div className="flex h-screen items-center justify-center bg-black text-white">Loading...</div>}>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Landing />} />
+              
+              {/* ✅ DYNAMIC INDUSTRY ROUTE */}
+              <Route path="/use-cases/industry/:slug" element={<IndustryTemplate />} />
+              
+            </Route>
+          </Routes>
+        </Suspense>
+      </ThemeProvider>
     </Router>
   );
 };

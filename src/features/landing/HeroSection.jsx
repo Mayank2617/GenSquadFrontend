@@ -1,23 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "../../components/ui/Button";
+import { useTheme } from "../../hooks/useTheme";
 
 const HeroSection = () => {
-
-  const getInitialTheme = () => {
-    try {
-      const stored = localStorage.getItem("site-theme");
-      if (stored) return stored;
-    } catch {}
-    return document.documentElement.classList.contains("light-mode") ? "light" : "dark";
-  };
-
-  const [theme, setTheme] = useState(getInitialTheme);
-
-  useEffect(() => {
-    const onTheme = () => setTheme(getInitialTheme());
-    window.addEventListener("themeChange", onTheme);
-    return () => window.removeEventListener("themeChange", onTheme);
-  }, []);
+  const { theme } = useTheme(); // Hook handles the logic now
 
   const darkBg = "/images/hero_dark.png";
   const lightBg = "/images/hero_light.png";

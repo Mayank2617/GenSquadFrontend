@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useTheme } from "../../hooks/useTheme";
 
 const gradients = {
   green: "linear-gradient(90deg, #36904E 0%, #5CF666 100%)",
@@ -12,7 +13,6 @@ const items = [
   { text: "Strategy", gradient: gradients.pink },
   { text: "Product", gradient: gradients.green },
   { text: "People", gradient: gradients.red },
-
   { text: "Hire Cloud Engineers", gradient: gradients.purple },
   { text: "Strategy", gradient: gradients.pink },
   { text: "Product", gradient: gradients.green },
@@ -20,19 +20,7 @@ const items = [
 ];
 
 const ChipCategories = () => {
-  const getTheme = () =>
-    document.documentElement.classList.contains("light-mode")
-      ? "light"
-      : "dark";
-
-  const [theme, setTheme] = useState(getTheme());
-  const isLight = theme === "light";
-
-  useEffect(() => {
-    const onTheme = () => setTheme(getTheme());
-    window.addEventListener("themeChange", onTheme);
-    return () => window.removeEventListener("themeChange", onTheme);
-  }, []);
+  const { isLight } = useTheme();
 
   return (
     <section

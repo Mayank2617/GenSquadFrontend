@@ -1,22 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "../../components/ui/Button";
+import { useTheme } from "../../hooks/useTheme";
 
 const DevPartners = () => {
-  // Detect current theme
-  const getTheme = () =>
-    document.documentElement.classList.contains("light-mode")
-      ? "light"
-      : "dark";
-
-  const [theme, setTheme] = useState(getTheme);
-
-  useEffect(() => {
-    const onTheme = () => setTheme(getTheme());
-    window.addEventListener("themeChange", onTheme);
-    return () => window.removeEventListener("themeChange", onTheme);
-  }, []);
-
-  const isLight = theme === "light";
+  const { isLight } = useTheme();
 
   const features = [
     { title: "Hire in 48 Hours", image: "/images/img_rectangle_157.png" },

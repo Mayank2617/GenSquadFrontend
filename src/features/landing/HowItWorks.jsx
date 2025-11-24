@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "../../components/ui/Button";
+import { useTheme } from "../../hooks/useTheme";
 
 const HowItWorks = () => {
-  const rightImageIcon = "/images/img_callmade.svg";
-
-  // THEME HANDLER
-  const getTheme = () =>
-    document.documentElement.classList.contains("light-mode")
-      ? "light"
-      : "dark";
-
-  const [theme, setTheme] = useState(getTheme);
-
-  useEffect(() => {
-    const onThemeChange = () => setTheme(getTheme());
-    window.addEventListener("themeChange", onThemeChange);
-    return () => window.removeEventListener("themeChange", onThemeChange);
-  }, []);
-
-  const isLight = theme === "light";
-
+  const { isLight } = useTheme();
+  
   return (
     <section
       className={`w-full px-4 sm:px-6 lg:px-[30px] pt-[20px] pb-[20px] ${isLight ? "bg-white" : "bg-[#0a0a0a]"

@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../../components/ui/Button";
+import { useTheme } from "../../hooks/useTheme";
 
 const TalentMatching = () => {
-  const getTheme = () =>
-    document.documentElement.classList.contains("light-mode")
-      ? "light"
-      : "dark";
-
-  const [theme, setTheme] = useState(getTheme);
+  const { isLight } = useTheme();
   const [activeStep, setActiveStep] = useState(0);
 
-  useEffect(() => {
-    const onTheme = () => setTheme(getTheme());
-    window.addEventListener("themeChange", onTheme);
-    return () => window.removeEventListener("themeChange", onTheme);
-  }, []);
-
   const steps = ["Meet the Pros", "Schedule Interview", "Hire & Onboard"];
-  const isLight = theme === "light";
 
   return (
     <section
@@ -45,7 +34,8 @@ const TalentMatching = () => {
               text-center w-full 
               ${isLight ? "text-[#6b6b6b]" : "text-[#bababa]"}`}
             >
-              Hire top tech experts effortlessly just 3 simple steps from match to onboard, powered by AI.
+              Hire top tech experts effortlessly just 3 simple steps 
+              from match to onboard, powered by AI.
             </p>
 
             {/* STEPS */}
@@ -104,7 +94,8 @@ const TalentMatching = () => {
                 className={`text-[10px] sm:text-[15px] md:text-[20px] font-dm 
                 ${isLight ? "text-[#6b6b6b]" : "text-[#bababa]"}`}
               >
-                Where the best minds in tech meet real opportunities. Discover skilled professionals ready to build the future with you.
+                Where the best minds in tech meet real opportunities.
+                Discover skilled professionals ready to build the future with you.
               </p>
 
               <Button
