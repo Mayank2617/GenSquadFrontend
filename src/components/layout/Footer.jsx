@@ -4,26 +4,8 @@ import { useTheme } from "../../hooks/useTheme";
 
 const Footer = () => {
   const { isLight } = useTheme();
-  const footerRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
-
-  // 🖱️ LIQUID CURSOR TRACKING
-  const handleMouseMove = (e) => {
-    if (!footerRef.current) return;
-    const rect = footerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-    setOpacity(1);
-  };
-
-  const handleMouseLeave = () => {
-    setOpacity(0);
-  };
-
-  // 📋 DATA FROM CSV
+  
+  // 📋 FOOTER DATA
   const footerLinks = [
     {
       title: "Platform",
@@ -110,9 +92,6 @@ const Footer = () => {
 
   return (
     <footer 
-      ref={footerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       className={`
         relative w-full overflow-hidden border-t transition-colors duration-300
         ${isLight 
@@ -121,16 +100,6 @@ const Footer = () => {
         }
       `}
     >
-      
-      {/* ✨ ANIMATED CURSOR GLOW ✨ */}
-      <div 
-        className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-0"
-        style={{
-          opacity,
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, ${isLight ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.15)'}, transparent 40%)`
-        }}
-      />
-
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 pt-16 pb-10">
         
         {/* TOP SECTION: LOGO + CTA */}
@@ -158,7 +127,6 @@ const Footer = () => {
         </div>
 
         {/* MIDDLE SECTION: 6-COLUMN GRID */}
-        {/* Responsive: 2 cols on mobile, 3 cols on tablet, 6 cols on large screens */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-8 gap-y-12 mb-20">
           {footerLinks.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-4">

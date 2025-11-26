@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+// Ensure this path is correct based on where you put the file
+import SplashCursor from "../../components/SplashCursor";
 
 const IndustryHero = ({ title, subtitle }) => {
   const { isLight } = useTheme();
@@ -8,13 +10,7 @@ const IndustryHero = ({ title, subtitle }) => {
   // 🎨 BACKGROUND CONFIGURATION
   const backgroundStyle = {
     background: isLight 
-      // Light Mode: Visible Light Purple/Blue Base + Stronger Accents
-      // 1. Base is a light lavender (#f5f3ff)
-      // 2. Top-Left is a strong Purple glow (30% opacity)
-      // 3. Top-Right is a strong Blue glow (30% opacity)
       ? "radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.35) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.35) 0%, transparent 45%), linear-gradient(to bottom, #f3f0ff, #f0f9ff)"
-      
-      // Dark Mode: Deep Purple Glow (Unchanged)
       : "radial-gradient(50% 50% at 50% 50%, rgba(76, 29, 149, 0.35) 0%, rgba(10, 10, 10, 1) 100%), #0a0a0a",
   };
 
@@ -23,25 +19,31 @@ const IndustryHero = ({ title, subtitle }) => {
       className="w-full relative flex items-center justify-center min-h-screen pt-[80px] overflow-hidden"
       style={backgroundStyle}
     >
+      
+     {/* ✨ REMOVED THE KEY PROP ✨ */}
+      <div className="absolute inset-0 z-0">
+        <SplashCursor />
+      </div>
+
       {/* Grid Pattern Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          // Made the grid darker in light mode (rgba(0,0,0,0.1)) so it pops against the color
           backgroundImage: isLight 
             ? `linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px)`
             : `linear-gradient(#888 1px, transparent 1px), linear-gradient(90deg, #888 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
-          opacity: isLight ? 1 : 0.03 // Increased opacity for light mode
+          opacity: isLight ? 1 : 0.03 
         }}
       />
 
-      <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-8 text-center relative z-10">
+      {/* CONTENT LAYER */}
+      <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-8 text-center relative z-10 pointer-events-none">
         <div className="flex flex-col items-center justify-center gap-6">
 
           {/* 1. Pill Label */}
           <div className={`
-            px-4 py-1.5 rounded-full border text-sm font-medium
+            px-4 py-1.5 rounded-full border text-sm font-medium pointer-events-auto
             ${isLight 
               ? "bg-white/60 border-purple-300 text-purple-800 backdrop-blur-sm" 
               : "bg-white/5 border-white/10 text-purple-300"
@@ -67,7 +69,7 @@ const IndustryHero = ({ title, subtitle }) => {
           </p>
 
           {/* 4. Single Button */}
-          <div className="mt-8 flex justify-center w-full">
+          <div className="mt-8 flex justify-center w-full pointer-events-auto">
             <Button
               text="Get Started"
               text_font_size="18"
