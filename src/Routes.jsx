@@ -6,7 +6,9 @@ import { ThemeProvider } from './hooks/useTheme';
 // Lazy load pages
 const Landing = lazy(() => import('./pages/Landing'));
 const IndustryTemplate = lazy(() => import('./pages/IndustryTemplate'));
-const SolutionTemplate = lazy(() => import('./pages/SolutionTemplate')); // Import the new page
+const SolutionTemplate = lazy(() => import('./pages/SolutionTemplate'));
+const TalentListing = lazy(() => import('./pages/TalentListing'));
+const TalentProfile = lazy(() => import('./pages/TalentProfile')); // 1. Import Profile Page
 
 const AppRoutes = () => {
   return (
@@ -15,17 +17,17 @@ const AppRoutes = () => {
         <Suspense fallback={<div className="flex h-screen items-center justify-center bg-black text-white">Loading...</div>}>
           <Routes>
             
-            {/* 🟢 MAIN LAYOUT WRAPPER (Provides NavBar + Footer) */}
+            {/* Main Layout provides NavBar & Footer to all children */}
             <Route element={<MainLayout />}>
               
-              {/* Home Page */}
               <Route path="/" element={<Landing />} />
-              
-              {/* Industry Pages */}
               <Route path="/use-cases/industry/:slug" element={<IndustryTemplate />} />
-              
-              {/* ✅ SOLUTION PAGES (Now includes Navbar/Footer automatically) */}
               <Route path="/use-cases/solutions/:slug" element={<SolutionTemplate />} />
+              <Route path="/talent" element={<TalentListing />} />
+              
+              {/* 2. Add Dynamic Profile Route */}
+              {/* The ':id' allows us to load different data for different people */}
+              <Route path="/talent/:id" element={<TalentProfile />} />
               
             </Route>
 

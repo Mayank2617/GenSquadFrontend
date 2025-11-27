@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
+import { Link } from 'react-router-dom';
 
 const ExpertProfiles = ({ variant = "home" }) => {
   const { isLight } = useTheme();
@@ -77,7 +78,7 @@ const ExpertProfiles = ({ variant = "home" }) => {
   return (
     <section className={`w-full px-4 sm:px-6 lg:px-[30px] ${sectionClass}`}>
       <div className="w-full max-w-[1166px] mx-auto pt-[40px] pb-[40px]">
-        
+
         {/* HEADER */}
         <div className="flex flex-col justify-start items-center w-full px-[20px] sm:px-[80px]">
           <h2
@@ -111,8 +112,8 @@ const ExpertProfiles = ({ variant = "home" }) => {
               <div
                 key={expert.id}
                 className={`flex flex-col gap-4 rounded-[14px] p-[20px] shadow-md transition-all ${isLight
-                    ? "bg-white border border-[#e6e6e6]"
-                    : "bg-[#1b1b1b] shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
+                  ? "bg-white border border-[#e6e6e6]"
+                  : "bg-[#1b1b1b] shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
                   }`}
               >
                 {/* HEADER: Image + Name */}
@@ -166,8 +167,8 @@ const ExpertProfiles = ({ variant = "home" }) => {
                     <span
                       key={i}
                       className={`text-[13px] px-3 py-[6px] rounded-md ${isLight
-                          ? "bg-[#f4f4f4] text-[#444]"
-                          : "bg-[#2f2f2f] text-[#dcdcdc]"
+                        ? "bg-[#f4f4f4] text-[#444]"
+                        : "bg-[#2f2f2f] text-[#dcdcdc]"
                         }`}
                     >
                       {skill}
@@ -240,12 +241,14 @@ const ExpertProfiles = ({ variant = "home" }) => {
         {/* VIEW MORE CTA */}
         <div className="flex justify-center mt-[40px]">
           <div className="p-[2px] rounded-[8px] bg-gradient-to-r from-[#8b5cf6] to-[#513590] inline-block">
-            <button
-              className={`px-10 py-3 rounded-[8px] text-[16px] font-semibold ${isLight ? "bg-white text-black" : "bg-[#161616] text-white"
-                }`}
-            >
-              View More
-            </button>
+            <Link to="/talent">
+              <button
+                className={`px-10 py-3 rounded-[8px] text-[16px] font-semibold ${isLight ? "bg-white text-black" : "bg-[#161616] text-white"
+                  }`}
+              >
+                View More
+              </button>
+            </Link>
           </div>
         </div>
       </div>

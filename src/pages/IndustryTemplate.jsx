@@ -9,7 +9,6 @@ import IndustrySolutionsTabs from '../features/industry/IndustrySolutionsTabs';
 import IndustryWhyChoose from '../features/industry/IndustryWhyChoose';
 import ExpertProfiles from '../features/landing/ExpertProfiles';
 import IndustryInfoGrid from '../features/industry/IndustryInfoGrid';
-// 1. Import Vetting & Testimonials
 import VettingProcess from '../features/landing/VettingProcess';
 import Testimonials from '../features/landing/Testimonials';
 
@@ -26,7 +25,7 @@ const IndustryTemplate = () => {
   const industryName = formatTitle(slug);
   const { isLight } = useTheme();
 
-  // MESH GRADIENT BACKGROUND
+  // 🎨 GLOBAL MESH BACKGROUND
   const sharedBackgroundStyle = {
     background: isLight 
       ? `
@@ -53,33 +52,21 @@ const IndustryTemplate = () => {
         subtitle={`Build secure, scalable ${industryName} solutions with top-tier experts vetted for technical excellence.`}
       />
 
-      <CompanyLogos variant="industry" />
-
-      {/* SHARED BACKGROUND WRAPPER */}
+      {/* ✅ MOVED INSIDE THE WRAPPER 
+         By placing CompanyLogos inside this div, its 'transparent' background 
+         will correctly show the mesh gradient defined in sharedBackgroundStyle.
+      */}
       <div className="w-full relative" style={sharedBackgroundStyle}>
         
-        {/* Background Texture Overlay */}
-        <div 
-           className="absolute inset-0 pointer-events-none opacity-[0.4]"
-           style={{
-             backgroundImage: `linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px)`,
-             backgroundSize: '60px 60px',
-             mixBlendMode: 'multiply'
-           }}
-        />
+        <CompanyLogos variant="industry" />
 
         <IndustrySolutionsTabs industryName={industryName} />
         <IndustryWhyChoose industryName={industryName} />
         <ExpertProfiles variant="industry" />
         <IndustryInfoGrid />
-        
-        {/* 2. Added Vetting Process (Glassmorphic) */}
         <VettingProcess variant="industry" />
-        
-        {/* 3. Added Testimonials (Transparent) */}
         <Testimonials variant="industry" />
         
-        {/* Extra padding at bottom for flow */}
         <div className="pb-32"></div>
       </div>
     </>
