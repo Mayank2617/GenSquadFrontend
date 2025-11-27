@@ -5,9 +5,14 @@ import { useTheme } from '../hooks/useTheme';
 
 // Features
 import SolutionHero from '../features/solution/SolutionHero';
-import CompanyLogos from '../features/landing/CompanyLogos'; // Will use in next steps
+import CompanyLogos from '../features/landing/CompanyLogos';
+import SolutionProcess from '../features/solution/SolutionProcess';
+import SolutionWhyChoose from '../features/solution/SolutionWhyChoose';
+import ExpertProfiles from '../features/landing/ExpertProfiles';
+import SolutionCapabilities from '../features/solution/SolutionCapabilities';
+// 1. Import CTA
+import SolutionCTA from '../features/solution/SolutionCTA';
 
-// Helper for title slug
 const formatTitle = (slug) => {
   if (!slug) return "AI & ML";
   return slug
@@ -21,8 +26,7 @@ const SolutionTemplate = () => {
   const solutionName = formatTitle(slug);
   const { isLight } = useTheme();
 
-  // 🎨 GLOBAL PAGE BACKGROUND (Matches Industry Page)
-  // This sits BEHIND the Hero Card
+  // 🎨 GLOBAL PAGE BACKGROUND
   const pageBackground = {
     background: isLight 
       ? `
@@ -45,22 +49,34 @@ const SolutionTemplate = () => {
         <meta name="description" content={`Hire top ${solutionName} experts.`} />
       </Helmet>
 
-      {/* NOTE: NavBar and Footer are provided by the MainLayout 
-         wrapping this route in Routes.jsx 
-      */}
-
-      {/* 1. HERO SECTION (Floating Card) */}
-      <div className="pt-[40px]"> {/* Push down below fixed navbar */}
+      {/* 1. HERO */}
+      <div className="pt-[100px] pb-10"> 
         <SolutionHero 
           tag={solutionName}
           title={`Scale your ${solutionName} capabilities`}
         />
       </div>
 
-      {/* Placeholder for next sections */}
-      <div className="py-32 text-center opacity-50">
-        <p>More {solutionName} content coming soon...</p>
-      </div>
+      {/* 2. LOGOS */}
+      <CompanyLogos variant="industry" />
+
+      {/* 3. PROCESS */}
+      <SolutionProcess />
+
+      {/* 4. WHY CHOOSE */}
+      <SolutionWhyChoose />
+
+      {/* 5. EXPERTS */}
+      <ExpertProfiles variant="industry" />
+
+      {/* 6. CAPABILITIES */}
+      <SolutionCapabilities />
+
+      {/* 7. CTA (Final Section) */}
+      <SolutionCTA />
+
+      {/* Spacing for footer */}
+      <div className="pb-20"></div>
 
     </div>
   );
