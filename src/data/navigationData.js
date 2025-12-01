@@ -1,4 +1,4 @@
-// Helper for icons (using simple SVG strings for portability)
+// ... icons object remains same ...
 const icons = {
   hiring: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
   industry: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
@@ -6,10 +6,13 @@ const icons = {
   tech: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
   stack: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
   role: "M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  default: "M13 10V3L4 14h7v7l9-11h-7z" // Lightning bolt
+  company: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
+  resources: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+  default: "M13 10V3L4 14h7v7l9-11h-7z"
 };
 
 export const navigationData = [
+  // ... (Use Cases object remains exactly the same as before) ...
   {
     title: "Use Cases",
     path: "/use-cases",
@@ -116,17 +119,82 @@ export const navigationData = [
     path: "/our-services",
     subsections: [
       {
-        title: "Fractal CTO/CPO",
-        iconPath: icons.solutions,
+        title: "Hire by Skill",
+        iconPath: icons.stack,
         items: [
-          { name: "Gen AI", href: "/our-services/fractal-cto-cpo/gen-ai" },
-          { name: "Backend Development", href: "/our-services/fractal-cto-cpo/backend-development" },
-          { name: "Cloud Solution", href: "/our-services/fractal-cto-cpo/cloud-solution" },
-          { name: "System Integration", href: "/our-services/fractal-cto-cpo/system-integration" },
-          { name: "Managed Services", href: "/our-services/fractal-cto-cpo/managed-services" },
-          { name: "Mobile Apps", href: "/our-services/fractal-cto-cpo/mobile-apps" },
-          { name: "MVPs", href: "/our-services/fractal-cto-cpo/mvps" },
-          { name: "Web Apps", href: "/our-services/fractal-cto-cpo/web-apps" }
+          { name: "Hire AI Engineers", href: "/our-services/hire-by-skill/hire-ai-engineers" },
+          { name: "Hire Machine Learning Engineers", href: "/our-services/hire-by-skill/hire-machine-learning-engineers" },
+          { name: "Hire Deep Learning Engineers", href: "/our-services/hire-by-skill/hire-deep-learning-engineers" },
+          { name: "Hire NLP Engineers", href: "/our-services/hire-by-skill/hire-nlp-engineers" },
+          { name: "Hire LLM Engineers", href: "/our-services/hire-by-skill/hire-llm-engineers" },
+          { name: "Hire Computer Vision Engineers", href: "/our-services/hire-by-skill/hire-computer-vision-engineers" },
+          { name: "Hire Data Scientists", href: "/our-services/hire-by-skill/hire-data-scientists" },
+          { name: "Hire Data Engineers", href: "/our-services/hire-by-skill/hire-data-engineers" },
+          { name: "Hire Data Analysts", href: "/our-services/hire-by-skill/hire-data-analysts" },
+          { name: "Hire MLOps Engineers", href: "/our-services/hire-by-skill/hire-mlops-engineers" },
+          { name: "Hire Cloud Engineers", href: "/our-services/hire-by-skill/hire-cloud-engineers" },
+          { name: "Hire Backend Developers", href: "/our-services/hire-by-skill/hire-backend-developers" },
+          { name: "Hire Full-Stack Developers", href: "/our-services/hire-by-skill/hire-full-stack-developers" },
+          { name: "Hire Python Developers", href: "/our-services/hire-by-skill/hire-python-developers" },
+          { name: "Hire DevOps Engineers", href: "/our-services/hire-by-skill/hire-devops-engineers" },
+          { name: "Hire LangChain Developers", href: "/our-services/hire-by-skill/hire-langchain-developers" },
+          { name: "Hire LlamaIndex Developers", href: "/our-services/hire-by-skill/hire-llamaindex-developers" },
+          { name: "Hire RAG Experts", href: "/our-services/hire-by-skill/hire-rag-experts" },
+          { name: "Hire Vector DB Engineers", href: "/our-services/hire-by-skill/hire-vector-db-engineers" },
+          { name: "Hire Prompt Engineers", href: "/our-services/hire-by-skill/hire-prompt-engineers" },
+          { name: "Hire ChatGPT Automation Experts", href: "/our-services/hire-by-skill/hire-chatgpt-automation-experts" },
+          { name: "Hire n8n Experts", href: "/our-services/hire-by-skill/hire-n8n-experts" },
+          { name: "Hire Zapier Experts", href: "/our-services/hire-by-skill/hire-zapier-experts" },
+          { name: "Hire Make.com Experts", href: "/our-services/hire-by-skill/hire-make-com-experts" },
+          { name: "Hire Airflow Engineers", href: "/our-services/hire-by-skill/hire-airflow-engineers" },
+          { name: "Hire Kubeflow Engineers", href: "/our-services/hire-by-skill/hire-kubeflow-engineers" },
+          { name: "Hire Voice AI Engineers", href: "/our-services/hire-by-skill/hire-voice-ai-engineers" },
+          { name: "Hire Chatbot Developers", href: "/our-services/hire-by-skill/hire-chatbot-developers" },
+          { name: "Hire LLM Fine-Tuning Specialists", href: "/our-services/hire-by-skill/hire-llm-fine-tuning-specialists" },
+          { name: "Hire API Integration Engineers", href: "/our-services/hire-by-skill/hire-api-integration-engineers" }
+        ]
+      },
+      {
+        title: "Hire by Role",
+        iconPath: icons.role,
+        items: [
+          { name: "Hire AI Solution Architects", href: "/our-services/hire-by-role/hire-ai-solution-architects" },
+          { name: "Hire AI QA & Testing Specialists", href: "/our-services/hire-by-role/hire-ai-qa-testing-specialists" },
+          { name: "Hire AI Product Managers", href: "/our-services/hire-by-role/hire-ai-product-managers" },
+          { name: "Hire Data Labeling Workforce", href: "/our-services/hire-by-role/hire-data-labeling-workforce" },
+          { name: "Hire AI Project Managers", href: "/our-services/hire-by-role/hire-ai-project-managers" }
+        ]
+      }
+    ]
+  },
+  {
+    title: "About Us",
+    path: "/about-us",
+    subsections: [
+      {
+        title: "", // Empty title to show links directly
+        iconPath: icons.company,
+        items: [
+          { name: "About us", href: "/about-us" },
+          { name: "Why us?", href: "/why-us" },
+          { name: "Fractal CTO/CPO", href: "/fractal-cto-cpo" }
+        ]
+      }
+    ]
+  },
+  {
+    title: "For Companies",
+    path: "/for-companies",
+    subsections: [
+      {
+        title: "", // Empty title to show links directly
+        iconPath: icons.resources,
+        items: [
+          { name: "Rate Calculator", href: "/for-companies/rate-calculator" },
+          { name: "How we vet developers", href: "/how-we-vet-developers" },
+          { name: "FAQ for Companies", href: "/faq-for-companies" },
+          { name: "Case Studies", href: "/case-studies" },
+          { name: "Testimonials", href: "/testimonials" }
         ]
       }
     ]

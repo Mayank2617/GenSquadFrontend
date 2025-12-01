@@ -1,7 +1,7 @@
 import os
 
 # Files/Folders to ignore
-IGNORE_DIRS = {'node_modules', '.git', '.next', 'dist', 'build', '.vscode'}
+IGNORE_DIRS = {'node_modules', '.git', '.next', 'dist', 'build', '.vscode', 'try.html'}
 IGNORE_FILES = {'package-lock.json', 'yarn.lock', '.DS_Store', 'codebase.txt'}
 EXTENSIONS = {'.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.json', '.html'}
 

@@ -4,7 +4,6 @@ import { useTheme } from "../../hooks/useTheme";
 
 const MegaMenu = ({ activeSection, closeMenu }) => {
   const { isLight } = useTheme();
-  // State to track which subsection is hovered on the left
   const [activeSubsection, setActiveSubsection] = useState(null);
 
   if (!activeSection) return null;
@@ -21,14 +20,14 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
         }
       `}
       onMouseLeave={() => {
-        setActiveSubsection(null); // Reset internal state on exit
+        setActiveSubsection(null);
         closeMenu();
       }}
-      style={{ minHeight: "450px" }} // Enforce height for consistent layout
+      style={{ minHeight: "450px" }}
     >
       <div className="max-w-[1440px] mx-auto flex h-full min-h-[450px]">
         
-        {/* ================= LEFT PANEL (SUBSECTIONS) ================= */}
+        {/* LEFT PANEL */}
         <div 
           className={`
             w-[25%] flex flex-col py-6 px-2 border-r
@@ -42,7 +41,7 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
               className={`
                 group flex items-center gap-3 px-4 py-3 mb-1 rounded-lg cursor-pointer transition-all duration-200
                 ${
-                  activeSubsection?.title === sub.title
+                  activeSubsection?.title === sub.title // Note: If title is "", this logic still holds as "" === ""
                     ? isLight 
                       ? "bg-purple-50 text-purple-700"
                       : "bg-[#1f1f1f] text-white"
@@ -52,7 +51,7 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
                 }
               `}
             >
-              {/* Category Icon */}
+              {/* Icon */}
               <div 
                 className={`
                   p-2 rounded-md transition-colors
@@ -64,22 +63,20 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
                 `}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                   {/* Render path from data, fallback if missing */}
                    <path d={sub.iconPath || "M13 10V3L4 14h7v7l9-11h-7z"} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               
-              {/* Category Title */}
+              {/* Category Title (Fallback to "Menu" if title is empty for the left sidebar selector) */}
               <span className="font-space font-medium text-[15px] flex-grow">
-                {sub.title}
+                {sub.title || "Options"} 
               </span>
 
-              {/* Arrow Icon (Visible only on Active/Hover) */}
               <svg 
                 width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
                 className={`
                   transition-transform duration-300 opacity-0 -translate-x-2
-                  ${activeSubsection?.title === sub.title ? "opacity-100 translate-x-0" : ""}
+                  ${activeSubsection === sub ? "opacity-100 translate-x-0" : ""}
                 `}
               >
                 <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
@@ -88,14 +85,14 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
           ))}
         </div>
 
-        {/* ================= RIGHT PANEL (CONTENT) ================= */}
-        <div className="w-[75%] p-8 relative overflow-hidden">
+        {/* RIGHT PANEL */}
+        <div className="w-[75%] p-8 relative overflow-hidden overflow-y-auto">
           
-          {/* STATE 1: NOTHING SELECTED (DEFAULT) */}
+          {/* Default State */}
           <div 
             className={`
-              absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300
-              ${activeSubsection ? "opacity-0 pointer-events-none" : "opacity-100"}
+              absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none
+              ${activeSubsection ? "opacity-0" : "opacity-100"}
             `}
           >
              <div className="p-4 rounded-full bg-purple-100 dark:bg-purple-900/20 mb-4">
@@ -104,23 +101,27 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
                 </svg>
              </div>
              <p className={`font-dm text-lg ${isLight ? "text-gray-400" : "text-[#555]"}`}>
-               Select a category from the left to explore
+               Select a category to explore
              </p>
           </div>
 
-          {/* STATE 2: SUBSECTION SELECTED */}
+          {/* Active Content */}
           {activeSubsection && (
             <div className="animate-fade-in-up w-full h-full">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-[#222]">
-                 <h3 className={`text-2xl font-space font-bold ${isLight ? "text-gray-900" : "text-white"}`}>
-                    {activeSubsection.title}
-                 </h3>
-                 <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-                    {activeSubsection.items.length} options
-                 </span>
-              </div>
+              
+              {/* Only show header if title exists */}
+              {activeSubsection.title && (
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100 dark:border-[#222]">
+                   <h3 className={`text-2xl font-space font-bold ${isLight ? "text-gray-900" : "text-white"}`}>
+                      {activeSubsection.title}
+                   </h3>
+                   <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                      {activeSubsection.items.length} options
+                   </span>
+                </div>
+              )}
 
-              <div className="grid grid-cols-3 gap-x-6 gap-y-4">
+              <div className="grid grid-cols-3 gap-x-6 gap-y-4 pb-10">
                 {activeSubsection.items.map((item, i) => (
                   <Link
                     key={i}
@@ -131,13 +132,11 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
                       ${isLight ? "hover:bg-gray-50" : "hover:bg-[#1a1a1a]"}
                     `}
                   >
-                    {/* Item Icon (Generic Bolt for now, can be specific if added to data) */}
                     <div className="mt-1 text-purple-400 group-hover:text-purple-600 transition-colors">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
-                    
                     <div>
                       <span 
                         className={`
@@ -156,7 +155,6 @@ const MegaMenu = ({ activeSection, closeMenu }) => {
         </div>
       </div>
 
-      {/* Tailwind Animation Utilities for this file */}
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(10px); }

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { navigationData } from "../../data/navigationData";
 import MegaMenu from "./MegaMenu";
-import MobileMenu from "./MobileMenu"; // Import the new mobile menu
+import MobileMenu from "./MobileMenu";
 
 const NavBar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -11,13 +11,11 @@ const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Close mobile menu if route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setActiveSection(null);
   }, [location]);
 
-  // Handlers
   const handleMouseEnter = (section) => setActiveSection(section);
   const handleMouseLeave = () => setActiveSection(null);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -40,7 +38,7 @@ const NavBar = () => {
             GenSquad
           </Link>
 
-          {/* CENTER: DESKTOP NAVIGATION (Hidden on Mobile) */}
+          {/* CENTER: DESKTOP NAVIGATION */}
           <nav className="hidden lg:flex items-center gap-8 h-full">
             {navigationData.map((section, idx) => (
               <div 
@@ -72,7 +70,6 @@ const NavBar = () => {
           {/* RIGHT: ACTIONS */}
           <div className="flex items-center gap-4 z-50">
             
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="
@@ -89,37 +86,33 @@ const NavBar = () => {
               )}
             </button>
             
-            <button className="hidden lg:block bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">
+            {/* ✅ UPDATED: Changed <button> to <Link> pointing to /talent */}
+            <Link 
+              to="/talent"
+              className="hidden lg:block bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-md text-sm font-medium transition-colors"
+            >
               Hire Talent
-            </button>
+            </Link>
 
-            {/* MOBILE HAMBURGER BUTTON (Visible only on small screens) */}
+            {/* MOBILE HAMBURGER BUTTON */}
             <button 
               onClick={toggleMobileMenu}
               className="lg:hidden p-2 text-black dark:text-white"
             >
               {isMobileMenuOpen ? (
-                // Close Icon (X)
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/></svg>
               ) : (
-                // Menu Icon (Hamburger)
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeLinejoin="round"/></svg>
               )}
             </button>
           </div>
         </div>
 
-        {/* DESKTOP MEGA MENU */}
         <div className="hidden lg:block w-full"> 
           <MegaMenu activeSection={activeSection} closeMenu={handleMouseLeave} />
         </div>
       </header>
 
-      {/* MOBILE MENU DRAWER */}
       <MobileMenu isOpen={isMobileMenuOpen} closeMenu={() => setIsMobileMenuOpen(false)} />
     </>
   );
