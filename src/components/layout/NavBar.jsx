@@ -62,9 +62,6 @@ const NavBar = () => {
                 </button>
               </div>
             ))}
-            <Link to="/about" className="text-sm font-medium text-black dark:text-white hover:text-purple-600 transition-colors">
-              About Us
-            </Link>
           </nav>
 
           {/* RIGHT: ACTIONS */}
