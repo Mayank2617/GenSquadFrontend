@@ -1,4 +1,4 @@
-// ... icons object remains same ...
+// Icons Helper
 const icons = {
   hiring: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
   industry: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
@@ -12,7 +12,7 @@ const icons = {
 };
 
 export const navigationData = [
-  // ... (Use Cases object remains exactly the same as before) ...
+  // 1. USE CASES (Unchanged - Needs Left/Right split)
   {
     title: "Use Cases",
     path: "/use-cases",
@@ -114,87 +114,136 @@ export const navigationData = [
       }
     ]
   },
+
+  // 2. OUR SERVICES (Updated: Flattened List)
+  // We use a single subsection with an EMPTY title ("") so it renders as one big list.
   {
     title: "Our Services",
     path: "/our-services",
     subsections: [
       {
-        title: "Hire by Skill",
+        title: "", // Empty title = Single Container View
         iconPath: icons.stack,
         items: [
-          { name: "Hire AI Engineers", href: "/our-services/hire-by-skill/hire-ai-engineers" },
-          { name: "Hire Machine Learning Engineers", href: "/our-services/hire-by-skill/hire-machine-learning-engineers" },
-          { name: "Hire Deep Learning Engineers", href: "/our-services/hire-by-skill/hire-deep-learning-engineers" },
-          { name: "Hire NLP Engineers", href: "/our-services/hire-by-skill/hire-nlp-engineers" },
-          { name: "Hire LLM Engineers", href: "/our-services/hire-by-skill/hire-llm-engineers" },
-          { name: "Hire Computer Vision Engineers", href: "/our-services/hire-by-skill/hire-computer-vision-engineers" },
-          { name: "Hire Data Scientists", href: "/our-services/hire-by-skill/hire-data-scientists" },
-          { name: "Hire Data Engineers", href: "/our-services/hire-by-skill/hire-data-engineers" },
-          { name: "Hire Data Analysts", href: "/our-services/hire-by-skill/hire-data-analysts" },
-          { name: "Hire MLOps Engineers", href: "/our-services/hire-by-skill/hire-mlops-engineers" },
-          { name: "Hire Cloud Engineers", href: "/our-services/hire-by-skill/hire-cloud-engineers" },
-          { name: "Hire Backend Developers", href: "/our-services/hire-by-skill/hire-backend-developers" },
-          { name: "Hire Full-Stack Developers", href: "/our-services/hire-by-skill/hire-full-stack-developers" },
-          { name: "Hire Python Developers", href: "/our-services/hire-by-skill/hire-python-developers" },
-          { name: "Hire DevOps Engineers", href: "/our-services/hire-by-skill/hire-devops-engineers" },
-          { name: "Hire LangChain Developers", href: "/our-services/hire-by-skill/hire-langchain-developers" },
-          { name: "Hire LlamaIndex Developers", href: "/our-services/hire-by-skill/hire-llamaindex-developers" },
-          { name: "Hire RAG Experts", href: "/our-services/hire-by-skill/hire-rag-experts" },
-          { name: "Hire Vector DB Engineers", href: "/our-services/hire-by-skill/hire-vector-db-engineers" },
-          { name: "Hire Prompt Engineers", href: "/our-services/hire-by-skill/hire-prompt-engineers" },
-          { name: "Hire ChatGPT Automation Experts", href: "/our-services/hire-by-skill/hire-chatgpt-automation-experts" },
-          { name: "Hire n8n Experts", href: "/our-services/hire-by-skill/hire-n8n-experts" },
-          { name: "Hire Zapier Experts", href: "/our-services/hire-by-skill/hire-zapier-experts" },
-          { name: "Hire Make.com Experts", href: "/our-services/hire-by-skill/hire-make-com-experts" },
-          { name: "Hire Airflow Engineers", href: "/our-services/hire-by-skill/hire-airflow-engineers" },
-          { name: "Hire Kubeflow Engineers", href: "/our-services/hire-by-skill/hire-kubeflow-engineers" },
-          { name: "Hire Voice AI Engineers", href: "/our-services/hire-by-skill/hire-voice-ai-engineers" },
-          { name: "Hire Chatbot Developers", href: "/our-services/hire-by-skill/hire-chatbot-developers" },
-          { name: "Hire LLM Fine-Tuning Specialists", href: "/our-services/hire-by-skill/hire-llm-fine-tuning-specialists" },
-          { name: "Hire API Integration Engineers", href: "/our-services/hire-by-skill/hire-api-integration-engineers" }
-        ]
-      },
-      {
-        title: "Hire by Role",
-        iconPath: icons.role,
-        items: [
-          { name: "Hire AI Solution Architects", href: "/our-services/hire-by-role/hire-ai-solution-architects" },
-          { name: "Hire AI QA & Testing Specialists", href: "/our-services/hire-by-role/hire-ai-qa-testing-specialists" },
-          { name: "Hire AI Product Managers", href: "/our-services/hire-by-role/hire-ai-product-managers" },
-          { name: "Hire Data Labeling Workforce", href: "/our-services/hire-by-role/hire-data-labeling-workforce" },
-          { name: "Hire AI Project Managers", href: "/our-services/hire-by-role/hire-ai-project-managers" }
+          // Hire by Skill (30 Items)
+          { name: "Hire AI Engineers", href: "/our-services/hire-ai-engineers" },
+          { name: "Hire Machine Learning Engineers", href: "/our-services/hire-machine-learning-engineers" },
+          { name: "Hire Deep Learning Engineers", href: "/our-services/hire-deep-learning-engineers" },
+          { name: "Hire NLP Engineers", href: "/our-services/hire-nlp-engineers" },
+          { name: "Hire LLM Engineers", href: "/our-services/hire-llm-engineers" },
+          { name: "Hire Computer Vision Engineers", href: "/our-services/hire-computer-vision-engineers" },
+          { name: "Hire Data Scientists", href: "/our-services/hire-data-scientists" },
+          { name: "Hire Data Engineers", href: "/our-services/hire-data-engineers" },
+          { name: "Hire Data Analysts", href: "/our-services/hire-data-analysts" },
+          { name: "Hire MLOps Engineers", href: "/our-services/hire-mlops-engineers" },
+          { name: "Hire Cloud Engineers", href: "/our-services/hire-cloud-engineers" },
+          { name: "Hire Backend Developers", href: "/our-services/hire-backend-developers" },
+          { name: "Hire Full-Stack Developers", href: "/our-services/hire-full-stack-developers" },
+          { name: "Hire Python Developers", href: "/our-services/hire-python-developers" },
+          { name: "Hire DevOps Engineers", href: "/our-services/hire-devops-engineers" },
+          { name: "Hire LangChain Developers", href: "/our-services/hire-langchain-developers" },
+          { name: "Hire LlamaIndex Developers", href: "/our-services/hire-llamaindex-developers" },
+          { name: "Hire RAG Experts", href: "/our-services/hire-rag-experts" },
+          { name: "Hire Vector DB Engineers", href: "/our-services/hire-vector-db-engineers" },
+          { name: "Hire Prompt Engineers", href: "/our-services/hire-prompt-engineers" },
+          { name: "Hire ChatGPT Automation Experts", href: "/our-services/hire-chatgpt-automation-experts" },
+          { name: "Hire n8n Experts", href: "/our-services/hire-n8n-experts" },
+          { name: "Hire Zapier Experts", href: "/our-services/hire-zapier-experts" },
+          { name: "Hire Make.com Experts", href: "/our-services/hire-make-com-experts" },
+          { name: "Hire Airflow Engineers", href: "/our-services/hire-airflow-engineers" },
+          { name: "Hire Kubeflow Engineers", href: "/our-services/hire-kubeflow-engineers" },
+          { name: "Hire Voice AI Engineers", href: "/our-services/hire-voice-ai-engineers" },
+          { name: "Hire Chatbot Developers", href: "/our-services/hire-chatbot-developers" },
+          { name: "Hire LLM Fine-Tuning Specialists", href: "/our-services/hire-llm-fine-tuning-specialists" },
+          { name: "Hire API Integration Engineers", href: "/our-services/hire-api-integration-engineers" },
+          
+          // Hire by Role (5 Items - Appended to same list)
+          { name: "Hire AI Solution Architects", href: "/our-services/hire-ai-solution-architects" },
+          { name: "Hire AI QA & Testing Specialists", href: "/our-services/hire-ai-qa-testing-specialists" },
+          { name: "Hire AI Product Managers", href: "/our-services/hire-ai-product-managers" },
+          { name: "Hire Data Labeling Workforce", href: "/our-services/hire-data-labeling-workforce" },
+          { name: "Hire AI Project Managers", href: "/our-services/hire-ai-project-managers" }
         ]
       }
     ]
   },
-  {
+
+  // 3. ABOUT US (Single Container)
+ {
     title: "About Us",
     path: "/about-us",
+    // We add a 'type: "card"' flag to tell MegaMenu to render differently
+    layout: "card", 
     subsections: [
       {
-        title: "", // Empty title to show links directly
+        title: "Meet GenSquad", // This becomes the Section Heading
+        description: "GenSquad is an AI-native talent marketplace that connects ambitious teams with world-class AI engineers and product leaders. Build faster with curated squads, lower hiring risk, and engagements tailored to your roadmap.",
         iconPath: icons.company,
         items: [
-          { name: "About us", href: "/about-us" },
-          { name: "Why us?", href: "/why-us" },
-          { name: "Fractal CTO/CPO", href: "/fractal-cto-cpo" }
+          { 
+            name: "About us", 
+            href: "/about-us",
+            description: "GenSquad brings together battle‑tested AI engineers, data experts, and product leaders who have shipped real-world models and products. Matching the right people to the right problems is at the heart of what we do.",
+            icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" // Info Icon
+          },
+          { 
+            name: "Why us?", 
+            href: "/why-us",
+            description: "Our network spans multiple time zones and industries, with deep experience across LLMs, ML, data platforms, and cloud. A matching engine plus human curation ensures every squad fits your stack, stage, and culture.",
+            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" // Check Badge
+          },
+          { 
+            name: "Fractional CTO | CPO", 
+            href: "/fractal-cto-cpo",
+            description: "Tap into fractional AI Heads, solution architects, and product leaders who can design your AI strategy, de‑risk implementation, and guide your teams from prototype to production, without the overhead of a full-time hire.",
+            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" // Users
+          }
         ]
       }
     ]
   },
+
+  // 4. FOR COMPANIES (Updated with Descriptions)
   {
     title: "For Companies",
     path: "/for-companies",
+    layout: "card",
     subsections: [
       {
-        title: "", // Empty title to show links directly
+        title: "Resources for Hiring",
+        description: "Tools, insights, and stories to help you scale your engineering team with confidence.",
         iconPath: icons.resources,
         items: [
-          { name: "Rate Calculator", href: "/for-companies/rate-calculator" },
-          { name: "How we vet developers", href: "/how-we-vet-developers" },
-          { name: "FAQ for Companies", href: "/faq-for-companies" },
-          { name: "Case Studies", href: "/case-studies" },
-          { name: "Testimonials", href: "/testimonials" }
+          { 
+            name: "Rate Calculator", 
+            href: "/for-companies/rate-calculator",
+            description: "Get instant salary estimates for AI/ML roles across different regions and seniority levels to plan your budget.",
+            icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          },
+          { 
+            name: "How we vet", 
+            href: "/how-we-vet-developers",
+            description: "Understand our 4-step vetting process including code challenges, communication checks, and technical deep dives.",
+            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          },
+          { 
+            name: "FAQ for Companies", 
+            href: "/faq-for-companies",
+            description: "Answers to common questions about contracts, IP rights, billing, and time-zone alignment.",
+            icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          },
+          { 
+            name: "Case Studies", 
+            href: "/case-studies",
+            description: "Real-world examples of how companies reduced burn rate and shipped AI products faster with GenSquad.",
+            icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+          },
+          { 
+            name: "Testimonials", 
+            href: "/testimonials",
+            description: "See what CTOs and Founders are saying about their experience working with our matched talent.",
+            icon: "M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+          }
         ]
       }
     ]
