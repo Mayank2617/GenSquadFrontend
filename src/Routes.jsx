@@ -4,11 +4,13 @@ import MainLayout from './layouts/MainLayout';
 import { ThemeProvider } from './hooks/useTheme';
 
 // Lazy load pages
+const WorkflowLibrary = lazy(() => import('./pages/WorkflowLibrary'));
 const Landing = lazy(() => import('./pages/Landing'));
 const IndustryTemplate = lazy(() => import('./pages/IndustryTemplate'));
 const SolutionTemplate = lazy(() => import('./pages/SolutionTemplate'));
 const TalentListing = lazy(() => import('./pages/TalentListing'));
 const TalentProfile = lazy(() => import('./pages/TalentProfile')); // 1. Import Profile Page
+
 
 const AppRoutes = () => {
   return (
@@ -28,6 +30,7 @@ const AppRoutes = () => {
               {/* 2. Add Dynamic Profile Route */}
               {/* The ':id' allows us to load different data for different people */}
               <Route path="/talent/:id" element={<TalentProfile />} />
+              <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
               
             </Route>
 
