@@ -26,10 +26,22 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
     `}>
       
       <div className="flex flex-col gap-6">
+        
+        {/* ✅ NEW: N8N Workflow Direct Link (Mobile) */}
+        <div className="border-b border-gray-100 dark:border-[#222] pb-4">
+          <Link 
+            to="/n8n-workflows"
+            onClick={closeMenu}
+            className="flex items-center justify-between w-full text-xl font-space font-bold text-orange-500"
+          >
+            N8N Workflows
+            <span className="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">NEW</span>
+          </Link>
+        </div>
+
+        {/* Existing Sections */}
         {navigationData.map((section, idx) => (
           <div key={idx} className="border-b border-gray-100 dark:border-[#222] pb-4">
-            
-            {/* LEVEL 1: Main Section */}
             <button 
               onClick={() => toggleSection(section.title)}
               className="flex items-center justify-between w-full text-xl font-space font-bold"
@@ -43,13 +55,10 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
               </svg>
             </button>
 
-            {/* EXPANDED CONTENT */}
             {expandedSection === section.title && (
               <div className="mt-4 flex flex-col gap-4 pl-4 animate-fade-in-up">
                 {section.subsections.map((sub, subIdx) => (
                   <div key={subIdx}>
-                    
-                    {/* CASE A: Has Title (Accordion Style) */}
                     {sub.title ? (
                       <>
                         <button 
@@ -68,7 +77,6 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
                           <span className="text-sm opacity-50">{expandedSubsection === sub.title ? "-" : "+"}</span>
                         </button>
 
-                        {/* Level 3 Links */}
                         {expandedSubsection === sub.title && (
                           <div className="flex flex-col gap-3 mt-3 pl-9 border-l border-purple-500/30 ml-2">
                             {sub.items.map((item, i) => (
@@ -88,7 +96,6 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
                         )}
                       </>
                     ) : (
-                      /* CASE B: No Title (Direct Links for "About Us" / "For Companies") */
                       <div className="flex flex-col gap-3">
                         {sub.items.map((item, i) => (
                           <Link
@@ -108,7 +115,6 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
                         ))}
                       </div>
                     )}
-
                   </div>
                 ))}
               </div>

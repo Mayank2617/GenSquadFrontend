@@ -40,6 +40,8 @@ const NavBar = () => {
 
           {/* CENTER: DESKTOP NAVIGATION */}
           <nav className="hidden lg:flex items-center gap-8 h-full">
+            
+            {/* 1. Mapped Dropdown Menus */}
             {navigationData.map((section, idx) => (
               <div 
                 key={idx}
@@ -62,6 +64,19 @@ const NavBar = () => {
                 </button>
               </div>
             ))}
+
+            {/* 2. ✅ NEW: N8N Workflow Direct Link */}
+            <Link 
+              to="/n8n-workflows" 
+              className="text-sm font-medium text-black dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-2"
+            >
+              N8N Workflows
+              {/* Optional 'New' Badge */}
+              <span className="bg-orange-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wide">
+                NEW
+              </span>
+            </Link>
+
           </nav>
 
           {/* RIGHT: ACTIONS */}
@@ -83,7 +98,6 @@ const NavBar = () => {
               )}
             </button>
             
-            {/* ✅ UPDATED: Changed <button> to <Link> pointing to /talent */}
             <Link 
               to="/talent"
               className="hidden lg:block bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-md text-sm font-medium transition-colors"
@@ -91,7 +105,6 @@ const NavBar = () => {
               Hire Talent
             </Link>
 
-            {/* MOBILE HAMBURGER BUTTON */}
             <button 
               onClick={toggleMobileMenu}
               className="lg:hidden p-2 text-black dark:text-white"
