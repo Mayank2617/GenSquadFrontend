@@ -13,7 +13,7 @@ const tabs = [
   { id: "profile", label: "TALENT PROFILE" }
 ];
 
-const TalentForm = ({ initialData = {} }) => {
+const TalentForm = ({ initialData = {}, onSuccess }) => {
   const { isLight } = useTheme();
   const [activeTab, setActiveTab] = useState("identity");
   
@@ -69,9 +69,27 @@ const TalentForm = ({ initialData = {} }) => {
 
       {/* CONDITIONAL RENDERING */}
       <div className="animate-fade-in-up">
-        {activeTab === "identity" && <TalentIdentity isLight={isLight} initialData={initialData} />}
-        {activeTab === "social" && <TalentSocial isLight={isLight} initialData={initialData} />}
-        {activeTab === "profile" && <TalentProfileDetails isLight={isLight} initialData={initialData} />}
+        {activeTab === "identity" && (
+          <TalentIdentity 
+            isLight={isLight} 
+            initialData={initialData} 
+            onSuccess={onSuccess} // Pass success handler
+          />
+        )}
+        {activeTab === "social" && (
+          <TalentSocial 
+            isLight={isLight} 
+            initialData={initialData} 
+            onSuccess={onSuccess} 
+          />
+        )}
+        {activeTab === "profile" && (
+          <TalentProfileDetails 
+            isLight={isLight} 
+            initialData={initialData} 
+            onSuccess={onSuccess} 
+          />
+        )}
       </div>
 
     </div>

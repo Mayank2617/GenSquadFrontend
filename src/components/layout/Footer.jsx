@@ -79,7 +79,7 @@ const Footer = () => {
         // { name: "Client sign in", href: "/client-sign-in" },
         // { name: "Match with an agency", href: "/match-with-an-agency" },
         // ✅ NEW LINK ADDED HERE
-        { name: "Vendor Dashboard", href: "/vendor/dashboard" }
+        { name: "Vendor Dashboard", href: "/login" }
       ]
     },
   ];

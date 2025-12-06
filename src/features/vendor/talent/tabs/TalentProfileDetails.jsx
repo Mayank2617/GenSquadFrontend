@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { updateTalent } from "../../../../services/api";
 
 const TalentProfileDetails = ({ isLight, initialData }) => {
-  // State for Dynamic Lists
-  const [skills, setSkills] = useState(initialData?.skills || []);
+  const [loading, setLoading] = useState(false);
+  const [about, setAbout] = useState(initialData?.about || "");
+  const [skills, setSkills] = useState(initialData?.topSkills || []);
   const [tools, setTools] = useState(initialData?.tools || []);
   const [experiences, setExperiences] = useState(initialData?.experiences || []);
-  const [educations, setEducations] = useState(initialData?.educations || []);
+  const [educations, setEducations] = useState(initialData?.education || []);
   const [certifications, setCertifications] = useState(initialData?.certifications || []);
   
   const [activeModal, setActiveModal] = useState(null);
@@ -13,7 +15,34 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
 
   const getInitial = (name) => name ? name.charAt(0).toUpperCase() : "?";
 
-  // Handlers
+  // --- FINAL SUBMIT HANDLER ---
+  const handleFinalSave = async () => {
+    if (!initialData?._id) {
+      alert("Please create the Talent Identity first.");
+      return;
+    }
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("about", about);
+    formData.append("topSkills", JSON.stringify(skills));
+    formData.append("tools", JSON.stringify(tools));
+    formData.append("experiences", JSON.stringify(experiences));
+    formData.append("education", JSON.stringify(educations));
+    formData.append("certifications", JSON.stringify(certifications));
+
+    try {
+      await updateTalent(initialData._id, formData);
+      alert("Profile Details Saved Successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Error saving details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // --- LOCAL HANDLERS (Same as before, just updating state) ---
   const handleToolKeyDown = (e) => {
     if (e.key === "Enter" && toolInput.trim() !== "") {
       setTools([...tools, toolInput.trim()]);
@@ -26,7 +55,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     const formData = new FormData(e.target);
     const newSkill = {
       name: formData.get("name"),
-      usage: formData.get("usage") + "%",
+      usage: formData.get("usage"),
       exp: formData.get("exp"),
       color: "#B45CFF" 
     };
@@ -37,17 +66,26 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
   const handleSaveExperience = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
-    const joinMonth = formData.get("joinMonth");
-    const joinYear = formData.get("joinYear");
-    const isCurrent = formData.get("current") === "on" ? "Present" : "Ended";
-    const duration = `${joinMonth} ${joinYear} - ${isCurrent}`;
-    
     const newExp = {
-      title: formData.get("role"),
-      subtitle: `${formData.get("company")} • ${formData.get("type")}`,
-      meta: `${formData.get("location") || "Remote"} • ${duration}`,
-      desc: formData.get("description")
+      // Form Fields
+      current: formData.get("current") === "on" ? "yes" : "no",
+      type: formData.get("type"),
+      expYears: formData.get("expYears"),
+      expMonths: formData.get("expMonths"),
+      company: formData.get("company"),
+      role: formData.get("role"),
+      location: formData.get("location"),
+      joinMonth: formData.get("joinMonth"),
+      joinYear: formData.get("joinYear"),
+      currency: formData.get("currency"),
+      salary: formData.get("salary"),
+      description: formData.get("description"),
+
+      // UI Helpers (For display in list)
+      displayTitle: formData.get("role"),
+      displaySubtitle: `${formData.get("company")} • ${formData.get("type")}`,
+      displayMeta: `${formData.get("location") || "Remote"} • ${formData.get("joinMonth")} ${formData.get("joinYear")}`,
+      displayDesc: formData.get("description")
     };
     setExperiences([...experiences, newExp]);
     setActiveModal(null);
@@ -59,29 +97,40 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     let newItem;
 
     if (type === 'edu') {
-        const start = `${formData.get("startMonth")} ${formData.get("startYear")}`;
-        const end = `${formData.get("endMonth")} ${formData.get("endYear")}`;
-        newItem = {
-            title: formData.get("institute"),
-            subtitle: formData.get("degree"),
-            meta: `${start} - ${end}`,
-            desc: formData.get("description")
-        };
-        setEducations([...educations, newItem]);
+       newItem = {
+          institute: formData.get("institute"),
+          degree: formData.get("degree"),
+          startMonth: formData.get("startMonth"),
+          startYear: formData.get("startYear"),
+          endMonth: formData.get("endMonth"),
+          endYear: formData.get("endYear"),
+          description: formData.get("description"),
+          
+          displayTitle: formData.get("institute"),
+          displaySubtitle: formData.get("degree"),
+          displayMeta: `${formData.get("startYear")} - ${formData.get("endYear")}`,
+          displayDesc: formData.get("description")
+       };
+       setEducations([...educations, newItem]);
     } else {
-        const join = `${formData.get("joinMonth")} ${formData.get("joinYear")}`;
-        newItem = {
-            title: formData.get("institution"),
-            subtitle: formData.get("company"),
-            meta: `Issued: ${join}`,
-            desc: formData.get("description")
-        };
-        setCertifications([...certifications, newItem]);
+       newItem = {
+          institution: formData.get("institution"),
+          company: formData.get("company"),
+          joinMonth: formData.get("joinMonth"),
+          joinYear: formData.get("joinYear"),
+          description: formData.get("description"),
+
+          displayTitle: formData.get("institution"),
+          displaySubtitle: formData.get("company"),
+          displayMeta: `Issued: ${formData.get("joinYear")}`,
+          displayDesc: formData.get("description")
+       };
+       setCertifications([...certifications, newItem]);
     }
     setActiveModal(null);
   };
 
-  // Helper for Date Options
+  // Date Helpers
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const years = Array.from({length: 40}, (_, i) => new Date().getFullYear() - i);
 
@@ -99,7 +148,12 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
         <label className={`block text-xs font-bold uppercase mb-2 ${isLight ? "text-gray-600" : "text-[#E6E6E6]"}`}>
           About Section <span className="text-[#B45CFF]">*</span>
         </label>
-        <textarea placeholder="about section..." className={`w-full h-[140px] p-4 rounded-lg border outline-none text-sm resize-none transition-all ${isLight ? "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#B45CFF]" : "bg-[#2E2E2E] border-[#ffffff10] text-[#E6E6E6] placeholder-[#8b8b8b] focus:border-[#B45CFF]"}`} />
+        <textarea 
+          value={about}
+          onChange={(e) => setAbout(e.target.value)}
+          placeholder="about section..." 
+          className={`w-full h-[140px] p-4 rounded-lg border outline-none text-sm resize-none transition-all ${isLight ? "bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#B45CFF]" : "bg-[#2E2E2E] border-[#ffffff10] text-[#E6E6E6] placeholder-[#8b8b8b] focus:border-[#B45CFF]"}`} 
+        />
       </div>
 
       {/* 2. Skills */}
@@ -117,7 +171,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
               {skills.map((skill, i) => (
                 <div key={i} className={`flex items-center text-sm pb-3 border-b ${isLight ? "border-gray-100 last:border-0" : "border-[#ffffff08] last:border-0"}`}>
                   <div className="w-1/3 flex items-center gap-3"><span className="w-2 h-2 rounded-full" style={{ background: skill.color }}></span><span className={isLight ? "text-gray-900" : "text-[#E6E6E6]"}>{skill.name}</span></div>
-                  <div className={`w-1/3 text-center ${isLight ? "text-gray-500" : "text-[#BDBDBD]"}`}>{skill.usage}</div>
+                  <div className={`w-1/3 text-center ${isLight ? "text-gray-500" : "text-[#BDBDBD]"}`}>{skill.usage}%</div>
                   <div className={`w-1/3 text-right ${isLight ? "text-gray-900" : "text-[#E6E6E6]"}`}>{skill.exp}</div>
                 </div>
               ))}
@@ -147,26 +201,27 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
 
       {/* 4. Experiences */}
       <SectionCard title="Experiences" onAdd={() => setActiveModal("experience")} isLight={isLight}>
-        {experiences.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No experience added yet.</p> : experiences.map((item, i) => <ListItem key={i} title={item.title} subtitle={item.subtitle} meta={item.meta} desc={item.desc} isLight={isLight} />)}
+        {experiences.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No experience added yet.</p> : experiences.map((item, i) => <ListItem key={i} title={item.displayTitle} subtitle={item.displaySubtitle} meta={item.displayMeta} desc={item.displayDesc} isLight={isLight} />)}
       </SectionCard>
 
       {/* 5. Educations */}
       <SectionCard title="Educations" onAdd={() => setActiveModal("education")} isLight={isLight}>
-        {educations.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No education added yet.</p> : educations.map((item, i) => <ListItem key={i} title={item.title} subtitle={item.subtitle} meta={item.meta} desc={item.desc} isLight={isLight} />)}
+        {educations.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No education added yet.</p> : educations.map((item, i) => <ListItem key={i} title={item.displayTitle} subtitle={item.displaySubtitle} meta={item.displayMeta} desc={item.displayDesc} isLight={isLight} />)}
       </SectionCard>
 
       {/* 6. Certifications */}
       <SectionCard title="Certifications" onAdd={() => setActiveModal("certification")} isLight={isLight}>
-         {certifications.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No certifications added yet.</p> : certifications.map((item, i) => <ListItem key={i} title={item.title} subtitle={item.subtitle} meta={item.meta} desc={item.desc} isLight={isLight} />)}
+         {certifications.length === 0 ? <p className={`text-sm italic p-4 text-center ${isLight ? "text-gray-400" : "text-[#666]"}`}>No certifications added yet.</p> : certifications.map((item, i) => <ListItem key={i} title={item.displayTitle} subtitle={item.displaySubtitle} meta={item.displayMeta} desc={item.displayDesc} isLight={isLight} />)}
       </SectionCard>
 
       {/* Footer Buttons */}
       <div className="mt-12 flex justify-end gap-4 pt-6 border-t border-gray-100 dark:border-[#333]">
-        <button className={`px-8 py-3 rounded-xl text-sm font-bold transition-colors ${isLight ? "bg-gray-200 text-gray-800 hover:bg-gray-300" : "bg-[#333] text-white hover:bg-[#444]"}`}>Cancel</button>
-        <button className="px-8 py-3 rounded-xl text-sm font-bold text-white transition-colors bg-[#8b5cf6] hover:bg-[#7c4dff]">Save Changes</button>
+        <button type="button" className={`px-8 py-3 rounded-xl text-sm font-bold transition-colors ${isLight ? "bg-gray-200 text-gray-800 hover:bg-gray-300" : "bg-[#333] text-white hover:bg-[#444]"}`}>Cancel</button>
+        <button onClick={handleFinalSave} disabled={loading} className="px-8 py-3 rounded-xl text-sm font-bold text-white transition-colors bg-[#8b5cf6] hover:bg-[#7c4dff]">{loading ? "Saving..." : "Save Changes"}</button>
       </div>
 
-      {/* --- MODALS --- */}
+      {/* --- MODALS (Same as before, hidden for brevity but MUST be included) --- */}
+      {/* (Keep Skill, Experience, Education, Certification Modal logic here exactly as in the previous step) */}
       
       {/* Skill Modal */}
       {activeModal === 'skill' && (
@@ -188,69 +243,30 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
                 <div className="flex-1"><label className={`block text-xs font-bold mb-3 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Employment Type</label><div className="flex gap-4"><label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="type" value="Full-Time" defaultChecked className="accent-[#B45CFF] w-4 h-4" /><span className={`text-sm ${isLight ? "text-gray-600" : "text-[#BDBDBD]"}`}>Full-Time</span></label><label className="flex items-center gap-2 cursor-pointer"><input type="radio" name="type" value="Internship" className="accent-[#B45CFF] w-4 h-4" /><span className={`text-sm ${isLight ? "text-gray-600" : "text-[#BDBDBD]"}`}>Internship</span></label></div></div>
             </div>
             <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Total Experience</label><div className="flex gap-4"><input name="expYears" type="number" placeholder="0 Years" className={`w-1/2 p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /><input name="expMonths" type="number" placeholder="0 Months" className={`w-1/2 p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div></div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Company Name</label><input name="company" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div><div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Company Address</label><input name="location" type="text" placeholder="City, Country" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div></div>
-            
-            {/* Joining Date Dropdowns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Company Name</label><input name="company" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div><div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Job Role</label><input name="role" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div></div>
             <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Joining Date <span className="text-[#B45CFF]">*</span></label><div className="flex gap-4"><select name="joinMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}><option value="">Select Month</option>{months.map(m => <option key={m} value={m}>{m}</option>)}</select><select name="joinYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}><option value="">Select Year</option>{years.map(y => <option key={y} value={y}>{y}</option>)}</select></div></div>
-
-            {/* Current Salary */}
             <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Current Salary <span className="text-[#B45CFF]">*</span></label><div className="flex gap-4"><select name="currency" className={`w-[80px] p-3 rounded-md border outline-none cursor-pointer text-center ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}><option>₹</option><option>$</option><option>€</option></select><input name="salary" type="number" placeholder="4,000.00" className={`flex-1 p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} /></div></div>
-            
             <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Job Profile Description</label><textarea name="description" className={`w-full h-[100px] p-3 rounded-md border outline-none resize-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}></textarea></div>
             <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-100 dark:border-[#333]"><button type="button" onClick={() => setActiveModal(null)} className={`px-6 py-2.5 rounded-xl border font-medium ${isLight ? "border-gray-300 text-gray-600 hover:bg-gray-50" : "border-[#444] text-[#BDBDBD] hover:bg-[#333]"}`}>Cancel</button><button type="submit" className="px-8 py-2.5 rounded-xl bg-[#B45CFF] text-white font-bold hover:bg-[#9d44e6]">Save</button></div>
           </form>
         </ModalWrapper>
       )}
 
-      {/* EDUCATION MODAL (Updated Fields) */}
-      {activeModal === 'education' && (
-        <ModalWrapper onClose={() => setActiveModal(null)} title="Add Education" isLight={isLight}>
-           <form onSubmit={(e) => handleSaveEduCert(e, 'edu')} className="space-y-4">
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Institute Name*</label><input name="institute" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Degree*</label><input name="degree" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
-              
-              <div className="flex gap-4">
-                  <div className="w-1/2">
-                     <label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Start Date*</label>
-                     <div className="flex gap-2">
-                        <select name="startMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select>
-                        <select name="startYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select>
-                     </div>
-                  </div>
-                  <div className="w-1/2">
-                     <label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>End Date*</label>
-                     <div className="flex gap-2">
-                        <select name="endMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select>
-                        <select name="endYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select>
-                     </div>
-                  </div>
-              </div>
-              
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Description*</label><textarea name="description" className={`w-full h-[80px] p-3 rounded-md border outline-none resize-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required></textarea></div>
-
-              <div className="flex justify-end gap-4 pt-4"><button type="button" onClick={() => setActiveModal(null)} className={`px-6 py-2 rounded font-medium ${isLight ? "bg-gray-200" : "bg-[#333] text-white"}`}>Cancel</button><button type="submit" className="px-6 py-2 rounded bg-[#B45CFF] text-white">Save</button></div>
-           </form>
-        </ModalWrapper>
-      )}
-
-      {/* CERTIFICATION MODAL (Updated Fields) */}
-      {activeModal === 'certification' && (
-        <ModalWrapper onClose={() => setActiveModal(null)} title="Certificate" isLight={isLight}>
-           <p className={`text-sm mb-6 ${isLight ? "text-gray-500" : "text-[#BDBDBD]"}`}>Presented for Demonstrated Excellence and Hard Work</p>
-           <form onSubmit={(e) => handleSaveEduCert(e, 'cert')} className="space-y-4">
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Institution Name*</label><input name="institution" type="text" placeholder="Enter address" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Company Name*</label><input name="company" type="text" placeholder="Enter Name" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
-              
-              <div>
-                  <label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Joining Date*</label>
+      {/* Education/Cert Modal */}
+      {(activeModal === 'education' || activeModal === 'certification') && (
+        <ModalWrapper onClose={() => setActiveModal(null)} title={activeModal === 'education' ? "Add Education" : "Add Certification"} isLight={isLight}>
+           <form onSubmit={(e) => handleSaveEduCert(e, activeModal === 'education' ? 'edu' : 'cert')} className="space-y-4">
+              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{activeModal === 'education' ? 'Institute Name*' : 'Institution Name*'}</label><input name="institute" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
+              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{activeModal === 'education' ? 'Degree*' : 'Company Name*'}</label><input name="degree" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
+              {activeModal === 'education' ? (
                   <div className="flex gap-4">
-                    <select name="joinMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select>
-                    <select name="joinYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select>
+                      <div className="w-1/2"><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Start Date*</label><div className="flex gap-2"><select name="startMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select><select name="startYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select></div></div>
+                      <div className="w-1/2"><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>End Date*</label><div className="flex gap-2"><select name="endMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select><select name="endYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select></div></div>
                   </div>
-              </div>
-
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Job Profile Description*</label><textarea name="description" placeholder="Enter Job Profile Description" className={`w-full h-[80px] p-3 rounded-md border outline-none resize-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required></textarea></div>
-
+              ) : (
+                  <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Joining Date*</label><div className="flex gap-4"><select name="joinMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select><select name="joinYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select></div></div>
+              )}
+              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{activeModal === 'education' ? 'Description*' : 'Job Profile Description*'}</label><textarea name="description" className={`w-full h-[80px] p-3 rounded-md border outline-none resize-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required></textarea></div>
               <div className="flex justify-end gap-4 pt-4"><button type="button" onClick={() => setActiveModal(null)} className={`px-6 py-2 rounded font-medium ${isLight ? "bg-gray-200" : "bg-[#333] text-white"}`}>Cancel</button><button type="submit" className="px-6 py-2 rounded bg-[#B45CFF] text-white">Save</button></div>
            </form>
         </ModalWrapper>
@@ -260,8 +276,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
   );
 };
 
-// --- HELPER COMPONENTS ---
-
+// ... Helper Components (SectionCard, ListItem, ModalWrapper) remain same ...
 const SectionCard = ({ title, onAdd, children, isLight }) => (
   <div className={`rounded-xl border p-6 ${isLight ? "bg-white border-gray-100 shadow-sm" : "bg-[#333233] border-transparent shadow-md"}`}>
     <div className="flex justify-between items-center mb-6"><h3 className={`text-lg font-bold ${isLight ? "text-gray-900" : "text-white"}`}>{title}</h3><button onClick={onAdd} className={`w-8 h-8 rounded flex items-center justify-center border transition-colors ${isLight ? "border-purple-200 text-purple-600 hover:bg-purple-50" : "border-[#B45CFF] text-[#B45CFF] hover:bg-[#B45CFF] hover:text-white"}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14M5 12h14"/></svg></button></div><div className="flex flex-col gap-0">{children}</div>

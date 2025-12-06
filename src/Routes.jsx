@@ -1,3 +1,4 @@
+import RequireAuth from './components/auth/RequireAuth';
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
@@ -14,6 +15,7 @@ const TalentProfile = lazy(() => import('./pages/TalentProfile')); // 1. Import 
 const VendorDashboard = lazy(() => import('./pages/VendorDashboard'));
 const AllTalent = lazy(() => import('./features/vendor/talent/AllTalent'));
 const TalentListPage = lazy(() => import('./features/vendor/talent/TalentListPage'));
+const Login = lazy(() => import('./pages/Login'));
 
 
 const AppRoutes = () => {
@@ -36,11 +38,17 @@ const AppRoutes = () => {
               <Route path="/talent/:id" element={<TalentProfile />} />
               <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
             </Route>
-            <Route element={<VendorLayout />}>
-              <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-              <Route path="/vendor/all-talent" element={<AllTalent />} />
-              <Route path="/vendor/talent-list" element={<TalentListPage />} /> {/* ✅ NEW */}
-              {/* You can add more vendor pages here later, e.g. /vendor/all-talent */}
+            {/* Login Route */}
+            <Route path="/login" element={<Login />} />
+
+            {/* 🔒 PROTECTED VENDOR ROUTES */}
+            {/* We wrap VendorLayout inside RequireAuth */}
+            <Route element={<RequireAuth />}>
+              <Route element={<VendorLayout />}>
+                <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+                <Route path="/vendor/all-talent" element={<AllTalent />} />
+                <Route path="/vendor/talent-list" element={<TalentListPage />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>
