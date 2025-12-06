@@ -4,7 +4,7 @@ import { useTheme } from "../../hooks/useTheme";
 
 const Footer = () => {
   const { isLight } = useTheme();
-  
+
   // 📋 FOOTER DATA
   const footerLinks = [
     {
@@ -20,7 +20,7 @@ const Footer = () => {
       links: [
         { name: "Fully-managed teams", href: "/use-cases/hiring-need/fully-managed-teams" },
         { name: "Team augmentation", href: "/use-cases/hiring-need/team-augmentation" },
-        { name: "Product discovery", href: "/use-cases/hiring-need/product-discovery" }
+        { name: "Product discovery", href: "/use-cases/hiring-need/product-discovery" },
       ]
     },
     {
@@ -70,7 +70,18 @@ const Footer = () => {
         { name: "Flutter Developers", href: "/use-cases/techstack/flutter-developers" },
         { name: "Blockchain Devs", href: "/use-cases/techstack/blockchain-developers" }
       ]
-    }
+    }, {
+      title: "Platform",
+      links: [
+        // { name: "How it works", href: "/how-it-works" },
+        // { name: "Case studies", href: "/case-studies" },
+        // { name: "Blog", href: "/blog" },
+        // { name: "Client sign in", href: "/client-sign-in" },
+        // { name: "Match with an agency", href: "/match-with-an-agency" },
+        // ✅ NEW LINK ADDED HERE
+        { name: "Vendor Dashboard", href: "/vendor/dashboard" }
+      ]
+    },
   ];
 
   // Social Icons
@@ -81,17 +92,17 @@ const Footer = () => {
   ];
 
   return (
-    <footer 
+    <footer
       className={`
         relative w-full overflow-hidden border-t transition-colors duration-300
-        ${isLight 
-          ? "bg-white border-gray-100 text-gray-900" 
+        ${isLight
+          ? "bg-white border-gray-100 text-gray-900"
           : "bg-[#050505] border-[#222] text-white"
         }
       `}
     >
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 pt-16 pb-10">
-        
+
         {/* TOP SECTION: LOGO + CTA */}
         <div className="flex flex-col lg:flex-row justify-between items-start mb-16 gap-10">
           <div className="max-w-md">
@@ -104,15 +115,15 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-             <h4 className="font-space font-bold text-xl">Ready to scale?</h4>
-             <div className="flex flex-wrap gap-4">
-                <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-purple-500/30 hover:scale-105">
-                  Hire Talent
-                </button>
-                <button className={`px-8 py-3 rounded-lg font-medium border transition-all hover:bg-white/5 ${isLight ? "border-gray-300 hover:bg-gray-50" : "border-white/20"}`}>
-                  Apply as Talent
-                </button>
-             </div>
+            <h4 className="font-space font-bold text-xl">Ready to scale?</h4>
+            <div className="flex flex-wrap gap-4">
+              <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-purple-500/30 hover:scale-105">
+                Hire Talent
+              </button>
+              <button className={`px-8 py-3 rounded-lg font-medium border transition-all hover:bg-white/5 ${isLight ? "border-gray-300 hover:bg-gray-50" : "border-white/20"}`}>
+                Apply as Talent
+              </button>
+            </div>
           </div>
         </div>
 
@@ -126,8 +137,8 @@ const Footer = () => {
               <ul className="flex flex-col gap-2.5">
                 {section.links.map((link, i) => (
                   <li key={i}>
-                    <Link 
-                      to={link.href} 
+                    <Link
+                      to={link.href}
                       className={`
                         text-[13px] leading-relaxed transition-colors duration-200 hover:translate-x-1 inline-block
                         ${isLight ? "text-gray-600 hover:text-purple-600" : "text-[#888] hover:text-white"}
@@ -153,16 +164,16 @@ const Footer = () => {
 
           <div className="flex gap-6 mt-4 md:mt-0">
             {socials.map((social, i) => (
-               <a 
-                 key={i} 
-                 href="https://www.linkedin.com/company/gen-squad/" 
-                 className={`transition-colors ${isLight ? "text-gray-400 hover:text-purple-600" : "text-[#666] hover:text-white"}`}
-                 aria-label={social.name}
-               >
-                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={social.d} />
-                 </svg>
-               </a>
+              <a
+                key={i}
+                href="https://www.linkedin.com/company/gen-squad/"
+                className={`transition-colors ${isLight ? "text-gray-400 hover:text-purple-600" : "text-[#666] hover:text-white"}`}
+                aria-label={social.name}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={social.d} />
+                </svg>
+              </a>
             ))}
           </div>
         </div>
