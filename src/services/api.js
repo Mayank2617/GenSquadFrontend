@@ -1,14 +1,11 @@
 import axios from 'axios';
 
 // Point to your running Backend Server
-const API_URL = 'http://localhost:5000/api/talent';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/talent';;
 
 export const createTalent = async (formData) => {
-  // We use 'multipart/form-data' because we are uploading files (Image/Resume)
   const response = await axios.post(API_URL, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
   return response.data;
 };
