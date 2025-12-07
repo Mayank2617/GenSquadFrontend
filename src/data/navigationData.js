@@ -97,20 +97,6 @@ export const navigationData = [
           { name: "Rubi", href: "/use-cases/techstack/rubi" },
           { name: "Swift", href: "/use-cases/techstack/swift" }
         ]
-      },
-      {
-        title: "Role",
-        iconPath: icons.role,
-        items: [
-          { name: "Backend Developer", href: "/use-cases/role/backend-developer" },
-          { name: "Blockchain Developer", href: "/use-cases/role/blockchain-developer" },
-          { name: "Data Scientists", href: "/use-cases/role/data-scientists" },
-          { name: "DevOps Developer", href: "/use-cases/role/devops-developer" },
-          { name: "Frontend Developers", href: "/use-cases/role/frontend-developers" },
-          { name: "Full Stack Developers", href: "/use-cases/role/full-stack-developers" },
-          { name: "Solution Architects", href: "/use-cases/role/solution-architects" },
-          { name: "Web Developers", href: "/use-cases/role/web-developers" }
-        ]
       }
     ]
   },

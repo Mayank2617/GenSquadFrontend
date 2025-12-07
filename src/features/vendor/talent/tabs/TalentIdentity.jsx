@@ -1,27 +1,42 @@
 import React, { useState } from "react";
-// Ensure this path matches your project structure
 import { createTalent, updateTalent } from "../../../../services/api";
 
+// ... (Keep the 'countries' array exactly as before) ...
+const countries = [
+  { code: "US", label: "🇺🇸 +1", dial_code: "+1" },
+  { code: "GB", label: "🇬🇧 +44", dial_code: "+44" },
+  { code: "IN", label: "🇮🇳 +91", dial_code: "+91" },
+  { code: "CA", label: "🇨🇦 +1", dial_code: "+1" },
+  { code: "AU", label: "🇦🇺 +61", dial_code: "+61" },
+  { code: "DE", label: "🇩🇪 +49", dial_code: "+49" },
+  { code: "JP", label: "🇯🇵 +81", dial_code: "+81" },
+  { code: "FR", label: "🇫🇷 +33", dial_code: "+33" },
+  { code: "BR", label: "🇧🇷 +55", dial_code: "+55" },
+  { code: "CN", label: "🇨🇳 +86", dial_code: "+86" },
+  { code: "RU", label: "🇷🇺 +7", dial_code: "+7" },
+  { code: "ZA", label: "🇿🇦 +27", dial_code: "+27" },
+  { code: "MX", label: "🇲🇽 +52", dial_code: "+52" },
+  { code: "AE", label: "🇦🇪 +971", dial_code: "+971" },
+  { code: "SG", label: "🇸🇬 +65", dial_code: "+65" },
+];
+
 const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
+  // ... (Keep all state hooks exactly as before: isAddressModalOpen, loading, profileImage, resume, address) ...
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-  // File State
   const [profileImage, setProfileImage] = useState(null);
   const [resume, setResume] = useState(null);
-  
-  // Address State
   const [address, setAddress] = useState(initialData?.address || {
-    street: "", building: "", city: "", state: "", zip: ""
+    street: "", building: "", city: "", state: "", zip: "", country: ""
   });
 
+  // ... (Keep handleSubmit exactly as before) ...
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const form = e.target;
     const formData = new FormData();
 
-    // Append Text Fields
     formData.append("fullName", form.fullName.value);
     formData.append("title", form.title.value);
     formData.append("status", form.status.value);
@@ -31,26 +46,18 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
     formData.append("email", form.email.value);
     formData.append("address", JSON.stringify(address));
 
-    // Append Files
     if (profileImage) formData.append("profileImage", profileImage);
     if (resume) formData.append("resume", resume);
 
     try {
       if (initialData?._id) {
-        // UPDATE EXISTING
         await updateTalent(initialData._id, formData);
         alert("Profile Updated!");
       } else {
-        // CREATE NEW
         await createTalent(formData);
         alert("Profile Created!");
       }
-
-      // ✅ FIXED: Call onSuccess directly (removed 'props.')
-      if (onSuccess) {
-        onSuccess();
-      }
-
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       alert("Error saving profile");
@@ -83,7 +90,11 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
             onClick={() => setIsAddressModalOpen(true)}
             className={`w-full px-4 py-3 rounded-xl border cursor-pointer flex items-center justify-between transition-colors ${isLight ? "bg-gray-50 border-gray-200 text-gray-500 hover:bg-white hover:border-purple-400" : "bg-[#1a1a1a] border-[#333] text-[#888] hover:bg-[#222] hover:border-purple-500/50"}`}
           >
-            <span>{address.city ? `${address.city}, ${address.state}` : "Select Address..."}</span>
+            <span>
+              {address.city 
+                ? `${address.city}, ${address.state}${address.country ? `, ${address.country}` : ""}` 
+                : "Select Address..."}
+            </span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
         </div>
@@ -99,15 +110,47 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
           </div>
         </div>
 
-        <InputField name="nextAvailableDate" label="Next Available Date" type="date" isLight={isLight} defaultValue={initialData?.nextAvailableDate} />
+        <div>
+          <label className={`block text-xs font-bold uppercase mb-2 ${isLight ? "text-gray-500" : "text-[#888]"}`}>
+            Next Available Date <span className="text-red-500">*</span>
+          </label>
+          <input 
+            name="nextAvailableDate" 
+            type="date" 
+            defaultValue={initialData?.nextAvailableDate} 
+            style={{ colorScheme: isLight ? "light" : "dark" }}
+            className={`w-full px-4 py-3 rounded-xl border outline-none ${isLight ? "bg-gray-50 border-gray-200 text-gray-900" : "bg-[#1a1a1a] border-[#333] text-white"}`} 
+            required 
+          />
+        </div>
+
         <InputField name="company" label="Company Name / Brand" placeholder="GenSquad Inc." isLight={isLight} defaultValue={initialData?.company} />
 
-        {/* Phone */}
+        {/* ✅ FIXED PHONE NUMBER SECTION */}
         <div>
           <label className={`block text-xs font-bold uppercase mb-2 ${isLight ? "text-gray-500" : "text-[#888]"}`}>Phone No. <span className="text-red-500">*</span></label>
           <div className="flex gap-3">
-            <select name="phoneCode" className={`w-[80px] px-2 py-3 rounded-xl border outline-none bg-transparent text-center cursor-pointer ${isLight ? "bg-gray-50 border-gray-200 text-gray-900" : "bg-[#1a1a1a] border-[#333] text-white"}`}>
-              <option>+1</option><option>+91</option><option>+44</option>
+            {/* Added Explicit Background/Color classes to the select and options */}
+            <select 
+              name="phoneCode" 
+              className={`
+                w-[110px] px-2 py-3 rounded-xl border outline-none cursor-pointer
+                ${isLight 
+                  ? "bg-gray-50 border-gray-200 text-gray-900" 
+                  : "bg-[#1a1a1a] border-[#333] text-white" // Explicit dark bg for dark mode
+                }
+              `}
+            >
+              {countries.map((c) => (
+                <option 
+                  key={c.code} 
+                  value={c.dial_code} 
+                  // Ensure options have dark background in dark mode
+                  className={isLight ? "bg-white text-black" : "bg-[#222] text-white"}
+                >
+                  {c.label}
+                </option>
+              ))}
             </select>
             <input name="phone" type="tel" defaultValue={initialData?.phone} placeholder="123 456 7890" className={`flex-1 px-4 py-3 rounded-xl border outline-none transition-all ${isLight ? "bg-gray-50 border-gray-200 text-gray-900 focus:bg-white focus:border-purple-500" : "bg-[#1a1a1a] border-[#333] text-white focus:bg-[#222] focus:border-purple-500"}`} />
           </div>
@@ -115,7 +158,6 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
 
         <InputField name="email" label="Business Email" type="email" placeholder="name@company.com" isLight={isLight} defaultValue={initialData?.email} />
 
-        {/* File Uploads */}
         <UploadField 
           label="Profile Image" 
           accept="image/png, image/jpeg" 
@@ -149,7 +191,7 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
         </button>
       </div>
 
-      {/* ADDRESS MODAL */}
+      {/* ADDRESS MODAL (Updated with all fields) */}
       {isAddressModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsAddressModalOpen(false)}></div>
@@ -157,8 +199,11 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
             <h3 className={`text-xl font-bold mb-1 ${isLight ? "text-gray-900" : "text-white"}`}>Address</h3>
             <div className="grid grid-cols-2 gap-4 mb-4 mt-6">
                <input onChange={(e)=>setAddress({...address, street:e.target.value})} placeholder="Street" className={`col-span-2 w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
+               <input onChange={(e)=>setAddress({...address, building:e.target.value})} placeholder="Building Name" className={`col-span-2 w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
                <input onChange={(e)=>setAddress({...address, city:e.target.value})} placeholder="City" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
                <input onChange={(e)=>setAddress({...address, state:e.target.value})} placeholder="State" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
+               <input onChange={(e)=>setAddress({...address, country:e.target.value})} placeholder="Country" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
+               <input onChange={(e)=>setAddress({...address, zip:e.target.value})} placeholder="ZIP Code" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} />
             </div>
             <div className="flex justify-end gap-3 pt-2">
                <button type="button" onClick={() => setIsAddressModalOpen(false)} className="px-4 py-2 rounded bg-gray-200 text-black">Cancel</button>
@@ -171,7 +216,7 @@ const TalentIdentity = ({ isLight, initialData, onSuccess }) => {
   );
 };
 
-// Helper Components
+// ... (InputField and UploadField helper components remain exactly the same as previous) ...
 const InputField = ({ name, label, type = "text", placeholder, isLight, defaultValue }) => (
   <div>
     <label className={`block text-xs font-bold uppercase mb-2 ${isLight ? "text-gray-500" : "text-[#888]"}`}>{label} *</label>
