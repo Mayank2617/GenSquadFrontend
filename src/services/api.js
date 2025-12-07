@@ -25,3 +25,9 @@ export const getAllTalent = async () => {
   const response = await axios.get(API_URL);
   return response.data;
 };
+
+// ✅ NEW: Get Single Talent by ID
+export const getTalentById = async (id) => {
+  const response = await axios.get(`${API_URL}/${id}`);
+  return response.data;
+};
