@@ -8,6 +8,7 @@ import ProfileSidebar from '../features/profile/ProfileSidebar';
 import ProfileDetails from '../features/profile/ProfileDetails';
 // 1. Import Similar Talent
 import SimilarTalent from '../features/profile/SimilarTalent'; 
+import { getTalentById } from '../services/api';
 
 const TalentProfile = () => {
   const { id } = useParams();
@@ -29,63 +30,94 @@ const TalentProfile = () => {
     minHeight: "100vh"
   };
 
-  // MOCK DATA (Profile)
-  const mockProfileData = {
-    id: id || "1", 
-    name: "Sarah Jenkins",
-    title: "Senior AI Engineer",
-    image: "/images/img_ellipse_1.png",
-    experience: "8 Years",
-    availability: "Immediate",
-    location: "San Francisco, USA",
-    bannerUrl: null,
-    
-    topSkills: ["Python", "TensorFlow", "PyTorch", "NLP", "React"],
-    about: "I am a passionate AI engineer with over 8 years of experience building scalable machine learning systems. My expertise lies in Natural Language Processing (NLP) and Computer Vision.",
-    
-    pieData: [
-      { name: "Python", usage: 35, years: 8, color: "#8b5cf6" },
-      { name: "Machine Learning", usage: 25, years: 6, color: "#3b82f6" },
-      { name: "Data Engineering", usage: 20, years: 5, color: "#10b981" },
-      { name: "Cloud Ops", usage: 20, years: 4, color: "#f59e0b" },
-    ],
-    
-    allSkills: ["Python", "Java", "C++", "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "AWS", "Docker", "Kubernetes", "Git", "Jira", "Agile"],
-    tools: ["VS Code", "Jupyter", "GitHub", "Slack", "Figma", "Notion"],
-    
-    experienceLine: [
-      {
-        role: "Senior AI Engineer",
-        company: "Google",
-        duration: "2020 - Present",
-        description: "Led the development of a new recommendation engine for YouTube Shorts, improving engagement by 15%. Managed a team of 5 junior engineers."
-      },
-      {
-        role: "Machine Learning Engineer",
-        company: "Spotify",
-        duration: "2017 - 2020",
-        description: "Optimized the 'Discover Weekly' algorithm using collaborative filtering techniques. Reduced inference latency by 40%."
-      }
-    ],
-    
-    education: [
-      { school: "Stanford University", degree: "M.S. in Computer Science (AI Specialization)", year: "2015 - 2017" },
-      { school: "MIT", degree: "B.S. in Computer Science", year: "2011 - 2015" }
-    ],
+  // 1. Fetch Data
+  const [profile, setProfile] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
-    certifications: [
-      { name: "TensorFlow Developer Certificate", issuer: "Google", year: "2022" },
-      { name: "AWS Certified Machine Learning - Specialty", issuer: "Amazon Web Services", year: "2021" },
-      { name: "Deep Learning Specialization", issuer: "Coursera / DeepLearning.AI", year: "2020" }
-    ]
-  };
+  React.useEffect(() => {
+    const fetchProfile = async () => {
+      // If no ID is present (e.g. just /talent), we might handle differently, 
+      // but usually router handles this.
+      if (!id) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log("Fetching profile for ID:", id);
+        const data = await getTalentById(id);
+        console.log("Fetched Data:", data);
+
+        // MAP BACKEND DATA TO FRONTEND STRUCTURE
+        const formattedProfile = {
+          id: data._id,
+          name: data.fullName,
+          title: data.title,
+          // Handle profile image - if it's a relative path from uploads, we might need to prepend URL
+          // But based on analysis, Cloudinary returns full URL. 
+          // If it's local, we might need logic, but let's assume valid URL or fallback.
+          image: data.profileImage || "/images/img_ellipse_1.png", 
+          
+          // Experience: Backend has experiences array. Frontend wants a string summary.
+          // We can take the formatted 'expYears' from the first experience or 'Experienced'
+          experience: data.experiences?.[0]?.expYears ? `${data.experiences[0].expYears} Years` : "Experienced",
+          
+          availability: data.status || "Available", 
+          location: data.address ? `${data.address.city}, ${data.address.country}` : "Remote",
+          bannerUrl: null, // Backend schema doesn't seem to have bannerUrl
+          
+          topSkills: data.topSkills?.map(s => s.name) || [],
+          about: data.about || "",
+          
+          pieData: data.topSkills?.map(s => ({
+            name: s.name,
+            usage: parseInt(s.usage) || 0,
+            years: parseInt(s.exp) || 0,
+            color: s.color || "#8b5cf6"
+          })) || [],
+          
+          allSkills: data.topSkills?.map(s => s.name) || [],
+          tools: data.tools || [],
+          
+          experienceLine: data.experiences?.map(exp => ({
+            role: exp.role,
+            company: exp.company,
+            duration: `${exp.joinYear} - ${exp.endYear || 'Present'}`,
+            description: exp.description
+          })) || [],
+          
+          education: data.education?.map(edu => ({
+            school: edu.institute,
+            degree: edu.degree,
+            year: `${edu.startYear} - ${edu.endYear}`
+          })) || [],
+
+          certifications: data.certifications?.map(cert => ({
+            name: cert.displayTitle || cert.institution, 
+            issuer: cert.company || cert.institution,
+            year: cert.joinYear
+          })) || []
+        };
+
+        setProfile(formattedProfile);
+      } catch (err) {
+        console.error("Error fetching talent:", err);
+        setError("Failed to load profile data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [id]);
 
   // 🟢 MOCK SIMILAR PROFILES
   // In a real app, you would fetch these based on matching skills/role
   const similarProfiles = [
     {
       id: 2,
-      name: "David Chen",
+      name: "David Chen", // Mock
       role: "Full Stack AI Dev",
       location: "Toronto, Canada",
       experience: "6 Years",
@@ -129,19 +161,35 @@ const TalentProfile = () => {
     }
   ];
 
+  if (loading) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center" style={pageBackground}>
+        <div className="text-white text-xl">Loading Profile...</div>
+      </div>
+    );
+  }
+
+  if (error || !profile) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center" style={pageBackground}>
+        <div className="text-red-400 text-xl">{error || "Profile not found"}</div>
+      </div>
+    );
+  }
+
   return (
     <div style={pageBackground} className="min-h-screen w-full relative">
       <Helmet>
-        <title>{mockProfileData.name} | GenSquad Profile</title>
+        <title>{profile.name} | GenSquad Profile</title>
       </Helmet>
 
       {/* 1. Banner */}
-      <ProfileBanner bannerUrl={mockProfileData.bannerUrl} />
+      <ProfileBanner bannerUrl={profile.bannerUrl} />
 
       {/* 2. Main Content Grid */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
-        <ProfileSidebar profile={mockProfileData} />
-        <ProfileDetails profile={mockProfileData} />
+        <ProfileSidebar profile={profile} />
+        <ProfileDetails profile={profile} />
       </div>
 
       {/* 3. Similar Talent Section */}
