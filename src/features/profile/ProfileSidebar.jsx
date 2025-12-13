@@ -53,7 +53,7 @@ const ProfileSidebar = ({ profile }) => {
       </div>
 
       {/* 3. Hire Button */}
-      <div className="mb-8">
+     <div className="mb-8">
         <Button
           text="Hire Now"
           text_font_size="16"
@@ -65,19 +65,38 @@ const ProfileSidebar = ({ profile }) => {
           border_border_radius="12px"
           className="shadow-lg shadow-purple-500/25 mb-3"
         />
-        <a
-          href={profile.resume}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`
-          block w-full py-3 rounded-xl text-sm font-medium border transition-colors text-center no-underline cursor-pointer
-          ${isLight
-              ? "border-gray-200 text-gray-600 hover:bg-gray-50"
-              : "border-white/10 text-[#bababa] hover:bg-white/5"
-            }
-        `}>
-          Download Resume
-        </a>
+        
+        {/* ✅ Resume Download Button */}
+        {profile.resume ? (
+          <a
+            href={profile.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            download // Hint to browser to download
+            className={`
+              block w-full py-3 rounded-xl text-sm font-medium border transition-colors text-center no-underline cursor-pointer
+              ${isLight
+                ? "border-gray-200 text-gray-600 hover:bg-gray-50"
+                : "border-white/10 text-[#bababa] hover:bg-white/5"
+              }
+            `}
+          >
+            Download Resume
+          </a>
+        ) : (
+          <button
+            disabled
+            className={`
+              block w-full py-3 rounded-xl text-sm font-medium border transition-colors text-center opacity-50 cursor-not-allowed
+              ${isLight
+                ? "border-gray-200 text-gray-400"
+                : "border-white/10 text-[#555]"
+              }
+            `}
+          >
+            No Resume Available
+          </button>
+        )}
       </div>
 
       {/* 4. Top Skills */}

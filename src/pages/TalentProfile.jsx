@@ -6,7 +6,6 @@ import { useTheme } from '../hooks/useTheme';
 import ProfileBanner from '../features/profile/ProfileBanner';
 import ProfileSidebar from '../features/profile/ProfileSidebar';
 import ProfileDetails from '../features/profile/ProfileDetails';
-// 1. Import Similar Talent
 import SimilarTalent from '../features/profile/SimilarTalent';
 import { getTalentById } from '../services/api';
 
@@ -37,53 +36,50 @@ const TalentProfile = () => {
 
   React.useEffect(() => {
     const fetchProfile = async () => {
-      // If no ID is present (e.g. just /talent), we might handle differently, 
-      // but usually router handles this.
       if (!id) return;
 
       try {
         setLoading(true);
         setError(null);
-
-        console.log("Fetching profile for ID:", id);
+        
         const data = await getTalentById(id);
-        console.log("Fetched Data:", data);
-        console.log("Details for Debug:", {
-          resume: data.resume,
-          skills: data.topSkills,
-          topSkillsColors: data.topSkills?.map(s => s.color)
-        });
 
-        // Predefined colors for fallback
-        const COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#ec4899", "#6366f1"];
+        // ✅ UPDATED: High Contrast & Bright Color Palette
+        const COLORS = [
+          "#8b5cf6", // Bright Purple (Primary)
+          "#06b6d4", // Neon Cyan
+          "#f43f5e", // Bright Rose
+          "#eab308", // Vivid Yellow
+          "#10b981", // Emerald Green
+          "#3b82f6", // Royal Blue
+          "#f97316"  // Bright Orange
+        ];
 
         // MAP BACKEND DATA TO FRONTEND STRUCTURE
         const formattedProfile = {
           id: data._id,
           name: data.fullName,
           title: data.title,
-          // Handle profile image - if it's a relative path from uploads, we might need to prepend URL
-          // But based on analysis, Cloudinary returns full URL. 
-          // If it's local, we might need logic, but let's assume valid URL or fallback.
           image: data.profileImage || "/images/img_ellipse_1.png",
           resume: data.resume || null,
 
-          // Experience: Backend has experiences array. Frontend wants a string summary.
-          // We can take the formatted 'expYears' from the first experience or 'Experienced'
+          // Experience
           experience: data.experiences?.[0]?.expYears ? `${data.experiences[0].expYears} Years` : "Experienced",
 
           availability: data.status || "Available",
           location: data.address ? `${data.address.city}, ${data.address.country}` : "Remote",
-          bannerUrl: null, // Backend schema doesn't seem to have bannerUrl
+          bannerUrl: null, 
 
           topSkills: data.topSkills?.map(s => s.name) || [],
           about: data.about || "",
 
+          // ✅ PIE CHART DATA CONSTRUCTION
           pieData: data.topSkills?.map((s, index) => ({
             name: s.name,
-            usage: parseInt(s.usage) || 0,
-            years: parseInt(s.exp) || 0,
-            // FORCE PALETTE to ensure different colors as requested by user
+            // Ensure numbers are parsed correctly
+            usage: parseInt(s.usage, 10) || 0,
+            years: parseInt(s.exp, 10) || 0,
+            // Assign cycling color
             color: COLORS[index % COLORS.length]
           })) || [],
 
@@ -122,12 +118,11 @@ const TalentProfile = () => {
     fetchProfile();
   }, [id]);
 
-  // 🟢 MOCK SIMILAR PROFILES
-  // In a real app, you would fetch these based on matching skills/role
+  // Mock Similar Profiles
   const similarProfiles = [
     {
-      id: 2,
-      name: "David Chen", // Mock
+      id: "mock1",
+      name: "David Chen",
       role: "Full Stack AI Dev",
       location: "Toronto, Canada",
       experience: "6 Years",
@@ -137,7 +132,7 @@ const TalentProfile = () => {
       availability: "Immediate"
     },
     {
-      id: 3,
+      id: "mock2",
       name: "Elena Rodriguez",
       role: "Data Scientist",
       location: "Madrid, Spain",
@@ -146,35 +141,13 @@ const TalentProfile = () => {
       skills: ["SQL", "Pandas", "Scikit-learn", "Tableau"],
       description: "Turning messy data into actionable business insights. Expert in predictive modeling for fintech and fraud detection.",
       availability: "2 Weeks Notice"
-    },
-    {
-      id: 4,
-      name: "Michael Chang",
-      role: "ML Ops Engineer",
-      location: "Singapore",
-      experience: "7 Years",
-      image: "/images/img_ellipse_1.png",
-      skills: ["AWS SageMaker", "Docker", "Kubernetes", "CI/CD"],
-      description: "I ensure your models don't just live in notebooks. I deploy robust, scalable, and monitored ML pipelines.",
-      availability: "Immediate"
-    },
-    {
-      id: 5,
-      name: "Priya Patel",
-      role: "NLP Specialist",
-      location: "Bangalore, India",
-      experience: "4 Years",
-      image: "/images/img_ellipse_1.png",
-      skills: ["Python", "NLTK", "SpaCy", "Hugging Face"],
-      description: "Specialized in building chatbots and sentiment analysis tools for large-scale customer support systems.",
-      availability: "Immediate"
     }
   ];
 
   if (loading) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center" style={pageBackground}>
-        <div className="text-white text-xl">Loading Profile...</div>
+        <div className={`text-xl ${isLight ? "text-black" : "text-white"}`}>Loading Profile...</div>
       </div>
     );
   }
