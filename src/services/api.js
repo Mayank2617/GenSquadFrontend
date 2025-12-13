@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Ensure this points to your running Backend Server
-const API_URL = 'https://gensquad-backend.onrender.com/api/talent';
+const API_URL = 'https://gensquadbackend.onrender.com/api/talent';
 
 export const createTalent = async (formData) => {
   const response = await axios.post(API_URL, formData, {
