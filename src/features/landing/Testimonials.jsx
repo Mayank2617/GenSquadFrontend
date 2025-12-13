@@ -2,31 +2,31 @@ import React from "react";
 import { useTheme } from "../../hooks/useTheme";
 import "../../styles/testimonials.css";
 
-// Dummy Data
+// Updated Data with New Copy
 const testimonials = [
   {
     id: 1,
     company: "/images/img_rectangle_28.png",
-    quote: "Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac habitasse platea dictumst.",
+    quote: "GenSquad connected us with a rare AI architect who optimized our entire RAG pipeline in weeks. The quality of talent is unmatched, vetted, professional, and ready to execute.",
     avatar: "/images/img_rectangle_25.png",
-    name: "Akash",
-    role: "UI-UX Designer",
+    name: "Akash S.",
+    role: "Product Director",
   },
   {
     id: 2,
     company: "/images/img_rectangle_28.png",
-    quote: "Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac habitasse platea dictumst.",
+    quote: "We needed a specialized computer vision engineer for a critical launch. GenSquad delivered a perfect match in 48 hours who hit the ground running immediately.",
     avatar: "/images/img_rectangle_25.png",
-    name: "Akash",
-    role: "UI-UX Designer",
+    name: "Sarah J.",
+    role: "CTO",
   },
   {
     id: 3,
     company: "/images/img_rectangle_28.png",
-    quote: "Ut pharetra ipsum nec leo blandit, sit amet tincidunt eros pharetra. Nam sed imperdiet turpis. In hac habitasse platea dictumst.",
+    quote: "The vetting process is real. Every candidate we interviewed was technically sound and culturally aligned. We saved months of recruiting time.",
     avatar: "/images/img_rectangle_25.png",
-    name: "Akash",
-    role: "UI-UX Designer",
+    name: "David M.",
+    role: "VP of Engineering",
   },
 ];
 
@@ -42,6 +42,11 @@ const Testimonials = ({ variant = "home" }) => {
     transition: "background-color 240ms ease",
   };
 
+  // 🛠️ INFINITE LOOP FIX
+  // We repeat the data 4 times to ensure the 'track' is wider than even 4k screens.
+  // This prevents the empty space gap during the animation loop.
+  const loopData = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
+
   return (
     <section className="w-full overflow-hidden transition-all duration-300">
       <div className="w-full mx-auto px-[20px] py-[40px]" style={wrapperStyle}>
@@ -52,33 +57,32 @@ const Testimonials = ({ variant = "home" }) => {
             text-[28px] sm:text-[38px] md:text-[50px] font-space font-medium
             ${isLight ? "text-[#111]" : "text-white"}
           `}>
-            Voices of Trust
+            Trusted by Innovators
           </h2>
 
           <p className={`
             text-[14px] sm:text-[16px] md:text-[20px] max-w-[650px] leading-relaxed mt-4
             ${isLight ? "text-[#4A4A4A]" : "text-[#bababa]"}
           `}>
-            Hear from founders, CTOs, and teams who trusted us to power their AI
-            success stories.
+            Hear from founders and CTOs who used GenSquad to power their AI success stories.
           </p>
         </div>
 
         {/* MARQUEE */}
         <div className="marquee-container">
-          {/* ROW 1 */}
+          {/* ROW 1 (Left) */}
           <div className="marquee-row marquee-left">
             <div className="marquee-track">
-              {[...testimonials, ...testimonials].map((item, i) => (
+              {loopData.map((item, i) => (
                 <TestimonialCard key={`r1-${i}`} item={item} isLight={isLight} />
               ))}
             </div>
           </div>
 
-          {/* ROW 2 */}
+          {/* ROW 2 (Right) */}
           <div className="marquee-row marquee-right mt-[20px]">
             <div className="marquee-track">
-              {[...testimonials, ...testimonials].map((item, i) => (
+              {loopData.map((item, i) => (
                 <TestimonialCard key={`r2-${i}`} item={item} isLight={isLight} />
               ))}
             </div>

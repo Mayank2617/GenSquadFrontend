@@ -3,28 +3,35 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
 
+// Import Data
+import { solutionContent } from '../data/solutionContent';
+
 // Features
 import SolutionHero from '../features/solution/SolutionHero';
 import CompanyLogos from '../features/landing/CompanyLogos';
 import SolutionProcess from '../features/solution/SolutionProcess';
-import SolutionWhyChoose from '../features/solution/SolutionWhyChoose';
-import ExpertProfiles from '../features/landing/ExpertProfiles';
 import SolutionCapabilities from '../features/solution/SolutionCapabilities';
-// 1. Import CTA
+import ExpertProfiles from '../features/landing/ExpertProfiles';
+import SolutionWhyChoose from '../features/solution/SolutionWhyChoose';
+import Testimonials from '../features/landing/Testimonials';
+import IndustryFAQ from '../features/industry/IndustryFAQ';
 import SolutionCTA from '../features/solution/SolutionCTA';
-
-const formatTitle = (slug) => {
-  if (!slug) return "AI & ML";
-  return slug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 
 const SolutionTemplate = () => {
   const { slug } = useParams();
-  const solutionName = formatTitle(slug);
   const { isLight } = useTheme();
+
+  // 1. Get Data for current slug
+  const content = solutionContent[slug];
+
+  // 2. Handle Not Found
+  if (!content) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center ${isLight ? "bg-white text-black" : "bg-black text-white"}`}>
+        <h1 className="text-3xl font-bold">Solution Not Found</h1>
+      </div>
+    );
+  }
 
   // 🎨 GLOBAL PAGE BACKGROUND
   const pageBackground = {
@@ -45,15 +52,16 @@ const SolutionTemplate = () => {
   return (
     <div style={pageBackground}>
       <Helmet>
-        <title>{solutionName} Solutions | GenSquad</title>
-        <meta name="description" content={`Hire top ${solutionName} experts.`} />
+        <title>{content.hero.title} | GenSquad</title>
+        <meta name="description" content={content.hero.subtitle} />
       </Helmet>
 
-      {/* 1. HERO */}
+      {/* 1. HERO SECTION */}
       <div className="pt-[100px] pb-10"> 
         <SolutionHero 
-          tag={solutionName}
-          title={`Scale your ${solutionName} capabilities`}
+          title={content.hero.title}
+          subtitle={content.hero.subtitle}
+          ctaText={content.hero.ctaText}
         />
       </div>
 
@@ -61,19 +69,35 @@ const SolutionTemplate = () => {
       <CompanyLogos variant="industry" />
 
       {/* 3. PROCESS */}
-      <SolutionProcess />
+      <SolutionProcess data={content.process} />
 
-      {/* 4. WHY CHOOSE */}
-      <SolutionWhyChoose />
+      {/* 4. CAPABILITIES */}
+      <SolutionCapabilities data={content.services} />
 
-      {/* 5. EXPERTS */}
-      <ExpertProfiles variant="industry" />
+      {/* 5. EXPERTS (PROFILES from Backend/Dummy) */}
+      <ExpertProfiles 
+        variant="industry" 
+        title={content.talent.title} 
+        subtitle={content.talent.subtitle}
+        // Removed 'profiles' prop -> triggers fallback to backend or default dummies
+        subSection="solution" 
+        page={slug} 
+      />
 
-      {/* 6. CAPABILITIES */}
-      <SolutionCapabilities />
+      {/* 6. USE CASES */}
+      <SolutionWhyChoose data={content.useCases} />
 
-      {/* 7. CTA (Final Section) */}
-      <SolutionCTA />
+      {/* 7. TESTIMONIALS (Global Data) */}
+      <Testimonials 
+        variant="industry" 
+        // No items passed -> uses default global testimonials
+      />
+
+      {/* 8. FAQ */}
+      <IndustryFAQ data={content.faq} />
+
+      {/* 9. CTA */}
+      <SolutionCTA data={content.finalCTA} />
 
       {/* Spacing for footer */}
       <div className="pb-20"></div>
@@ -82,4 +106,4 @@ const SolutionTemplate = () => {
   );
 };
 
-export default SolutionTemplate;
+export default SolutionTemplate;  

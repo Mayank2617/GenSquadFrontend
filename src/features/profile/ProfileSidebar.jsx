@@ -8,23 +8,23 @@ const ProfileSidebar = ({ profile }) => {
   return (
     <div className={`
       w-full lg:w-[350px] flex-shrink-0 p-6 rounded-[24px] border h-fit sticky top-24
-      ${isLight 
-        ? "bg-white border-gray-100 shadow-xl shadow-purple-500/5" 
+      ${isLight
+        ? "bg-white border-gray-100 shadow-xl shadow-purple-500/5"
         : "bg-[#121212] border-white/10 shadow-xl shadow-black/50"
       }
     `}>
-      
+
       {/* 1. Header: Image & Name */}
       <div className="flex flex-col items-center text-center mb-6">
         <div className="relative mb-4">
-          <img 
-            src={profile.image} 
-            alt={profile.name} 
+          <img
+            src={profile.image}
+            alt={profile.name}
             className="w-24 h-24 rounded-full object-cover border-4 border-purple-500/20"
           />
           <div className="absolute bottom-0 right-0 bg-green-500 w-5 h-5 rounded-full border-4 border-white dark:border-[#121212]"></div>
         </div>
-        
+
         <h2 className={`text-2xl font-space font-bold ${isLight ? "text-gray-900" : "text-white"}`}>
           {profile.name}
         </h2>
@@ -65,15 +65,19 @@ const ProfileSidebar = ({ profile }) => {
           border_border_radius="12px"
           className="shadow-lg shadow-purple-500/25 mb-3"
         />
-        <button className={`
-          w-full py-3 rounded-xl text-sm font-medium border transition-colors
-          ${isLight 
-            ? "border-gray-200 text-gray-600 hover:bg-gray-50" 
-            : "border-white/10 text-[#bababa] hover:bg-white/5"
-          }
+        <a
+          href={profile.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`
+          block w-full py-3 rounded-xl text-sm font-medium border transition-colors text-center no-underline cursor-pointer
+          ${isLight
+              ? "border-gray-200 text-gray-600 hover:bg-gray-50"
+              : "border-white/10 text-[#bababa] hover:bg-white/5"
+            }
         `}>
           Download Resume
-        </button>
+        </a>
       </div>
 
       {/* 4. Top Skills */}
@@ -83,12 +87,12 @@ const ProfileSidebar = ({ profile }) => {
         </h4>
         <div className="flex flex-wrap gap-2">
           {profile.topSkills.map((skill, i) => (
-            <span 
+            <span
               key={i}
               className={`
                 px-3 py-1.5 rounded-lg text-xs font-medium
-                ${isLight 
-                  ? "bg-purple-50 text-purple-700" 
+                ${isLight
+                  ? "bg-purple-50 text-purple-700"
                   : "bg-purple-900/20 text-purple-300"
                 }
               `}

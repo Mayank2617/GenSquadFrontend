@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
-// Ensure this path is correct based on where you put the file
+// Ensure this path is correct based on your project structure
 import SplashCursor from "../../components/SplashCursor";
 
-const IndustryHero = ({ title, subtitle }) => {
+const IndustryHero = ({ title, subtitle, ctaText }) => {
   const { isLight } = useTheme();
 
   // 🎨 BACKGROUND CONFIGURATION
@@ -20,7 +20,6 @@ const IndustryHero = ({ title, subtitle }) => {
       style={backgroundStyle}
     >
       
-     {/* ✨ REMOVED THE KEY PROP ✨ */}
       <div className="absolute inset-0 z-0">
         <SplashCursor />
       </div>
@@ -52,9 +51,12 @@ const IndustryHero = ({ title, subtitle }) => {
             Industry Expertise
           </div>
 
-          {/* 2. Main Heading */}
+          {/* 2. Main Heading - FIXED LINE HEIGHT */}
           <h1 className={`
-            font-space font-bold text-4xl sm:text-5xl md:text-7xl leading-tight max-w-[900px]
+            font-space font-bold 
+            text-4xl sm:text-5xl md:text-7xl 
+            leading-[1.2]
+            max-w-[1100px] pb-2
             ${isLight ? "text-gray-900" : "text-white"}
           `}>
             {title}
@@ -62,16 +64,16 @@ const IndustryHero = ({ title, subtitle }) => {
 
           {/* 3. Subtitle */}
           <p className={`
-            text-lg sm:text-xl max-w-[700px] mx-auto leading-relaxed
+            text-lg sm:text-xl max-w-[800px] mx-auto leading-relaxed
             ${isLight ? "text-gray-700" : "text-[#bababa]"}
           `}>
             {subtitle}
           </p>
 
-          {/* 4. Single Button */}
+          {/* 4. Single Button with Dynamic Text */}
           <div className="mt-8 flex justify-center w-full pointer-events-auto">
             <Button
-              text="Get Started"
+              text={ctaText || "Get Started"}
               text_font_size="18"
               text_font_weight="500"
               text_color="#ffffff"

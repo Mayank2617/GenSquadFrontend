@@ -6,7 +6,27 @@ const TalentMatching = () => {
   const { isLight } = useTheme();
   const [activeStep, setActiveStep] = useState(0);
 
-  const steps = ["Meet the Pros", "Schedule Interview", "Hire & Onboard"];
+  // 📋 CONTENT CONFIGURATION
+  const stepContent = [
+    {
+      tab: "Share Your Vision",
+      title: "Share Your Vision",
+      description: "Tell us the roles you need, your AI roadmap, and the stack you run on. Our platform filters a global talent pool to surface a tight shortlist of engineers with verified experience in similar products, data setups, and industries.",
+      image: "/images/img_rectangle_143.png" 
+    },
+    {
+      tab: "Interview Top Talent",
+      title: "Interview Top Talent",
+      description: "Tell us the roles you need, your AI roadmap, and the stack you run on. Our platform filters a global talent pool to surface a tight shortlist of engineers with verified experience in similar products, data setups, and industries.",
+      image: "/images/img_rectangle_143.png"
+    },
+    {
+      tab: "Deploy & Scale",
+      title: "Deploy & Scale",
+      description: "Once you say yes, we handle the details—from contracts to onboarding workflows. Your new AI engineers plug into your team within 48 hours, ready to ship features, own roadmaps, and scale with your product.",
+      image: "/images/img_rectangle_143.png"
+    }
+  ];
 
   return (
     <section
@@ -25,7 +45,7 @@ const TalentMatching = () => {
               font-space font-medium text-center 
               ${isLight ? "text-black" : "text-white"}`}
             >
-              AI Talent Matching Made Simple
+              AI Talent Matching, Simplified.
             </h2>
 
             <p
@@ -34,13 +54,13 @@ const TalentMatching = () => {
               text-center w-full 
               ${isLight ? "text-[#6b6b6b]" : "text-[#bababa]"}`}
             >
-              Hire top tech experts effortlessly just 3 simple steps 
-              from match to onboard, powered by AI.
+              Skip the search. Hire top-tier tech experts in just 3 
+              simple steps, from matching to onboarding - powered by our AI engine.
             </p>
 
-            {/* STEPS */}
+            {/* STEPS TABS */}
             <div className="flex flex-col sm:flex-row gap-[7px] sm:gap-[14px] mt-4">
-              {steps.map((step, index) => {
+              {stepContent.map((step, index) => {
                 const active = activeStep === index;
                 return (
                   <button
@@ -60,42 +80,47 @@ const TalentMatching = () => {
                       }
                     `}
                   >
-                    {step}
+                    {step.tab}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* CONTENT SECTION */}
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-8 w-full">
+          {/* CONTENT SECTION (Dynamic) */}
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-8 w-full animate-fade-in-up">
 
-            {/* LEFT IMAGE */}
+            {/* LEFT IMAGE (Dynamic) */}
             <div className="w-full lg:w-[56%]">
               <img
-                src="/images/img_rectangle_143.png"
-                alt="Meet the Pros"
-                className="w-full rounded-[10px] sm:rounded-[20px]"
+                key={activeStep} // Key forces re-render animation on change
+                src={stepContent[activeStep].image}
+                alt={stepContent[activeStep].title}
+                className="w-full rounded-[10px] sm:rounded-[20px] object-cover aspect-[16/10] animate-fade-in"
               />
             </div>
 
-            {/* RIGHT TEXT */}
+            {/* RIGHT TEXT (Dynamic) */}
             <div className="w-full lg:w-[38%] flex flex-col gap-[16px] sm:gap-[32px]">
 
+              {/* ✅ FIXED: Explicit Line Heights to prevent overlapping */}
               <h3
-                className={`text-[25px] sm:text-[38px] md:text-[50px] 
-                font-space font-medium 
-                ${isLight ? "text-black" : "text-white"}`}
+                className={`
+                  text-[25px] sm:text-[38px] md:text-[50px] 
+                  font-space font-bold 
+                  leading-[32px] sm:leading-[48px] md:leading-[60px]
+                  pb-2
+                  ${isLight ? "text-black" : "text-white"}
+                `}
               >
-                Meet the Pros
+                {stepContent[activeStep].title}
               </h3>
 
               <p
                 className={`text-[10px] sm:text-[15px] md:text-[20px] font-dm 
                 ${isLight ? "text-[#6b6b6b]" : "text-[#bababa]"}`}
               >
-                Where the best minds in tech meet real opportunities.
-                Discover skilled professionals ready to build the future with you.
+                {stepContent[activeStep].description}
               </p>
 
               <Button
@@ -110,13 +135,24 @@ const TalentMatching = () => {
                 border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
                 fill_background_color={isLight ? "#6b46c1" : "#161616"}
                 padding="10px 40px 10px 26px"
-                className="inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 w-fit"
               />
             </div>
           </div>
 
         </div>
       </div>
+      
+      {/* Simple fade animation for switching steps */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(5px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+      `}</style>
     </section>
   );
 };

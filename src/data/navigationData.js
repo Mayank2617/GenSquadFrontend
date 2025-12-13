@@ -12,7 +12,7 @@ const icons = {
 };
 
 export const navigationData = [
-  // 1. USE CASES (Unchanged - Needs Left/Right split)
+  // 1. USE CASES
   {
     title: "Use Cases",
     path: "/use-cases",
@@ -48,19 +48,20 @@ export const navigationData = [
       {
         title: "Solutions",
         iconPath: icons.solutions,
+        // ✅ UPDATED: Matches 12 Sections from SolutionFull.pdf
         items: [
-          { name: "Gen AI", href: "/use-cases/solutions/gen-ai" },
-          { name: "AI & ML Solutions", href: "/use-cases/solutions/ai-&-ml-solutions" },
-          { name: "Backend Development", href: "/use-cases/solutions/backend-development" },
-          { name: "Cloud Solution", href: "/use-cases/solutions/cloud-solution" },
-          { name: "System Integration", href: "/use-cases/solutions/system-integration" },
-          { name: "Managed Services", href: "/use-cases/solutions/managed-services" },
-          { name: "Mobile Apps", href: "/use-cases/solutions/mobile-apps" },
-          { name: "MVPs", href: "/use-cases/solutions/mvps" },
-          { name: "Proof of Concepts", href: "/use-cases/solutions/proof-of-concepts" },
-          { name: "Web Apps", href: "/use-cases/solutions/web-apps" },
-          { name: "Salesforce", href: "/use-cases/solutions/salesforce" },
-          { name: "Cyber Security", href: "/use-cases/solutions/cyber-security" }
+          { name: "Generative AI", href: "/use-cases/solutions/gen-ai" },
+          { name: "LLM & RAG Applications", href: "/use-cases/solutions/llm-rag-applications" },
+          { name: "AI & ML Engineering", href: "/use-cases/solutions/ai-ml-engineering" },
+          { name: "Data Platforms & Eng.", href: "/use-cases/solutions/data-platforms-engineering" },
+          { name: "MLOps & Infrastructure", href: "/use-cases/solutions/mlops-infrastructure" },
+          { name: "Cloud & DevOps", href: "/use-cases/solutions/cloud-devops-engineering" },
+          { name: "Backend & API Platforms", href: "/use-cases/solutions/backend-api-platforms" },
+          { name: "Automation & AI Agents", href: "/use-cases/solutions/automation-ai-agents" },
+          { name: "Vector DB & Retrieval", href: "/use-cases/solutions/vector-database-retrieval" },
+          { name: "Integration Engineering", href: "/use-cases/solutions/integration-engineering" },
+          { name: "AI Quality & Testing", href: "/use-cases/solutions/ai-quality-testing" },
+          { name: "Data Labeling & Annotation", href: "/use-cases/solutions/data-labeling-services" }
         ]
       },
       {
@@ -101,17 +102,15 @@ export const navigationData = [
     ]
   },
 
-  // 2. OUR SERVICES (Updated: Flattened List)
-  // We use a single subsection with an EMPTY title ("") so it renders as one big list.
+  // 2. OUR SERVICES (Unchanged)
   {
     title: "Our Services",
     path: "/our-services",
     subsections: [
       {
-        title: "", // Empty title = Single Container View
+        title: "", 
         iconPath: icons.stack,
         items: [
-          // Hire by Skill (30 Items)
           { name: "Hire AI Engineers", href: "/our-services/hire-ai-engineers" },
           { name: "Hire Machine Learning Engineers", href: "/our-services/hire-machine-learning-engineers" },
           { name: "Hire Deep Learning Engineers", href: "/our-services/hire-deep-learning-engineers" },
@@ -142,8 +141,6 @@ export const navigationData = [
           { name: "Hire Chatbot Developers", href: "/our-services/hire-chatbot-developers" },
           { name: "Hire LLM Fine-Tuning Specialists", href: "/our-services/hire-llm-fine-tuning-specialists" },
           { name: "Hire API Integration Engineers", href: "/our-services/hire-api-integration-engineers" },
-          
-          // Hire by Role (5 Items - Appended to same list)
           { name: "Hire AI Solution Architects", href: "/our-services/hire-ai-solution-architects" },
           { name: "Hire AI QA & Testing Specialists", href: "/our-services/hire-ai-qa-testing-specialists" },
           { name: "Hire AI Product Managers", href: "/our-services/hire-ai-product-managers" },
@@ -154,15 +151,14 @@ export const navigationData = [
     ]
   },
 
-  // 3. ABOUT US (Single Container)
- {
+  // 3. ABOUT US (Unchanged)
+  {
     title: "About Us",
     path: "/about-us",
-    // We add a 'type: "card"' flag to tell MegaMenu to render differently
-    layout: "card", 
+    layout: "card",
     subsections: [
       {
-        title: "Meet GenSquad", // This becomes the Section Heading
+        title: "Meet GenSquad",
         description: "GenSquad is an AI-native talent marketplace that connects ambitious teams with world-class AI engineers and product leaders. Build faster with curated squads, lower hiring risk, and engagements tailored to your roadmap.",
         iconPath: icons.company,
         items: [
@@ -170,26 +166,26 @@ export const navigationData = [
             name: "About us", 
             href: "/about-us",
             description: "GenSquad brings together battle‑tested AI engineers, data experts, and product leaders who have shipped real-world models and products. Matching the right people to the right problems is at the heart of what we do.",
-            icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" // Info Icon
+            icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
           },
           { 
             name: "Why us?", 
             href: "/why-us",
             description: "Our network spans multiple time zones and industries, with deep experience across LLMs, ML, data platforms, and cloud. A matching engine plus human curation ensures every squad fits your stack, stage, and culture.",
-            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" // Check Badge
+            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
           },
           { 
             name: "Fractional CTO | CPO", 
             href: "/fractal-cto-cpo",
             description: "Tap into fractional AI Heads, solution architects, and product leaders who can design your AI strategy, de‑risk implementation, and guide your teams from prototype to production, without the overhead of a full-time hire.",
-            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" // Users
+            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" 
           }
         ]
       }
     ]
   },
 
-  // 4. FOR COMPANIES (Updated with Descriptions)
+  // 4. FOR COMPANIES (Unchanged)
   {
     title: "For Companies",
     path: "/for-companies",

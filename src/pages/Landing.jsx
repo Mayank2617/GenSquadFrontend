@@ -20,12 +20,15 @@ const Landing = () => {
         <title>Hire World-Class AI Engineers in 48 Hours</title>
       </Helmet>
       
-      {/* Note: NavBar is gone because MainLayout handles it now! */}
       <HeroSection />
       <CompanyLogos />
       <TalentMatching />
       <ChipCategories />
-      <ExpertProfiles />
+      {/* ✅ CONNECTED TO BACKEND */}
+      <ExpertProfiles 
+        subSection="home" 
+        page="home" 
+        />
       <DevPartners />
       <HowItWorks />
       <VettingProcess />

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 
-const SolutionCTA = ({
-  title = "Accelerate your AI Talent Search",
-  description = "Join 500+ forward-thinking companies building the future with GenSquad's top 1% AI talent."
-}) => {
+const SolutionCTA = ({ data }) => {
   const { isLight } = useTheme();
+
+  const title = data?.title || "Accelerate your AI Talent Search";
+  const subtitle = data?.subtitle || "Join 500+ forward-thinking companies building the future with GenSquad's top 1% AI talent.";
+  const buttonText = data?.buttonText || "Get Started";
 
   return (
     <section className="w-full px-4 sm:px-6 lg:px-[40px] py-24 relative overflow-hidden">
@@ -29,7 +30,7 @@ const SolutionCTA = ({
             text-lg sm:text-xl max-w-[700px] leading-relaxed mb-10
             ${isLight ? "text-gray-600" : "text-[#bababa]"}
           `}>
-            {description}
+            {subtitle}
           </p>
 
           {/* BUTTONS */}
@@ -42,7 +43,7 @@ const SolutionCTA = ({
             `}></div>
 
             <Button
-              text="Get Started"
+              text={buttonText}
               text_font_size="18"
               text_font_weight="600"
               text_color="#ffffff"

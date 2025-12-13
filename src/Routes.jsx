@@ -37,6 +37,7 @@ const AppRoutes = () => {
               {/* The ':id' allows us to load different data for different people */}
               <Route path="/talent/:id" element={<TalentProfile />} />
               <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
+              {/* ✅ NEW: Add this Route for Solutions */}
             </Route>
             {/* Login Route */}
             <Route path="/login" element={<Login />} />

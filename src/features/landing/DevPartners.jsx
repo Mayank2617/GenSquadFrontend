@@ -26,7 +26,7 @@ const DevPartners = () => {
               isLight ? "text-black" : "text-[#f1f1f1]"
             }`}
           >
-            Fast-track your product growth with verified dev partners
+            Accelerate Growth with Verified Tech Partners
           </h2>
 
           <p
@@ -34,9 +34,7 @@ const DevPartners = () => {
               isLight ? "text-[#6b6b6b]" : "text-[#bababa]"
             }`}
           >
-            Partner with pre-vetted development agencies and fractional leaders
-            who deliver speed, precision, and quality — helping you scale
-            smarter, not slower.
+            Scale smarter, not harder. Partner with pre-vetted engineering squads and fractional leaders who deliver speed, precision, and enterprise-grade execution.
           </p>
         </div>
 

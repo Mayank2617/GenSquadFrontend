@@ -1,29 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTheme } from "../../hooks/useTheme";
 
-// 📋 DATA FOR THE TABS
-const tabData = [
-  {
-    id: 0,
-    title: "AI & Machine Learning",
-    image: "/images/industry_tab_1.png", 
-  },
-  {
-    id: 1,
-    title: "Cloud Infrastructure",
-    image: "/images/industry_tab_2.png",
-  },
-  {
-    id: 2,
-    title: "Blockchain & Security",
-    image: "/images/industry_tab_3.png",
-  },
-];
-
-const IndustrySolutionsTabs = ({ industryName }) => {
+const IndustrySolutionsTabs = ({ data }) => {
   const { isLight } = useTheme();
   const [activeTab, setActiveTab] = useState(0);
-
+  
   // 1. REFS TO TRACK BUTTON POSITIONS (For Sliding Animation)
   const tabsRef = useRef([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
@@ -39,9 +20,10 @@ const IndustrySolutionsTabs = ({ industryName }) => {
     }
   }, [activeTab]);
 
+  // Safety Check: If no data provided, don't render section
+  if (!data || !data.tabs) return null;
+
   return (
-    // Updated padding: pt-20 (top spacing) pb-8 (reduced bottom gap to next section)
-    // Removed style={{ background... }} to allow parent background to show through seamlessy
     <section className="w-full pt-20 pb-8 px-6">
       <div className="max-w-[1200px] mx-auto">
         
@@ -58,16 +40,16 @@ const IndustrySolutionsTabs = ({ industryName }) => {
           {/* HEADER CONTENT - CENTERED */}
           <div className="max-w-[800px] mx-auto mb-10 text-center">
             <h2 className={`
-              font-space font-bold text-3xl sm:text-4xl mb-4
+              font-space font-bold text-3xl sm:text-4xl mb-4 leading-tight
               ${isLight ? "text-gray-900" : "text-white"}
             `}>
-              Tailored Tech Specs for {industryName}
+              {data.title}
             </h2>
             <p className={`
               text-lg leading-relaxed
               ${isLight ? "text-gray-600" : "text-[#bababa]"}
             `}>
-              Explore the specialized technologies and frameworks our vetted engineers use to build world-class solutions in your sector.
+              {data.description}
             </p>
           </div>
 
@@ -87,14 +69,14 @@ const IndustrySolutionsTabs = ({ industryName }) => {
                 }} 
               />
 
-              {tabData.map((tab, index) => (
+              {data.tabs.map((tab, index) => (
                  <button
-                   key={tab.id}
+                   key={index}
                    ref={(el) => (tabsRef.current[index] = el)}
-                   onClick={() => setActiveTab(tab.id)}
+                   onClick={() => setActiveTab(index)}
                    className={`
                      relative z-10 px-6 py-3 rounded-lg font-space font-medium text-sm sm:text-base transition-colors duration-200
-                     ${activeTab === tab.id
+                     ${activeTab === index
                        ? "text-white" // Active Text (Always white on purple bg)
                        : isLight ? "text-gray-600 hover:text-gray-900" : "text-[#bababa] hover:text-white"
                      }
@@ -116,9 +98,9 @@ const IndustrySolutionsTabs = ({ industryName }) => {
                `}></div>
 
                <img 
-                 key={tabData[activeTab].image} // Key change triggers animation
-                 src={tabData[activeTab].image} 
-                 alt={tabData[activeTab].title}
+                 key={activeTab} // Key change triggers animation
+                 src={data.tabs[activeTab].image} 
+                 alt={data.tabs[activeTab].title}
                  className="w-full h-auto object-cover aspect-video"
                />
                

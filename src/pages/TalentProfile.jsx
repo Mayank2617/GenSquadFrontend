@@ -7,7 +7,7 @@ import ProfileBanner from '../features/profile/ProfileBanner';
 import ProfileSidebar from '../features/profile/ProfileSidebar';
 import ProfileDetails from '../features/profile/ProfileDetails';
 // 1. Import Similar Talent
-import SimilarTalent from '../features/profile/SimilarTalent'; 
+import SimilarTalent from '../features/profile/SimilarTalent';
 import { getTalentById } from '../services/api';
 
 const TalentProfile = () => {
@@ -16,14 +16,14 @@ const TalentProfile = () => {
 
   // 🎨 SHARED BACKGROUND STYLE
   const pageBackground = {
-    background: isLight 
+    background: isLight
       ? `
         radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), 
         radial-gradient(circle at 100% 20%, rgba(59, 130, 246, 0.20) 0%, transparent 50%), 
         radial-gradient(circle at 0% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), 
         radial-gradient(circle at 100% 90%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), 
         linear-gradient(to bottom, #f5f3ff, #f0f9ff, #fdf4ff)
-      ` 
+      `
       : "radial-gradient(50% 50% at 50% 50%, rgba(76, 29, 149, 0.35) 0%, rgba(10, 10, 10, 1) 100%), #0a0a0a",
     backgroundAttachment: "fixed",
     backgroundSize: "cover",
@@ -44,10 +44,18 @@ const TalentProfile = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         console.log("Fetching profile for ID:", id);
         const data = await getTalentById(id);
         console.log("Fetched Data:", data);
+        console.log("Details for Debug:", {
+          resume: data.resume,
+          skills: data.topSkills,
+          topSkillsColors: data.topSkills?.map(s => s.color)
+        });
+
+        // Predefined colors for fallback
+        const COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#ec4899", "#6366f1"];
 
         // MAP BACKEND DATA TO FRONTEND STRUCTURE
         const formattedProfile = {
@@ -57,36 +65,38 @@ const TalentProfile = () => {
           // Handle profile image - if it's a relative path from uploads, we might need to prepend URL
           // But based on analysis, Cloudinary returns full URL. 
           // If it's local, we might need logic, but let's assume valid URL or fallback.
-          image: data.profileImage || "/images/img_ellipse_1.png", 
-          
+          image: data.profileImage || "/images/img_ellipse_1.png",
+          resume: data.resume || null,
+
           // Experience: Backend has experiences array. Frontend wants a string summary.
           // We can take the formatted 'expYears' from the first experience or 'Experienced'
           experience: data.experiences?.[0]?.expYears ? `${data.experiences[0].expYears} Years` : "Experienced",
-          
-          availability: data.status || "Available", 
+
+          availability: data.status || "Available",
           location: data.address ? `${data.address.city}, ${data.address.country}` : "Remote",
           bannerUrl: null, // Backend schema doesn't seem to have bannerUrl
-          
+
           topSkills: data.topSkills?.map(s => s.name) || [],
           about: data.about || "",
-          
-          pieData: data.topSkills?.map(s => ({
+
+          pieData: data.topSkills?.map((s, index) => ({
             name: s.name,
             usage: parseInt(s.usage) || 0,
             years: parseInt(s.exp) || 0,
-            color: s.color || "#8b5cf6"
+            // FORCE PALETTE to ensure different colors as requested by user
+            color: COLORS[index % COLORS.length]
           })) || [],
-          
+
           allSkills: data.topSkills?.map(s => s.name) || [],
           tools: data.tools || [],
-          
+
           experienceLine: data.experiences?.map(exp => ({
             role: exp.role,
             company: exp.company,
             duration: `${exp.joinYear} - ${exp.endYear || 'Present'}`,
             description: exp.description
           })) || [],
-          
+
           education: data.education?.map(edu => ({
             school: edu.institute,
             degree: edu.degree,
@@ -94,7 +104,7 @@ const TalentProfile = () => {
           })) || [],
 
           certifications: data.certifications?.map(cert => ({
-            name: cert.displayTitle || cert.institution, 
+            name: cert.displayTitle || cert.institution,
             issuer: cert.company || cert.institution,
             year: cert.joinYear
           })) || []

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom"; // 1. Import Link
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 
@@ -23,13 +24,10 @@ const HeroSection = () => {
       }
     }
 
-    // 2. BADGE HUNTER (The Fix)
-    // Runs every 100ms to check if the badge has appeared, then hides it.
+    // 2. BADGE HUNTER (Hides the 'Made with Unicorn Studio' badge)
     const badgeHunter = setInterval(() => {
-      // Select any anchor tag linking to unicorn.studio
       const badges = document.querySelectorAll('a[href*="unicorn.studio"]');
       badges.forEach((badge) => {
-        // Force hide it using multiple properties to override any inline styles
         badge.style.display = 'none';
         badge.style.opacity = '0';
         badge.style.visibility = 'hidden';
@@ -37,7 +35,6 @@ const HeroSection = () => {
       });
     }, 100);
 
-    // Stop checking after 5 seconds (usually loads by then)
     const stopHunter = setTimeout(() => {
       clearInterval(badgeHunter);
     }, 5000);
@@ -50,11 +47,11 @@ const HeroSection = () => {
 
   return (
     <section className="w-full relative min-h-screen flex flex-col overflow-hidden">
-      
+
       {/* Animated Background */}
       <div className="absolute inset-0 -z-10 pointer-events-none bg-black">
-        <div 
-          data-us-project="IeQjo313ngSwpb4lfQQu" 
+        <div
+          data-us-project="IeQjo313ngSwpb4lfQQu"
           style={{ width: '100%', height: '100%' }}
         ></div>
       </div>
@@ -72,48 +69,49 @@ const HeroSection = () => {
                 </svg>
               </div>
               <h1 className={`font-space font-bold text-4xl sm:text-5xl md:text-7xl leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
-                Hire World-Class AI Engineers
+                Hire Top-Tier AI Engineers
               </h1>
             </div>
 
             {/* Subtitle */}
             <h2 className={`text-2xl sm:text-3xl md:text-4xl font-medium ${isLight ? "text-gray-800" : "text-white"}`}>
-              in 48 Hrs with unmatched quality.
+              in Just 48 Hours
             </h2>
 
             {/* Description */}
             <p className={`mt-4 max-w-[800px] mx-auto text-lg sm:text-xl leading-relaxed ${isLight ? "text-gray-600" : "text-[#bababa]"}`}>
-              Access a curated network of <strong>AI & software experts</strong> vetted, reliable,
-              and always ready to deliver.
+              Access a pre-vetted network of <strong>top 1% AI & software engineers.</strong> Reliable, specialized, and ready to deploy immediately.
             </p>
 
-            {/* Get Started Button */}
+            {/* Get Started Button (Linked to Talent Page) */}
             <div className="mt-8">
-              <Button
-                text="Get Started"
-                text_font_size="18"
-                text_font_family="Be Vietnam Pro"
-                text_font_weight="500"
-                text_line_height="23px"
-                text_text_align="center"
-                text_color="#ffffff"
-                border_border="1px solid transparent"
-                border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
-                border_border_radius="8px"
-                fill_background_color={isLight ? "#6b46c1" : "#8b5cf6"}
-                layout_gap="8px"
-                padding="14px 40px"
-                className="inline-flex items-center gap-2 shadow-xl shadow-purple-500/20 hover:scale-105 transition-transform"
-              />
+              <Link to="/talent">
+                <Button
+                  text="Start Hiring"
+                  text_font_size="18"
+                  text_font_family="Be Vietnam Pro"
+                  text_font_weight="500"
+                  text_line_height="23px"
+                  text_text_align="center"
+                  text_color="#ffffff"
+                  border_border="1px solid transparent"
+                  border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
+                  border_border_radius="8px"
+                  fill_background_color={isLight ? "#6b46c1" : "#8b5cf6"}
+                  layout_gap="8px"
+                  padding="14px 40px"
+                  className="inline-flex items-center gap-2 shadow-xl shadow-purple-500/20 hover:scale-105 transition-transform"
+                />
+              </Link>
             </div>
 
             {/* Chips */}
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <button className={`px-5 py-2.5 rounded-full border cursor-pointer backdrop-blur-md transition-colors ${isLight ? "bg-white/60 text-black border-gray-300 hover:bg-white" : "bg-white/10 text-white/90 border-white/20 hover:bg-white/20"}`}>
-                 Vetted by Experts
+                Vetted by Experts
               </button>
               <button className={`px-5 py-2.5 rounded-full border cursor-pointer backdrop-blur-md transition-colors ${isLight ? "bg-white/60 text-black border-gray-300 hover:bg-white" : "bg-white/10 text-white/90 border-white/20 hover:bg-white/20"}`}>
-                 Real Project Validation
+                Real Project Validation
               </button>
             </div>
 
@@ -121,7 +119,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Backup CSS Rule */}
+      {/* Backup CSS Rule to hide Unicorn Studio Badge */}
       <style>{`
         a[href*="unicorn.studio"] {
           display: none !important;

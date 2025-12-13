@@ -5,15 +5,16 @@ import { useTheme } from "../../hooks/useTheme";
 const SolutionHero = ({ 
   title = "Scale your AI capabilities with our top-tier experts", 
   subtitle = "Unlock the full potential of artificial intelligence with GenSquad's vetted AI & ML developers. From predictive analytics to generative AI, we deliver scalable, secure, and innovative solutions tailored to your business needs.",
+  ctaText = "Hire Developers",
   tag = "AI & ML"
 }) => {
   const { theme, isLight } = useTheme();
 
-  // 🎨 CARD BACKGROUND (Same as Home Page Hero Image)
+  // 🎨 CARD BACKGROUND (Exact logic from your previous file)
   const darkBg = "/images/hero_dark.png";
   const lightBg = "/images/hero_light.png";
   const backgroundImage = theme === "light" ? lightBg : darkBg;
-  
+   
   // Overlay to ensure text readability on top of the image
   const overlayStyle = theme === "light"
       ? "linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.7))"
@@ -55,7 +56,7 @@ const SolutionHero = ({
             <span className="text-xs font-bold tracking-wide uppercase font-space">{tag} Solutions</span>
           </div>
 
-          {/* 2. Heading */}
+          {/* 2. Heading (Dynamic) */}
           <h1 className={`
             font-space font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-6
             ${isLight ? "text-gray-900" : "text-white"}
@@ -63,7 +64,7 @@ const SolutionHero = ({
             {title}
           </h1>
 
-          {/* 3. Subtitle */}
+          {/* 3. Subtitle (Dynamic) */}
           <p className={`
             text-lg sm:text-xl leading-relaxed mb-10 max-w-[750px]
             ${isLight ? "text-gray-600" : "text-[#bababa]"}
@@ -74,7 +75,7 @@ const SolutionHero = ({
           {/* 4. Buttons (Centered) */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Button
-              text="Hire Developers"
+              text={ctaText}
               text_font_size="18"
               text_font_weight="600"
               text_color="#ffffff"

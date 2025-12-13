@@ -2,33 +2,14 @@ import React from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 
-// 📋 DATA: Exact text from your screenshots
-const steps = [
-  {
-    id: "01",
-    title: "Define Your AI Needs",
-    description: "Tell us about your project goals, technical requirements, and the specific AI/ML challenges you want to solve. Whether it's building a recommendation engine or automating workflows, we'll help you scope the role.",
-    image: "/images/img_rectangle_143.png" // Placeholder from TalentMatching
-  },
-  {
-    id: "02",
-    title: "Get Matched with Experts",
-    description: "Our AI-driven platform instantly matches you with pre-vetted developers who have proven experience in your specific domain. Review profiles, past projects, and technical assessments to find the perfect fit.",
-    image: "/images/img_rectangle_143.png"
-  },
-  {
-    id: "03",
-    title: "Start Building & Scaling",
-    description: "Onboard your new team members seamlessly. We handle the contracts and compliance while you focus on building. Scale your team up or down as your project evolves with flexible engagement models.",
-    image: "/images/img_rectangle_143.png"
-  }
-];
-
-const SolutionProcess = () => {
+const SolutionProcess = ({ data }) => {
   const { isLight } = useTheme();
 
+  // Guard clause if data hasn't loaded yet
+  if (!data) return null;
+
   return (
-    // Outer Wrapper: Provides the same padding/margins as the Hero Section
+    // Outer Wrapper
     <section className="w-full px-4 sm:px-6 lg:px-[40px] py-20">
       
       {/* 🃏 THE MAIN CARD CONTAINER */}
@@ -50,7 +31,7 @@ const SolutionProcess = () => {
             font-space font-bold text-3xl sm:text-4xl md:text-5xl mb-6 leading-tight
             ${isLight ? "text-gray-900" : "text-white"}
           `}>
-            How GenSquad AI & ML Solutions Work
+            {data.title || "How It Works"}
           </h2>
           <p className={`
             text-lg sm:text-xl leading-relaxed
@@ -62,7 +43,7 @@ const SolutionProcess = () => {
 
         {/* 2. STEPS LOOP */}
         <div className="flex flex-col gap-20 sm:gap-32">
-          {steps.map((step, index) => (
+          {data.steps.map((step, index) => (
             <div 
               key={index} 
               className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20 group"
@@ -76,7 +57,7 @@ const SolutionProcess = () => {
                   ${isLight ? "border-gray-100" : "border-white/10"}
                 `}>
                   <img 
-                    src={step.image} 
+                    src={step.image || "/images/img_rectangle_143.png"} 
                     alt={step.title}
                     className="w-full h-full object-cover"
                   />
@@ -88,12 +69,12 @@ const SolutionProcess = () => {
               {/* TEXT CONTENT COLUMN (Right) */}
               <div className="w-full lg:w-1/2 flex flex-col items-start">
                 
-                {/* Step Number */}
+                {/* Step Number (Dynamic based on index) */}
                 <span className={`
                   text-6xl sm:text-8xl font-space font-bold opacity-20 mb-4 select-none
                   ${isLight ? "text-purple-900" : "text-white"}
                 `}>
-                  {step.id}
+                  {`0${index + 1}`}
                 </span>
 
                 {/* Title */}
