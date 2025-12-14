@@ -7,7 +7,7 @@ import ProfileBanner from '../features/profile/ProfileBanner';
 import ProfileSidebar from '../features/profile/ProfileSidebar';
 import ProfileDetails from '../features/profile/ProfileDetails';
 import SimilarTalent from '../features/profile/SimilarTalent';
-import { getTalentById } from '../services/api';
+import { getTalentById, getAllTalent } from '../services/api';
 
 const TalentProfile = () => {
   const { id } = useParams();
@@ -31,20 +31,29 @@ const TalentProfile = () => {
 
   // 1. Fetch Data
   const [profile, setProfile] = React.useState(null);
+  const [similarTalents, setSimilarTalents] = React.useState([]); // State for Similar Profiles
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       if (!id) return;
 
       try {
         setLoading(true);
         setError(null);
         
+        // 1. Fetch CURRENT Profile
         const data = await getTalentById(id);
 
-        // ✅ UPDATED: High Contrast & Bright Color Palette
+        // 2. Fetch ALL Profiles (for Similar Section)
+        const allProfiles = await getAllTalent();
+        
+        // Filter out the current profile from the list
+        const filteredSimilar = allProfiles.filter(p => p._id !== id);
+        setSimilarTalents(filteredSimilar);
+
+        // High Contrast & Bright Color Palette for Chart
         const COLORS = [
           "#8b5cf6", // Bright Purple (Primary)
           "#06b6d4", // Neon Cyan
@@ -68,18 +77,15 @@ const TalentProfile = () => {
 
           availability: data.status || "Available",
           location: data.address ? `${data.address.city}, ${data.address.country}` : "Remote",
-          bannerUrl: null, 
-
+          
           topSkills: data.topSkills?.map(s => s.name) || [],
           about: data.about || "",
 
-          // ✅ PIE CHART DATA CONSTRUCTION
+          // Pie Chart Data
           pieData: data.topSkills?.map((s, index) => ({
             name: s.name,
-            // Ensure numbers are parsed correctly
             usage: parseInt(s.usage, 10) || 0,
             years: parseInt(s.exp, 10) || 0,
-            // Assign cycling color
             color: COLORS[index % COLORS.length]
           })) || [],
 
@@ -100,9 +106,9 @@ const TalentProfile = () => {
           })) || [],
 
           certifications: data.certifications?.map(cert => ({
-            name: cert.displayTitle || cert.institution,
-            issuer: cert.company || cert.institution,
-            year: cert.joinYear
+            name: cert.displayTitle || cert.institution || "Certification",
+            issuer: cert.displaySubtitle || cert.company || "Issuer",
+            year: cert.joinYear || ""
           })) || []
         };
 
@@ -115,34 +121,8 @@ const TalentProfile = () => {
       }
     };
 
-    fetchProfile();
+    fetchData();
   }, [id]);
-
-  // Mock Similar Profiles
-  const similarProfiles = [
-    {
-      id: "mock1",
-      name: "David Chen",
-      role: "Full Stack AI Dev",
-      location: "Toronto, Canada",
-      experience: "6 Years",
-      image: "/images/img_ellipse_1.png",
-      skills: ["React", "Node.js", "LangChain", "OpenAI API"],
-      description: "Bridging the gap between web apps and AI. I create intuitive front-end interfaces that leverage complex backend AI agents.",
-      availability: "Immediate"
-    },
-    {
-      id: "mock2",
-      name: "Elena Rodriguez",
-      role: "Data Scientist",
-      location: "Madrid, Spain",
-      experience: "5 Years",
-      image: "/images/img_ellipse_1.png",
-      skills: ["SQL", "Pandas", "Scikit-learn", "Tableau"],
-      description: "Turning messy data into actionable business insights. Expert in predictive modeling for fintech and fraud detection.",
-      availability: "2 Weeks Notice"
-    }
-  ];
 
   if (loading) {
     return (
@@ -166,19 +146,16 @@ const TalentProfile = () => {
         <title>{profile.name} | GenSquad Profile</title>
       </Helmet>
 
-      {/* 1. Banner */}
-      <ProfileBanner bannerUrl={profile.bannerUrl} />
-
-      {/* 2. Main Content Grid */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+      {/* Main Content Grid */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-8">
         <ProfileSidebar profile={profile} />
         <ProfileDetails profile={profile} />
       </div>
 
-      {/* 3. Similar Talent Section */}
-      <SimilarTalent profiles={similarProfiles} />
+      {/* Similar Talent Section (Passing Real Data) */}
+      <SimilarTalent profiles={similarTalents} />
 
-      {/* 4. Extra Padding before Footer */}
+      {/* Extra Padding before Footer */}
       <div className="pb-10"></div>
     </div>
   );

@@ -196,12 +196,12 @@ export const navigationData = [
         description: "Tools, insights, and stories to help you scale your engineering team with confidence.",
         iconPath: icons.resources,
         items: [
-          { 
-            name: "Rate Calculator", 
-            href: "/for-companies/rate-calculator",
-            description: "Get instant salary estimates for AI/ML roles across different regions and seniority levels to plan your budget.",
-            icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          },
+          // { 
+          //   name: "Rate Calculator", 
+          //   href: "/for-companies/rate-calculator",
+          //   description: "Get instant salary estimates for AI/ML roles across different regions and seniority levels to plan your budget.",
+          //   icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          // },
           { 
             name: "How we vet", 
             href: "/how-we-vet-developers",
@@ -214,18 +214,18 @@ export const navigationData = [
             description: "Answers to common questions about contracts, IP rights, billing, and time-zone alignment.",
             icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           },
-          { 
-            name: "Case Studies", 
-            href: "/case-studies",
-            description: "Real-world examples of how companies reduced burn rate and shipped AI products faster with GenSquad.",
-            icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-          },
-          { 
-            name: "Testimonials", 
-            href: "/testimonials",
-            description: "See what CTOs and Founders are saying about their experience working with our matched talent.",
-            icon: "M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-          }
+          // { 
+          //   name: "Case Studies", 
+          //   href: "/case-studies",
+          //   description: "Real-world examples of how companies reduced burn rate and shipped AI products faster with GenSquad.",
+          //   icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+          // },
+          // { 
+          //   name: "Testimonials", 
+          //   href: "/testimonials",
+          //   description: "See what CTOs and Founders are saying about their experience working with our matched talent.",
+          //   icon: "M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+          // }
         ]
       }
     ]

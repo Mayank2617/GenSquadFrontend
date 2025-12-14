@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useTheme } from "../../hooks/useTheme";
-import TalentCard from "../listing/TalentCard"; // Reusing the existing card!
+import TalentCard from "../listing/TalentCard";
 
 const SimilarTalent = ({ profiles = [] }) => {
   const { isLight } = useTheme();
@@ -10,7 +10,8 @@ const SimilarTalent = ({ profiles = [] }) => {
   const scroll = (direction) => {
     if (scrollRef.current) {
       const { current } = scrollRef;
-      const scrollAmount = 400; // Scroll roughly one card width
+      // Scroll by roughly one-third of the container width
+      const scrollAmount = current.clientWidth / 3;
       if (direction === "left") {
         current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
       } else {
@@ -18,6 +19,8 @@ const SimilarTalent = ({ profiles = [] }) => {
       }
     }
   };
+
+  if (!profiles || profiles.length === 0) return null;
 
   return (
     <section className="w-full py-10 mb-20">
@@ -68,12 +71,13 @@ const SimilarTalent = ({ profiles = [] }) => {
         <div 
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x snap-mandatory"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} // Hide scrollbar
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {profiles.map((profile) => (
             <div 
-              key={profile.id} 
-              className="min-w-[300px] md:min-w-[350px] snap-center flex-shrink-0"
+              key={profile.id || profile._id} 
+              // 🛠️ FIX: Calculates exact width to fit 3 items (minus gap space)
+              className="w-[85vw] sm:w-[45vw] lg:w-[calc(33.333%-16px)] snap-center flex-shrink-0"
             >
               <TalentCard profile={profile} />
             </div>

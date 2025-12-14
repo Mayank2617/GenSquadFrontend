@@ -17,6 +17,7 @@ import Testimonials from '../features/landing/Testimonials';
 import IndustryFAQ from '../features/industry/IndustryFAQ';
 import SolutionCTA from '../features/solution/SolutionCTA';
 
+
 const SolutionTemplate = () => {
   const { slug } = useParams();
   const { isLight } = useTheme();

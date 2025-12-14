@@ -6,6 +6,11 @@ import { ThemeProvider } from './hooks/useTheme';
 import VendorLayout from "./layouts/VendorLayout";
 
 // Lazy load pages
+const WhyUs = lazy(() => import('./pages/WhyUs'));
+const FractionalCTO = lazy(() => import('./pages/FractionalCTO'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const FaqForCompanies = lazy(() => import('./pages/FaqForCompanies'));
+const HowWeVet = lazy(() => import('./pages/HowWeVet'));
 const WorkflowLibrary = lazy(() => import('./pages/WorkflowLibrary'));
 const Landing = lazy(() => import('./pages/Landing'));
 const IndustryTemplate = lazy(() => import('./pages/IndustryTemplate'));
@@ -32,11 +37,16 @@ const AppRoutes = () => {
               <Route path="/use-cases/industry/:slug" element={<IndustryTemplate />} />
               <Route path="/use-cases/solutions/:slug" element={<SolutionTemplate />} />
               <Route path="/talent" element={<TalentListing />} />
+              <Route path="/faq-for-companies" element={<FaqForCompanies />} />
+              <Route path="/how-we-vet-developers" element={<HowWeVet />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
 
               {/* 2. Add Dynamic Profile Route */}
               {/* The ':id' allows us to load different data for different people */}
               <Route path="/talent/:id" element={<TalentProfile />} />
               <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
+              <Route path="/why-us" element={<WhyUs />} />
               {/* ✅ NEW: Add this Route for Solutions */}
             </Route>
             {/* Login Route */}

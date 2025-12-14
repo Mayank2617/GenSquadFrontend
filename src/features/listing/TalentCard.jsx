@@ -8,10 +8,8 @@ const TalentCard = ({ profile }) => {
   // 🛠️ DATA NORMALIZATION
   const name = profile.fullName || profile.name;
   const role = profile.title || profile.role;
-  // Use Cloudinary URL, or fallback to UI Avatars if missing
   const image = profile.profileImage || profile.image || `https://ui-avatars.com/api/?name=${name}&background=random`;
   
-  // Experience Logic
   const currentExp = profile.experiences && profile.experiences.length > 0 
     ? profile.experiences[0] 
     : { company: profile.company || "Freelance", location: profile.address?.city || "Remote" };
@@ -20,10 +18,8 @@ const TalentCard = ({ profile }) => {
     ? `${profile.address.city}, ${profile.address.country || ""}` 
     : "Remote";
 
-  // Skills Logic
   const displaySkills = profile.topSkills || [];
   
-  // Tag Overflow Logic
   const maxTags = 4;
   const showTags = displaySkills.slice(0, maxTags);
   const remainingTags = displaySkills.length - maxTags;
@@ -31,17 +27,18 @@ const TalentCard = ({ profile }) => {
   return (
     <div 
       className={`
-        w-full rounded-[24px] p-6 border transition-all duration-300 group
-        hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between
+        w-full max-w-full rounded-[24px] p-6 border transition-all duration-300 group
+        hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between h-full
         ${isLight 
           ? "bg-white border-gray-100 shadow-sm shadow-purple-500/5" 
           : "bg-[#161616] border-[#333] shadow-lg shadow-black/50"
         }
       `}
     >
+      
       {/* --- TOP SECTION: AVATAR & HEADLINE --- */}
       <div className="flex items-start gap-4 mb-4">
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <img 
             src={image} 
             alt={name} 
@@ -54,15 +51,15 @@ const TalentCard = ({ profile }) => {
             </svg>
           </div>
         </div>
-        
-        <div>
-          <h3 className={`text-xl font-space font-bold line-clamp-1 ${isLight ? "text-gray-900" : "text-white"}`}>
+       
+        <div className="min-w-0">
+          <h3 className={`text-xl font-space font-bold truncate ${isLight ? "text-gray-900" : "text-white"}`}>
             {name}
           </h3>
-          <p className={`text-sm font-medium line-clamp-1 ${isLight ? "text-purple-600" : "text-purple-400"}`}>
+          <p className={`text-sm font-medium truncate ${isLight ? "text-purple-600" : "text-purple-400"}`}>
             {role}
           </p>
-          <p className={`text-xs mt-1 line-clamp-1 ${isLight ? "text-gray-500" : "text-[#888]"}`}>
+          <p className={`text-xs mt-1 truncate ${isLight ? "text-gray-500" : "text-[#888]"}`}>
             {currentExp.company} • {location}
           </p>
         </div>
@@ -70,9 +67,9 @@ const TalentCard = ({ profile }) => {
 
       {/* --- MIDDLE SECTION: DESCRIPTION & SKILLS --- */}
       <div className="mb-6">
-        {/* Description (Truncated) */}
+        {/* 🛠️ FIX: Added whitespace-normal and break-words to prevent overflow */}
         <p className={`
-          text-sm leading-relaxed mb-4 line-clamp-3 min-h-[60px]
+          text-sm leading-relaxed mb-4 line-clamp-3 min-h-[60px] whitespace-normal break-words
           ${isLight ? "text-gray-600" : "text-[#bababa]"}
         `}>
           {profile.about || profile.description || "No description available for this talent."}
@@ -81,7 +78,6 @@ const TalentCard = ({ profile }) => {
         {/* Skills Chips */}
         <div className="flex flex-wrap gap-2">
           {showTags.map((skill, i) => {
-             // Handle both string tags and object tags (from DB)
              const skillName = typeof skill === 'string' ? skill : skill.name;
              const skillColor = typeof skill === 'object' ? skill.color : null;
 
@@ -89,14 +85,13 @@ const TalentCard = ({ profile }) => {
               <span 
                 key={i}
                 className={`
-                  px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5
+                  px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 whitespace-nowrap
                   ${isLight 
                     ? "bg-gray-100 text-gray-700 border border-gray-200" 
                     : "bg-[#252525] text-[#d4d4d4] border border-[#333]"
                   }
                 `}
               >
-                {/* ✅ FIXED: Use a dot instead of a border, or nothing if no color */}
                 {skillColor && (
                   <span 
                     className="w-1.5 h-1.5 rounded-full" 
@@ -105,11 +100,11 @@ const TalentCard = ({ profile }) => {
                 )}
                 {skillName}
               </span>
-            );
+           );
           })}
           
           {remainingTags > 0 && (
-             <span className={`text-xs px-2 py-1 rounded-md font-medium ${isLight?"bg-gray-50 text-gray-500":"bg-[#1f1f1f] text-[#666]"}`}>
+             <span className={`text-xs px-2 py-1 rounded-md font-medium whitespace-nowrap ${isLight?"bg-gray-50 text-gray-500":"bg-[#1f1f1f] text-[#666]"}`}>
                +{remainingTags}
              </span>
           )}
@@ -132,7 +127,7 @@ const TalentCard = ({ profile }) => {
 
         {/* Right: View Profile Button */}
         <Link 
-          to={`/talent/${profile._id}`} 
+          to={`/talent/${profile._id || profile.id}`} 
           className={`
             text-sm font-bold flex items-center gap-1 transition-all group-hover:translate-x-1
             ${isLight ? "text-purple-600" : "text-purple-400"}

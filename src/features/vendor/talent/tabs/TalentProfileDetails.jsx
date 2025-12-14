@@ -42,7 +42,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     }
   };
 
-  // --- LOCAL HANDLERS (Same as before, just updating state) ---
+  // --- LOCAL HANDLERS ---
   const handleToolKeyDown = (e) => {
     if (e.key === "Enter" && toolInput.trim() !== "") {
       setTools([...tools, toolInput.trim()]);
@@ -67,7 +67,6 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const newExp = {
-      // Form Fields
       current: formData.get("current") === "on" ? "yes" : "no",
       type: formData.get("type"),
       expYears: formData.get("expYears"),
@@ -80,8 +79,6 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
       currency: formData.get("currency"),
       salary: formData.get("salary"),
       description: formData.get("description"),
-
-      // UI Helpers (For display in list)
       displayTitle: formData.get("role"),
       displaySubtitle: `${formData.get("company")} • ${formData.get("type")}`,
       displayMeta: `${formData.get("location") || "Remote"} • ${formData.get("joinMonth")} ${formData.get("joinYear")}`,
@@ -95,7 +92,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     let newItem;
-
+    
     if (type === 'edu') {
        newItem = {
           institute: formData.get("institute"),
@@ -113,9 +110,10 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
        };
        setEducations([...educations, newItem]);
     } else {
+       // Certifications
        newItem = {
-          institution: formData.get("institution"),
-          company: formData.get("company"),
+          institution: formData.get("institution"), // Needs to match input name="institution"
+          company: formData.get("company"),         // Needs to match input name="company"
           joinMonth: formData.get("joinMonth"),
           joinYear: formData.get("joinYear"),
           description: formData.get("description"),
@@ -130,7 +128,6 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
     setActiveModal(null);
   };
 
-  // Date Helpers
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const years = Array.from({length: 40}, (_, i) => new Date().getFullYear() - i);
 
@@ -143,7 +140,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
           TALENT PROFILE
         </h2>
         <p className={`text-xs mb-6 ${isLight ? "text-gray-500" : "text-[#BDBDBD]"}`}>
-          Measure your advertising ROI and report website traffic.
+          Manage skill sets, experience, and education details.
         </p>
         <label className={`block text-xs font-bold uppercase mb-2 ${isLight ? "text-gray-600" : "text-[#E6E6E6]"}`}>
           About Section <span className="text-[#B45CFF]">*</span>
@@ -189,7 +186,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
         </div>
         {tools.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {tools.map((tool, i) => (
+             {tools.map((tool, i) => (
               <div key={i} className={`flex flex-col items-center justify-center p-5 rounded-xl transition-transform hover:-translate-y-1 duration-200 cursor-default ${isLight ? "bg-white border border-gray-100 shadow-sm" : "bg-[#2f2f2f]"}`}>
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 font-bold text-lg ${isLight ? "bg-purple-100 text-purple-600" : "bg-[#383838] text-purple-400"}`}>{getInitial(tool)}</div>
                 <span className={`text-sm ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{tool}</span>
@@ -220,8 +217,7 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
         <button onClick={handleFinalSave} disabled={loading} className="px-8 py-3 rounded-xl text-sm font-bold text-white transition-colors bg-[#8b5cf6] hover:bg-[#7c4dff]">{loading ? "Saving..." : "Save Changes"}</button>
       </div>
 
-      {/* --- MODALS (Same as before, hidden for brevity but MUST be included) --- */}
-      {/* (Keep Skill, Experience, Education, Certification Modal logic here exactly as in the previous step) */}
+      {/* --- MODALS --- */}
       
       {/* Skill Modal */}
       {activeModal === 'skill' && (
@@ -256,8 +252,22 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
       {(activeModal === 'education' || activeModal === 'certification') && (
         <ModalWrapper onClose={() => setActiveModal(null)} title={activeModal === 'education' ? "Add Education" : "Add Certification"} isLight={isLight}>
            <form onSubmit={(e) => handleSaveEduCert(e, activeModal === 'education' ? 'edu' : 'cert')} className="space-y-4">
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{activeModal === 'education' ? 'Institute Name*' : 'Institution Name*'}</label><input name="institute" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
-              <div><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>{activeModal === 'education' ? 'Degree*' : 'Company Name*'}</label><input name="degree" type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required /></div>
+              <div>
+                <label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>
+                  {activeModal === 'education' ? 'Institute Name*' : 'Institution Name*'}
+                </label>
+                {/* ✅ FIX: Dynamic Name */}
+                <input name={activeModal === 'education' ? "institute" : "institution"} type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required />
+              </div>
+
+              <div>
+                <label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>
+                  {activeModal === 'education' ? 'Degree*' : 'Company Name*'}
+                </label>
+                {/* ✅ FIX: Dynamic Name */}
+                <input name={activeModal === 'education' ? "degree" : "company"} type="text" className={`w-full p-3 rounded-md border outline-none ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`} required />
+              </div>
+
               {activeModal === 'education' ? (
                   <div className="flex gap-4">
                       <div className="w-1/2"><label className={`block text-xs font-bold mb-2 ${isLight ? "text-gray-700" : "text-[#E6E6E6]"}`}>Start Date*</label><div className="flex gap-2"><select name="startMonth" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{months.map(m => <option key={m}>{m}</option>)}</select><select name="startYear" className={`w-1/2 p-3 rounded-md border outline-none cursor-pointer ${isLight ? "bg-white border-gray-300" : "bg-[#2E2E2E] border-[#444] text-white"}`}>{years.map(y => <option key={y}>{y}</option>)}</select></div></div>
@@ -276,7 +286,6 @@ const TalentProfileDetails = ({ isLight, initialData }) => {
   );
 };
 
-// ... Helper Components (SectionCard, ListItem, ModalWrapper) remain same ...
 const SectionCard = ({ title, onAdd, children, isLight }) => (
   <div className={`rounded-xl border p-6 ${isLight ? "bg-white border-gray-100 shadow-sm" : "bg-[#333233] border-transparent shadow-md"}`}>
     <div className="flex justify-between items-center mb-6"><h3 className={`text-lg font-bold ${isLight ? "text-gray-900" : "text-white"}`}>{title}</h3><button onClick={onAdd} className={`w-8 h-8 rounded flex items-center justify-center border transition-colors ${isLight ? "border-purple-200 text-purple-600 hover:bg-purple-50" : "border-[#B45CFF] text-[#B45CFF] hover:bg-[#B45CFF] hover:text-white"}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14M5 12h14"/></svg></button></div><div className="flex flex-col gap-0">{children}</div>
