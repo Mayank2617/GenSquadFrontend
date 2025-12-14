@@ -465,12 +465,12 @@ const FractionalCTO = () => {
         </div>
       </section>
 
-      <section>
+      {/* <section>
         <Testimonials
           variant="industry"
         // No items passed -> uses default global testimonials
         />
-      </section>
+      </section> */}
 
       {/* =========================================
             SECTION 4: FINAL CTA (Fixed Heading & Contrast)
