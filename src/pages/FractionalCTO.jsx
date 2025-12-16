@@ -319,151 +319,171 @@ const FractionalCTO = () => {
       {/* =========================================
             SECTION 2: ENGAGEMENT BLUEPRINTS (2x2 Strategic Grid)
            ========================================= */}
-      <section className="w-full py-32 px-6 lg:px-[60px] relative z-10">
-        <div className="max-w-[1200px] mx-auto">
-
-          {/* 1. Header */}
-          <div className="text-center mb-20">
-            <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border ${isLight ? "bg-purple-50 text-purple-700 border-purple-200" : "bg-purple-900/20 text-purple-300 border-purple-500/20"}`}>
-              REAL-WORLD IMPACT
+      {/* =========================================
+            SECTION 2: ENGAGEMENT MODELS (Strategic Impact Grid)
+           ========================================= */}
+        <section className="w-full py-32 px-6 lg:px-[60px] relative z-10">
+          <div className="max-w-[1200px] mx-auto">
+            
+            {/* 1. Section Header */}
+            <div className="text-center mb-20">
+               <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border ${isLight ? "bg-purple-50 text-purple-700 border-purple-200" : "bg-purple-900/20 text-purple-300 border-purple-500/20"}`}>
+                REAL-WORLD IMPACT
+              </div>
+              <h2 className={`text-4xl sm:text-5xl font-space font-bold mb-6 ${isLight ? "text-gray-900" : "text-white"}`}>
+                See how companies engage <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">fractional AI leaders</span>
+              </h2>
+              <p className={`text-lg sm:text-xl max-w-[800px] mx-auto leading-relaxed ${isLight ? "text-gray-600" : "text-[#bababa]"}`}>
+                From AI strategy and roadmap decisions to architecture reviews and platform builds, product teams tap fractional CTOs and CPOs to de‑risk their most important work.
+              </p>
             </div>
-            <h2 className={`text-4xl sm:text-5xl font-space font-bold mb-6 ${isLight ? "text-gray-900" : "text-white"}`}>
-              See how companies engage <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">fractional AI leaders</span>
-            </h2>
-            <p className={`text-lg sm:text-xl max-w-[800px] mx-auto leading-relaxed ${isLight ? "text-gray-600" : "text-[#bababa]"}`}>
-              From AI strategy and roadmap decisions to architecture reviews and platform builds, product teams tap fractional CTOs and CPOs to de‑risk their most important work.
-            </p>
+
+            {/* 2. The Blueprint Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              
+              {/* --- CARD 1: AI STRATEGY --- */}
+              <div className={`
+                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl flex flex-col h-full
+                ${isLight 
+                  ? "bg-white border-gray-200 shadow-lg hover:border-purple-300" 
+                  : "bg-[#111] border-[#222] shadow-lg hover:border-purple-500/40"
+                }
+              `}>
+                {/* Technical Grid Background (Reveals on Hover) */}
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none ${isLight ? "bg-[url('/images/grid-dark.svg')]" : "bg-[url('/images/grid-light.svg')]"}`} style={{backgroundSize: '30px 30px'}}></div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-purple-500 transition-colors ${isLight ? "bg-purple-50 group-hover:bg-purple-100" : "bg-purple-900/20 group-hover:bg-purple-900/30"}`}>
+                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
+                    </div>
+                    {/* Status Pill */}
+                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2 ${isLight ? "bg-purple-50 text-purple-600 border-purple-100" : "bg-purple-900/10 text-purple-400 border-purple-500/20"}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+                      Strategy
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-2xl font-bold mb-4 leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
+                    AI strategy and roadmap for B2B SaaS
+                  </h3>
+                  <p className={`text-base leading-relaxed mb-8 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
+                    A SaaS company brought in a fractional CTO to prioritise AI features, align stakeholders, and turn a long ideas list into a focused 12‑month roadmap.
+                  </p>
+
+                  {/* Progress Bar Visual */}
+                  <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full bg-purple-500 w-3/4 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* --- CARD 2: ARCHITECTURE --- */}
+              <div className={`
+                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl flex flex-col h-full
+                ${isLight 
+                  ? "bg-white border-gray-200 shadow-lg hover:border-blue-300" 
+                  : "bg-[#111] border-[#222] shadow-lg hover:border-blue-500/40"
+                }
+              `}>
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none ${isLight ? "bg-[url('/images/grid-dark.svg')]" : "bg-[url('/images/grid-light.svg')]"}`} style={{backgroundSize: '30px 30px'}}></div>
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-blue-500 transition-colors ${isLight ? "bg-blue-50 group-hover:bg-blue-100" : "bg-blue-900/20 group-hover:bg-blue-900/30"}`}>
+                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2 ${isLight ? "bg-blue-50 text-blue-600 border-blue-100" : "bg-blue-900/10 text-blue-400 border-blue-500/20"}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                      Scale
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-2xl font-bold mb-4 leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
+                    Architecture overhaul for a scaling marketplace
+                  </h3>
+                  <p className={`text-base leading-relaxed mb-8 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
+                    A high‑growth marketplace leaned on a fractional CTO to review the stack, redesign core services, and prepare the platform for 10x traffic.
+                  </p>
+
+                   <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500 w-2/3 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* --- CARD 3: EXPERIMENTATION --- */}
+              <div className={`
+                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl flex flex-col h-full
+                ${isLight 
+                  ? "bg-white border-gray-200 shadow-lg hover:border-pink-300" 
+                  : "bg-[#111] border-[#222] shadow-lg hover:border-pink-500/40"
+                }
+              `}>
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none ${isLight ? "bg-[url('/images/grid-dark.svg')]" : "bg-[url('/images/grid-light.svg')]"}`} style={{backgroundSize: '30px 30px'}}></div>
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-pink-500 transition-colors ${isLight ? "bg-pink-50 group-hover:bg-pink-100" : "bg-pink-900/20 group-hover:bg-pink-900/30"}`}>
+                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2 ${isLight ? "bg-pink-50 text-pink-600 border-pink-100" : "bg-pink-900/10 text-pink-400 border-pink-500/20"}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>
+                      Product
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-2xl font-bold mb-4 leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
+                    Experimentation and analytics for a consumer app
+                  </h3>
+                  <p className={`text-base leading-relaxed mb-8 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
+                    A product team partnered with a fractional CPO to define metrics, ship an experimentation framework, and make data‑driven bets on new features.
+                  </p>
+
+                   <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full bg-pink-500 w-4/5 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* --- CARD 4: DATA & ML --- */}
+              <div className={`
+                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl flex flex-col h-full
+                ${isLight 
+                  ? "bg-white border-gray-200 shadow-lg hover:border-teal-300" 
+                  : "bg-[#111] border-[#222] shadow-lg hover:border-teal-500/40"
+                }
+              `}>
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none ${isLight ? "bg-[url('/images/grid-dark.svg')]" : "bg-[url('/images/grid-light.svg')]"}`} style={{backgroundSize: '30px 30px'}}></div>
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-teal-500 transition-colors ${isLight ? "bg-teal-50 group-hover:bg-teal-100" : "bg-teal-900/20 group-hover:bg-teal-900/30"}`}>
+                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center gap-2 ${isLight ? "bg-teal-50 text-teal-600 border-teal-100" : "bg-teal-900/10 text-teal-400 border-teal-500/20"}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+                      Compliance
+                    </div>
+                  </div>
+                  
+                  <h3 className={`text-2xl font-bold mb-4 leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
+                    Data & ML platform advisory for Fintech
+                  </h3>
+                  <p className={`text-base leading-relaxed mb-8 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
+                    A Fintech startup engaged a fractional AI leader to shape its data platform, MLOps practices, and guardrails around risk, compliance, and reliability.
+                  </p>
+
+                   <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full bg-teal-500 w-full rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
-
-          {/* 2. The Blueprint Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-
-            {/* --- CARD 1: AI STRATEGY (B2B SaaS) --- */}
-            <div className={`
-                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl
-                ${isLight ? "bg-white border-gray-200 shadow-lg hover:border-purple-300" : "bg-[#111] border-[#222] shadow-lg hover:border-purple-500/40"}
-              `}>
-              {/* Tech Background Grid (Reveals on Hover) */}
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isLight ? "bg-[url('/grid-dark.svg')]" : "bg-[url('/grid-light.svg')]"}`} style={{ backgroundSize: '30px 30px' }}></div>
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-purple-500 ${isLight ? "bg-purple-50" : "bg-purple-900/20"}`}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 20h.01" /><path d="M7 20v-4" /><path d="M12 20v-8" /><path d="M17 20V8" /><path d="M22 4v16" /></svg>
-                  </div>
-                  {/* Status Pill */}
-                  <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${isLight ? "bg-purple-50 text-purple-600 border-purple-100" : "bg-purple-900/10 text-purple-400 border-purple-500/20"}`}>
-                    Prioritized
-                  </div>
-                </div>
-
-                <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-gray-900" : "text-white"}`}>
-                  AI strategy and roadmap for B2B SaaS
-                </h3>
-                <p className={`text-base leading-relaxed mb-6 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
-                  A SaaS company brought in a fractional CTO to prioritise AI features, align stakeholders, and turn a long ideas list into a focused 12‑month roadmap.
-                </p>
-
-                <div className={`w-full h-1 rounded-full overflow-hidden ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
-                  <div className="h-full bg-purple-500 w-0 group-hover:w-full transition-all duration-700 ease-out"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* --- CARD 2: ARCHITECTURE (Marketplace) --- */}
-            <div className={`
-                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl
-                ${isLight ? "bg-white border-gray-200 shadow-lg hover:border-blue-300" : "bg-[#111] border-[#222] shadow-lg hover:border-blue-500/40"}
-              `}>
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isLight ? "bg-[url('/grid-dark.svg')]" : "bg-[url('/grid-light.svg')]"}`} style={{ backgroundSize: '30px 30px' }}></div>
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-blue-500 ${isLight ? "bg-blue-50" : "bg-blue-900/20"}`}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
-                  </div>
-                  <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${isLight ? "bg-blue-50 text-blue-600 border-blue-100" : "bg-blue-900/10 text-blue-400 border-blue-500/20"}`}>
-                    Scalable
-                  </div>
-                </div>
-
-                <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-gray-900" : "text-white"}`}>
-                  Architecture overhaul for a scaling marketplace
-                </h3>
-                <p className={`text-base leading-relaxed mb-6 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
-                  A high‑growth marketplace leaned on a fractional CTO to review the stack, redesign core services, and prepare the platform for 10x traffic.
-                </p>
-
-                <div className={`w-full h-1 rounded-full overflow-hidden ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
-                  <div className="h-full bg-blue-500 w-0 group-hover:w-full transition-all duration-700 ease-out delay-100"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* --- CARD 3: EXPERIMENTATION (Consumer App) --- */}
-            <div className={`
-                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl
-                ${isLight ? "bg-white border-gray-200 shadow-lg hover:border-pink-300" : "bg-[#111] border-[#222] shadow-lg hover:border-pink-500/40"}
-              `}>
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isLight ? "bg-[url('/grid-dark.svg')]" : "bg-[url('/grid-light.svg')]"}`} style={{ backgroundSize: '30px 30px' }}></div>
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-pink-500 ${isLight ? "bg-pink-50" : "bg-pink-900/20"}`}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-                  </div>
-                  <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${isLight ? "bg-pink-50 text-pink-600 border-pink-100" : "bg-pink-900/10 text-pink-400 border-pink-500/20"}`}>
-                    Data-Driven
-                  </div>
-                </div>
-
-                <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-gray-900" : "text-white"}`}>
-                  Experimentation and analytics for a consumer app
-                </h3>
-                <p className={`text-base leading-relaxed mb-6 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
-                  A product team partnered with a fractional CPO to define metrics, ship an experimentation framework, and make data‑driven bets on new features.
-                </p>
-
-                <div className={`w-full h-1 rounded-full overflow-hidden ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
-                  <div className="h-full bg-pink-500 w-0 group-hover:w-full transition-all duration-700 ease-out delay-200"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* --- CARD 4: DATA & ML (Fintech) --- */}
-            <div className={`
-                group relative p-8 rounded-[32px] border overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl
-                ${isLight ? "bg-white border-gray-200 shadow-lg hover:border-teal-300" : "bg-[#111] border-[#222] shadow-lg hover:border-teal-500/40"}
-              `}>
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isLight ? "bg-[url('/grid-dark.svg')]" : "bg-[url('/grid-light.svg')]"}`} style={{ backgroundSize: '30px 30px' }}></div>
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-6">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-teal-500 ${isLight ? "bg-teal-50" : "bg-teal-900/20"}`}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                  </div>
-                  <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${isLight ? "bg-teal-50 text-teal-600 border-teal-100" : "bg-teal-900/10 text-teal-400 border-teal-500/20"}`}>
-                    Compliant
-                  </div>
-                </div>
-
-                <h3 className={`text-2xl font-bold mb-4 ${isLight ? "text-gray-900" : "text-white"}`}>
-                  Data & ML platform advisory for Fintech
-                </h3>
-                <p className={`text-base leading-relaxed mb-6 flex-grow ${isLight ? "text-gray-600" : "text-gray-400"}`}>
-                  A Fintech startup engaged a fractional AI leader to shape its data platform, MLOps practices, and guardrails around risk, compliance, and reliability.
-                </p>
-
-                <div className={`w-full h-1 rounded-full overflow-hidden ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
-                  <div className="h-full bg-teal-500 w-0 group-hover:w-full transition-all duration-700 ease-out delay-300"></div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+        </section>
 
       {/* <section>
         <Testimonials

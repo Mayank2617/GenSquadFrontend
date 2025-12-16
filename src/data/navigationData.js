@@ -22,9 +22,9 @@ export const navigationData = [
         iconPath: icons.hiring,
         items: [
           { name: "Team Augmentation", href: "/use-cases/hiring-need/team-augmentation" },
-          { name: "Fully - Managed Teams", href: "/use-cases/hiring-need/fully-managed-teams" },
+          { name: "Fully Managed Teams", href: "/use-cases/hiring-need/fully-managed-teams" },
           { name: "Build a Team", href: "/use-cases/hiring-need/build-a-team" },
-          { name: "Fractal CTO/CPO", href: "/use-cases/hiring-need/fractal-cto-cpo" }
+          { name: "Fractional CTO/CPO", href: "/use-cases/hiring-need/fractional-leaders" }
         ]
       },
       {
@@ -108,7 +108,7 @@ export const navigationData = [
     path: "/our-services",
     subsections: [
       {
-        title: "", 
+        title: "",
         iconPath: icons.stack,
         items: [
           { name: "Hire AI Engineers", href: "/our-services/hire-ai-engineers" },
@@ -162,23 +162,23 @@ export const navigationData = [
         description: "GenSquad is an AI-native talent marketplace that connects ambitious teams with world-class AI engineers and product leaders. Build faster with curated squads, lower hiring risk, and engagements tailored to your roadmap.",
         iconPath: icons.company,
         items: [
-          { 
-            name: "About us", 
+          {
+            name: "About us",
             href: "/about-us",
             description: "GenSquad brings together battle‑tested AI engineers, data experts, and product leaders who have shipped real-world models and products. Matching the right people to the right problems is at the heart of what we do.",
-            icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+            icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           },
-          { 
-            name: "Why us?", 
+          {
+            name: "Why us?",
             href: "/why-us",
             description: "Our network spans multiple time zones and industries, with deep experience across LLMs, ML, data platforms, and cloud. A matching engine plus human curation ensures every squad fits your stack, stage, and culture.",
-            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+            icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           },
-          { 
-            name: "Fractional CTO | CPO", 
+          {
+            name: "Fractional CTO | CPO",
             href: "/fractal-cto-cpo",
             description: "Tap into fractional AI Heads, solution architects, and product leaders who can design your AI strategy, de‑risk implementation, and guide your teams from prototype to production, without the overhead of a full-time hire.",
-            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" 
+            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           }
         ]
       }
@@ -202,14 +202,14 @@ export const navigationData = [
           //   description: "Get instant salary estimates for AI/ML roles across different regions and seniority levels to plan your budget.",
           //   icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           // },
-          { 
-            name: "How we vet", 
+          {
+            name: "How we vet",
             href: "/how-we-vet-developers",
             description: "Understand our 4-step vetting process including code challenges, communication checks, and technical deep dives.",
             icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           },
-          { 
-            name: "FAQ for Companies", 
+          {
+            name: "FAQ for Companies",
             href: "/faq-for-companies",
             description: "Answers to common questions about contracts, IP rights, billing, and time-zone alignment.",
             icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"

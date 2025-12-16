@@ -69,7 +69,6 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
     const fetchRealData = async () => {
       // If props provided (Industry Page), use them immediately
       if (profiles && profiles.length > 0) {
-        // We need to ensure props match the UI structure (badges/skills)
         const normalizedProps = profiles.map((p, i) => normalizeProfile(p, i));
         setDisplayedExperts(normalizedProps);
         return;
@@ -94,18 +93,15 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
   }, [subSection, page, profiles]);
 
   // 4. HELPER: Normalize Data to Match Design
-  // This ensures both DB data and Props data look exactly like the dummy data
   const normalizeProfile = (data, index, isFromDB = false) => {
     return {
-      id: data._id || data.id || index, // Use DB _id or fallback
+      id: data._id || data.id || index, 
       name: data.fullName || data.name,
       role: data.title || data.role,
       image: data.profileImage || data.image || "/images/img_ellipse_1.png",
-      // Ensure skills is always an array of strings
       skills: Array.isArray(data.skills) ? data.skills : 
               (data.topSkills ? data.topSkills.map(s => s.name) : ["Python", "Cloud", "AI"]),
       description: data.about || data.description || "No description provided.",
-      // Force generate colorful badges if missing
       badges: data.badges || [
         { icon: "/images/fintech.svg", text: "Verified", bg: "#3b82f6" },
         { icon: "/images/iit.svg", text: "Senior", bg: "#10b981" }
@@ -121,8 +117,8 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
 
   // Background Logic
   const sectionClass = variant === "industry"
-    ? "bg-transparent"
-    : isLight ? "bg-white" : "bg-[#0a0a0a]";
+    ? "bg-transparent" // Transparent for Industry/Hiring Pages
+    : isLight ? "bg-white" : "bg-[#0a0a0a]"; // Solid for Home Page
 
   return (
     <section className={`w-full px-4 sm:px-6 lg:px-[30px] ${sectionClass}`}>
@@ -159,16 +155,20 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
             return (
               <div
                 key={expert.id}
-                className={`flex flex-col gap-4 rounded-[14px] p-[20px] shadow-md transition-all ${isLight
-                  ? "bg-white border border-[#e6e6e6]"
-                  : "bg-[#1b1b1b] shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
-                  }`}
+                // ✅ UPDATED: Added 'relative z-10' and explicit solid colors (bg-[#111]) to block grid lines
+                className={`
+                  flex flex-col gap-4 rounded-[14px] p-[20px] shadow-md transition-all relative z-10
+                  ${isLight
+                    ? "bg-white border border-[#e6e6e6]"
+                    : "bg-[#111] border border-[#222] shadow-[0_8px_30px_rgba(0,0,0,0.6)]" // Solid Dark Background
+                  }
+                `}
               >
                 {/* HEADER: Image + Name */}
                 <div className="flex flex-col sm:flex-row gap-[12px] items-start sm:items-center">
                   <img
                     src={expert.image}
-                    className="w-[64px] h-[64px] rounded-full"
+                    className="w-[64px] h-[64px] rounded-full object-cover"
                     alt={expert.name}
                   />
 
@@ -265,13 +265,12 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
                 {/* BUTTON */}
                 <div className="mt-auto pt-4">
                   <div className="p-[2px] rounded-[10px] bg-gradient-to-r from-[#8b5cf6] to-[#513590] inline-block w-full sm:w-auto">
-                    {/* Link logic to preserve design */}
                     <Link to={expert.id?.toString().length > 5 ? `/talent/${expert.id}` : "/talent"} className="w-full">
                       <button
                         className={`w-full sm:w-auto px-8 py-3 rounded-[8px] text-[16px] flex items-center justify-center gap-2
                           ${isLight
                             ? "bg-white text-black"
-                            : "bg-[#1b1b1b] text-white"
+                            : "bg-[#1b1b1b] text-white" // Button bg matches card slightly or contrasts
                           }`}
                       >
                         View Profile

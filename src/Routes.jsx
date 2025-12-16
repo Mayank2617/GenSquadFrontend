@@ -21,6 +21,7 @@ const VendorDashboard = lazy(() => import('./pages/VendorDashboard'));
 const AllTalent = lazy(() => import('./features/vendor/talent/AllTalent'));
 const TalentListPage = lazy(() => import('./features/vendor/talent/TalentListPage'));
 const Login = lazy(() => import('./pages/Login'));
+const HiringNeedTemplate = lazy(() => import('./pages/HiringNeedTemplate'));
 
 
 const AppRoutes = () => {
@@ -41,7 +42,8 @@ const AppRoutes = () => {
               <Route path="/how-we-vet-developers" element={<HowWeVet />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
-
+              {/* ✅ NEW: Generic Hiring Need Template (Dynamic) */}
+              <Route path="/use-cases/hiring-need/:slug" element={<HiringNeedTemplate />} />
               {/* 2. Add Dynamic Profile Route */}
               {/* The ':id' allows us to load different data for different people */}
               <Route path="/talent/:id" element={<TalentProfile />} />
