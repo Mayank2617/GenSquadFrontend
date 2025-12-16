@@ -16,13 +16,15 @@ const Landing = lazy(() => import('./pages/Landing'));
 const IndustryTemplate = lazy(() => import('./pages/IndustryTemplate'));
 const SolutionTemplate = lazy(() => import('./pages/SolutionTemplate'));
 const TalentListing = lazy(() => import('./pages/TalentListing'));
-const TalentProfile = lazy(() => import('./pages/TalentProfile')); // 1. Import Profile Page
+const TalentProfile = lazy(() => import('./pages/TalentProfile'));
 const VendorDashboard = lazy(() => import('./pages/VendorDashboard'));
 const AllTalent = lazy(() => import('./features/vendor/talent/AllTalent'));
 const TalentListPage = lazy(() => import('./features/vendor/talent/TalentListPage'));
 const Login = lazy(() => import('./pages/Login'));
 const HiringNeedTemplate = lazy(() => import('./pages/HiringNeedTemplate'));
 
+// ✅ 1. NEW IMPORT: Service Page Template
+const ServicePageTemplate = lazy(() => import('./pages/ServicePageTemplate'));
 
 const AppRoutes = () => {
   return (
@@ -42,20 +44,26 @@ const AppRoutes = () => {
               <Route path="/how-we-vet-developers" element={<HowWeVet />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
-              {/* ✅ NEW: Generic Hiring Need Template (Dynamic) */}
+              
+              {/* Dynamic Hiring Need Template */}
               <Route path="/use-cases/hiring-need/:slug" element={<HiringNeedTemplate />} />
-              {/* 2. Add Dynamic Profile Route */}
-              {/* The ':id' allows us to load different data for different people */}
+
+              {/* ✅ 2. NEW ROUTE: Dynamic Service Pages */}
+              {/* Handles /hire/hire-ai-engineers, etc. */}
+              <Route path="/hire/:slug" element={<ServicePageTemplate />} />
+
+              {/* Talent Profile Dynamic Route */}
               <Route path="/talent/:id" element={<TalentProfile />} />
+              
               <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
               <Route path="/why-us" element={<WhyUs />} />
-              {/* ✅ NEW: Add this Route for Solutions */}
+              
             </Route>
+
             {/* Login Route */}
             <Route path="/login" element={<Login />} />
 
             {/* 🔒 PROTECTED VENDOR ROUTES */}
-            {/* We wrap VendorLayout inside RequireAuth */}
             <Route element={<RequireAuth />}>
               <Route element={<VendorLayout />}>
                 <Route path="/vendor/dashboard" element={<VendorDashboard />} />
