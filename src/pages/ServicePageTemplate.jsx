@@ -56,7 +56,6 @@ const ServicePageTemplate = () => {
         <title>{content.hero.title} {content.hero.titleHighlight} | GenSquad</title>
       </Helmet>
 
-      <Navbar />
 
       <main className="flex-grow z-10">
         
