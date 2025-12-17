@@ -3,9 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
 
-// Layout
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+
 
 // Features
 import ServiceHero from '../features/services/ServiceHero';
