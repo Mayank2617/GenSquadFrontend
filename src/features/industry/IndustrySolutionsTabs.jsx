@@ -9,6 +9,13 @@ const IndustrySolutionsTabs = ({ data }) => {
   const tabsRef = useRef([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
+  // ✅ HARDCODED LABELS AS REQUESTED
+  const customLabels = [
+    "Hire in 48hrs", 
+    "98% match accuracy", 
+    "Top 7% Dev Shops"
+  ];
+
   // 2. EFFECT: MOVE THE INDICATOR WHENEVER ACTIVE TAB CHANGES
   useEffect(() => {
     const currentTab = tabsRef.current[activeTab];
@@ -69,7 +76,8 @@ const IndustrySolutionsTabs = ({ data }) => {
                 }} 
               />
 
-              {data.tabs.map((tab, index) => (
+              {/* ✅ MAPPING OVER CUSTOM LABELS ONLY */}
+              {customLabels.map((label, index) => (
                  <button
                    key={index}
                    ref={(el) => (tabsRef.current[index] = el)}
@@ -82,7 +90,7 @@ const IndustrySolutionsTabs = ({ data }) => {
                      }
                    `}
                  >
-                   {tab.title}
+                   {label}
                  </button>
               ))}
             </div>
@@ -97,12 +105,15 @@ const IndustrySolutionsTabs = ({ data }) => {
                  ${isLight ? "bg-purple-100" : "bg-purple-900/20"}
                `}></div>
 
-               <img 
-                 key={activeTab} // Key change triggers animation
-                 src={data.tabs[activeTab].image} 
-                 alt={data.tabs[activeTab].title}
-                 className="w-full h-auto object-cover aspect-video"
-               />
+               {/* Ensure we have data for the active tab index, otherwise fallback safely */}
+               {data.tabs[activeTab] && (
+                 <img 
+                   key={activeTab} // Key change triggers animation
+                   src={data.tabs[activeTab].image} 
+                   alt={customLabels[activeTab]} 
+                   className="w-full h-auto object-cover aspect-video"
+                 />
+               )}
                
                {/* Overlay gradient for aesthetics */}
                <div className={`absolute inset-0 pointer-events-none ${isLight ? "bg-gradient-to-t from-white/10" : "bg-gradient-to-t from-black/20"} to-transparent`}></div>

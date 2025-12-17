@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+import { Link } from "react-router-dom";
 
 const SolutionProcess = ({ data }) => {
   const { isLight } = useTheme();
@@ -11,20 +12,20 @@ const SolutionProcess = ({ data }) => {
   return (
     // Outer Wrapper
     <section className="w-full px-4 sm:px-6 lg:px-[40px] py-20">
-      
+
       {/* 🃏 THE MAIN CARD CONTAINER */}
-      <div 
+      <div
         className={`
           w-full max-w-[1440px] mx-auto 
           rounded-[40px] px-6 py-16 sm:px-12 sm:py-20
           border shadow-2xl transition-all duration-300
-          ${isLight 
-            ? "bg-white border-white/50 shadow-purple-500/5" 
+          ${isLight
+            ? "bg-white border-white/50 shadow-purple-500/5"
             : "bg-[#121212] border-white/10 shadow-black/50"
           }
         `}
       >
-        
+
         {/* 1. CENTERED HEADER */}
         <div className="max-w-[900px] mx-auto text-center mb-20 sm:mb-24">
           <h2 className={`
@@ -44,11 +45,11 @@ const SolutionProcess = ({ data }) => {
         {/* 2. STEPS LOOP */}
         <div className="flex flex-col gap-20 sm:gap-32">
           {data.steps.map((step, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20 group"
             >
-              
+
               {/* IMAGE COLUMN (Left) */}
               <div className="w-full lg:w-1/2">
                 <div className={`
@@ -56,8 +57,8 @@ const SolutionProcess = ({ data }) => {
                   border transition-all duration-500 group-hover:scale-[1.02]
                   ${isLight ? "border-gray-100" : "border-white/10"}
                 `}>
-                  <img 
-                    src={step.image || "/images/img_rectangle_143.png"} 
+                  <img
+                    src={step.image || "/images/img_rectangle_143.png"}
                     alt={step.title}
                     className="w-full h-full object-cover"
                   />
@@ -68,7 +69,7 @@ const SolutionProcess = ({ data }) => {
 
               {/* TEXT CONTENT COLUMN (Right) */}
               <div className="w-full lg:w-1/2 flex flex-col items-start">
-                
+
                 {/* Step Number (Dynamic based on index) */}
                 <span className={`
                   text-6xl sm:text-8xl font-space font-bold opacity-20 mb-4 select-none
@@ -94,16 +95,18 @@ const SolutionProcess = ({ data }) => {
                 </p>
 
                 {/* Button */}
-                <Button
-                  text="Get Started"
-                  text_font_size="16"
-                  text_font_weight="600"
-                  text_color="#ffffff"
-                  fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)"
-                  padding="12px 32px"
-                  border_border_radius="8px"
-                  className="shadow-md shadow-purple-500/20"
-                />
+                <Link to="/talent">
+                  <Button
+                    text="Get Started"
+                    text_font_size="16"
+                    text_font_weight="600"
+                    text_color="#ffffff"
+                    fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)"
+                    padding="12px 32px"
+                    border_border_radius="8px"
+                    className="shadow-md shadow-purple-500/20"
+                  />
+                </Link>
               </div>
 
             </div>

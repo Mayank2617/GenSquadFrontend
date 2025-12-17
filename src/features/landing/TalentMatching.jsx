@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+import { Link } from "react-router-dom";
 
 const TalentMatching = () => {
   const { isLight } = useTheme();
@@ -12,7 +13,7 @@ const TalentMatching = () => {
       tab: "Share Your Vision",
       title: "Share Your Vision",
       description: "Tell us the roles you need, your AI roadmap, and the stack you run on. Our platform filters a global talent pool to surface a tight shortlist of engineers with verified experience in similar products, data setups, and industries.",
-      image: "/images/img_rectangle_143.png" 
+      image: "/images/img_rectangle_143.png"
     },
     {
       tab: "Interview Top Talent",
@@ -54,7 +55,7 @@ const TalentMatching = () => {
               text-center w-full 
               ${isLight ? "text-[#6b6b6b]" : "text-[#bababa]"}`}
             >
-              Skip the search. Hire top-tier tech experts in just 3 
+              Skip the search. Hire top-tier tech experts in just 3
               simple steps, from matching to onboarding - powered by our AI engine.
             </p>
 
@@ -122,27 +123,29 @@ const TalentMatching = () => {
               >
                 {stepContent[activeStep].description}
               </p>
+              <Link to="/talent">
 
-              <Button
-                text="Get Started"
-                text_font_size="18"
-                text_font_family="Be Vietnam Pro"
-                text_font_weight="500"
-                text_line_height="23px"
-                text_color="#ffffff"
-                border_border="1px solid transparent"
-                border_border_radius="8px"
-                border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
-                fill_background_color={isLight ? "#6b46c1" : "#161616"}
-                padding="10px 40px 10px 26px"
-                className="inline-flex items-center gap-2 w-fit"
-              />
+                <Button
+                  text="Get Started"
+                  text_font_size="18"
+                  text_font_family="Be Vietnam Pro"
+                  text_font_weight="500"
+                  text_line_height="23px"
+                  text_color="#ffffff"
+                  border_border="1px solid transparent"
+                  border_border_radius="8px"
+                  border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
+                  fill_background_color={isLight ? "#6b46c1" : "#161616"}
+                  padding="10px 40px 10px 26px"
+                  className="inline-flex items-center gap-2 w-fit"
+                />
+              </Link>
             </div>
           </div>
 
         </div>
       </div>
-      
+
       {/* Simple fade animation for switching steps */}
       <style>{`
         @keyframes fadeIn {

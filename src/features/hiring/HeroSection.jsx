@@ -28,9 +28,9 @@ const HeroSection = ({ content, isLight, slug }) => {
                         <Link to="/talent">
                             <Button text={content.primaryCta} text_font_size="18" text_font_weight="600" text_color="#ffffff" fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)" padding="16px 48px" border_border_radius="12px" className="shadow-xl shadow-purple-500/30 hover:scale-105 transition-transform w-full sm:w-auto" />
                         </Link>
-                        {content.secondaryCta && (
+                        {/* {content.secondaryCta && (
                             <Button text={content.secondaryCta} onClick={() => window.location.href = '/talent'} text_font_size="18" text_font_weight="600" text_color={isLight ? "#333" : "#fff"} fill_background="transparent" border_border={isLight ? "1px solid #e5e5e5" : "1px solid rgba(255,255,255,0.2)"} padding="16px 48px" border_border_radius="12px" className={`hover:scale-105 transition-transform w-full sm:w-auto ${isLight ? "hover:bg-gray-50" : "hover:bg-white/5"}`} />
-                        )}
+                        )} */}
                     </div>
                 </div>
 

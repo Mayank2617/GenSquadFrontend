@@ -3,36 +3,37 @@ import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 // Ensure this path is correct based on your project structure
 import SplashCursor from "../../components/SplashCursor";
+import { Link } from "react-router-dom";
 
 const IndustryHero = ({ title, subtitle, ctaText }) => {
   const { isLight } = useTheme();
 
   // 🎨 BACKGROUND CONFIGURATION
   const backgroundStyle = {
-    background: isLight 
+    background: isLight
       ? "radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.35) 0%, transparent 45%), radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.35) 0%, transparent 45%), linear-gradient(to bottom, #f3f0ff, #f0f9ff)"
       : "radial-gradient(50% 50% at 50% 50%, rgba(76, 29, 149, 0.35) 0%, rgba(10, 10, 10, 1) 100%), #0a0a0a",
   };
 
   return (
-    <section 
+    <section
       className="w-full relative flex items-center justify-center min-h-screen pt-[80px] overflow-hidden"
       style={backgroundStyle}
     >
-      
+
       <div className="absolute inset-0 z-0">
         <SplashCursor />
       </div>
 
       {/* Grid Pattern Overlay */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: isLight 
+          backgroundImage: isLight
             ? `linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px)`
             : `linear-gradient(#888 1px, transparent 1px), linear-gradient(90deg, #888 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
-          opacity: isLight ? 1 : 0.03 
+          opacity: isLight ? 1 : 0.03
         }}
       />
 
@@ -43,8 +44,8 @@ const IndustryHero = ({ title, subtitle, ctaText }) => {
           {/* 1. Pill Label */}
           <div className={`
             px-4 py-1.5 rounded-full border text-sm font-medium pointer-events-auto
-            ${isLight 
-              ? "bg-white/60 border-purple-300 text-purple-800 backdrop-blur-sm" 
+            ${isLight
+              ? "bg-white/60 border-purple-300 text-purple-800 backdrop-blur-sm"
               : "bg-white/5 border-white/10 text-purple-300"
             }
           `}>
@@ -72,8 +73,9 @@ const IndustryHero = ({ title, subtitle, ctaText }) => {
 
           {/* 4. Single Button with Dynamic Text */}
           <div className="mt-8 flex justify-center w-full pointer-events-auto">
+            <Link to='/talent'>
             <Button
-              text={ctaText || "Get Started"}
+              text={"Get Started"}
               text_font_size="18"
               text_font_weight="500"
               text_color="#ffffff"
@@ -82,6 +84,7 @@ const IndustryHero = ({ title, subtitle, ctaText }) => {
               border_border_radius="8px"
               className="shadow-lg shadow-purple-500/20 hover:scale-105 transition-transform duration-200"
             />
+            </Link>
           </div>
 
         </div>

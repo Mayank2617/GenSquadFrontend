@@ -10,17 +10,18 @@ const Footer = () => {
     {
       title: "About Us",
       links: [
-        { name: "Our principles", href: "/company/our-principles" },
-        { name: "Our team", href: "/company/our-team" },
-        { name: "Our network", href: "/company/our-network" }
+        { name: "About Us", href: "/about-us" },
+        { name: "Why us?", href: "/why-us" },
+        { name: "Fractional CTO | CPO", href: "/fractal-cto-cpo" }
       ]
     },
     {
       title: "Hiring Need",
       links: [
-        { name: "Fully-managed teams", href: "/use-cases/hiring-need/fully-managed-teams" },
-        { name: "Team augmentation", href: "/use-cases/hiring-need/team-augmentation" },
-        { name: "Product discovery", href: "/use-cases/hiring-need/product-discovery" },
+        { name: "Team Augmentation", href: "/use-cases/hiring-need/team-augmentation" },
+        { name: "Fully Managed Teams", href: "/use-cases/hiring-need/fully-managed-teams" },
+        { name: "Build a Team", href: "/use-cases/hiring-need/build-a-team" },
+        { name: "Fractional CTO/CPO", href: "/use-cases/hiring-need/fractional-leaders" }
       ]
     },
     {
@@ -28,47 +29,47 @@ const Footer = () => {
       links: [
         { name: "AdTech/MarTech", href: "/use-cases/industry/adtech-martech" },
         { name: "E-commerce", href: "/use-cases/industry/e-commerce" },
-        { name: "EdTech", href: "/use-cases/industry/edtech" },
+        { name: "Ed - Tech", href: "/use-cases/industry/ed-tech" },
         { name: "Entertainment", href: "/use-cases/industry/entertainment" },
         { name: "Fintech", href: "/use-cases/industry/fintech" },
-        { name: "Healthtech", href: "/use-cases/industry/healthtech" },
-        { name: "Proptech", href: "/use-cases/industry/proptech" },
-        { name: "Retailtech", href: "/use-cases/industry/retailtech" },
+        { name: "Gaming", href: "/use-cases/industry/gaming" },
+        { name: "Health Tech", href: "/use-cases/industry/health-tech" },
         { name: "Marketplace", href: "/use-cases/industry/marketplace" },
-        { name: "Enterprise", href: "/use-cases/industry/enterprise" },
-        { name: "Web3", href: "/use-cases/industry/web3" }
+        { name: "Proptech", href: "/use-cases/industry/proptech" },
+        { name: "Retail Tech", href: "/use-cases/industry/retail-tech" },
+        { name: "SaaS", href: "/use-cases/industry/saas" },
+        { name: "Transportation", href: "/use-cases/industry/transportation" }
       ]
     },
     {
       title: "Explore Solutions",
       links: [
-        { name: "AI & ML Solutions", href: "/use-cases/solutions/ai-ml-solutions" },
-        { name: "Backend Development", href: "/use-cases/solutions/backend-development" },
-        { name: "Front End Dev", href: "/use-cases/solutions/front-end-development" },
-        { name: "Full Stack Dev", href: "/use-cases/solutions/full-stack-development" },
-        { name: "Custom Software", href: "/use-cases/solutions/custom-software-development" },
-        { name: "Mobile App Dev", href: "/use-cases/solutions/mobile-app-development" },
-        { name: "MVP Development", href: "/use-cases/solutions/mvp-development" },
-        { name: "Website Design", href: "/use-cases/solutions/website-design" },
-        { name: "Staff Augmentation", href: "/use-cases/solutions/staff-augmentation" },
-        { name: "Managed Services", href: "/use-cases/solutions/managed-service-providers" }
+        { name: "Generative AI", href: "/use-cases/solutions/gen-ai" },
+        { name: "LLM & RAG Applications", href: "/use-cases/solutions/llm-rag-applications" },
+        { name: "AI & ML Engineering", href: "/use-cases/solutions/ai-ml-engineering" },
+        { name: "Data Platforms & Eng.", href: "/use-cases/solutions/data-platforms-engineering" },
+        { name: "MLOps & Infrastructure", href: "/use-cases/solutions/mlops-infrastructure" },
+        { name: "Cloud & DevOps", href: "/use-cases/solutions/cloud-devops-engineering" },
+        { name: "Backend & API Platforms", href: "/use-cases/solutions/backend-api-platforms" },
+        { name: "Automation & AI Agents", href: "/use-cases/solutions/automation-ai-agents" },
+        { name: "Vector DB & Retrieval", href: "/use-cases/solutions/vector-database-retrieval" },
+        { name: "Integration Engineering", href: "/use-cases/solutions/integration-engineering" },
+        { name: "AI Quality & Testing", href: "/use-cases/solutions/ai-quality-testing" },
+        { name: "Data Labeling & Annotation", href: "/use-cases/solutions/data-labeling-services" }
       ]
     },
     {
       title: "Explore Technologies",
       links: [
-        { name: "Android Developers", href: "/use-cases/techstack/android-developers" },
-        { name: "AWS Developers", href: "/use-cases/techstack/aws-developers" },
-        { name: "DevOps Developers", href: "/use-cases/techstack/devops-developers" },
-        { name: ".NET Developers", href: "/use-cases/techstack/net-developers" },
-        { name: "React Developers", href: "/use-cases/techstack/react-developers" },
-        { name: "iOS Developers", href: "/use-cases/techstack/ios-developers" },
-        { name: "PHP Developers", href: "/use-cases/techstack/php-developers" },
-        { name: "Front End Developers", href: "/use-cases/techstack/front-end-developers" },
-        { name: "Python Developers", href: "/use-cases/techstack/python-developers" },
-        { name: "Ruby Developers", href: "/use-cases/techstack/ruby-developers" },
-        { name: "Flutter Developers", href: "/use-cases/techstack/flutter-developers" },
-        { name: "Blockchain Devs", href: "/use-cases/techstack/blockchain-developers" }
+        { name: "Core AI & Machine Learning", href: "/use-cases/technology/core-ai-machine-learning" },
+        { name: "LLMs & Natural Language", href: "/use-cases/technology/llms-natural-language" },
+        { name: "Vision, Voice & Chatbots", href: "/use-cases/technology/vision-voice-chatbots" },
+        { name: "Data Science & Analytics", href: "/use-cases/technology/data-science-analytics" },
+        { name: "Data Engineering & Pipelines", href: "/use-cases/technology/data-engineering-pipelines" },
+        { name: "MLOps, DevOps & Cloud", href: "/use-cases/technology/mlops-devops-cloud" },
+        { name: "Backend & API Engineering", href: "/use-cases/technology/backend-api-engineering" },
+        { name: "Automation Platforms", href: "/use-cases/technology/automation-platforms" },
+        { name: "Vector Databases & Retrieval", href: "/use-cases/technology/vector-databases-retrieval" }
       ]
     }, {
       title: "Platform",
@@ -117,12 +118,15 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h4 className="font-space font-bold text-xl">Ready to scale?</h4>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-purple-500/30 hover:scale-105">
-                Hire Talent
-              </button>
-              <button className={`px-8 py-3 rounded-lg font-medium border transition-all hover:bg-white/5 ${isLight ? "border-gray-300 hover:bg-gray-50" : "border-white/20"}`}>
-                Apply as Talent
-              </button>
+
+              <Link to='/talent'>
+                <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-purple-500/30 hover:scale-105">
+                  Hire Talent
+                </button>
+              </Link>
+
+
+
             </div>
           </div>
         </div>

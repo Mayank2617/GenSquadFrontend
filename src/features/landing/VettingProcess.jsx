@@ -28,11 +28,12 @@ const VettingProcess = ({ variant = "home", title, subtitle, steps }) => {
   }, []);
 
   // 📋 DEFAULT DATA (Home Page / Fallback)
+  // ✅ FIX: Adjusted 'width' values so 12% appears visibly larger than 1% while keeping text correct.
   const defaultSteps = [
-    { title: "Pass Pre-Qualification", value: "68%", width: "68%" },
-    { title: "Pass Skill Assessment", value: "36%", width: "36%" },
-    { title: "Pass Technical Interview", value: "12%", width: "12%" },
-    { title: "Final Reference Check & Onboarding", value: "Top 1%", width: "12%" }, 
+    { title: "Pass Pre-Qualification", value: "68%", width: "75%" },
+    { title: "Pass Skill Assessment", value: "36%", width: "45%" },
+    { title: "Pass Technical Interview", value: "12%", width: "22%" }, // Increased width visually
+    { title: "Final Reference Check & Onboarding", value: "Top 1%", width: "10%" }, // Smallest width
   ];
 
   // Use props if provided, else default

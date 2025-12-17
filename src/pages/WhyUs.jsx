@@ -94,18 +94,7 @@ const WhyUs = () => {
                                         className="shadow-xl shadow-purple-500/30 hover:scale-105 transition-transform w-full sm:w-auto"
                                     />
                                 </Link>
-                                <Button
-                                    text="Talk to a specialist"
-                                    onClick={() => window.location.href = '/contact'}
-                                    text_font_size="18"
-                                    text_font_weight="600"
-                                    text_color={isLight ? "#333" : "#fff"}
-                                    fill_background="transparent"
-                                    border_border={isLight ? "1px solid #e5e5e5" : "1px solid rgba(255,255,255,0.2)"}
-                                    padding="16px 48px"
-                                    border_border_radius="12px"
-                                    className={`hover:scale-105 transition-transform w-full sm:w-auto ${isLight ? "hover:bg-gray-50" : "hover:bg-white/5"}`}
-                                />
+                               
                             </div>
                         </div>
 
@@ -535,27 +524,6 @@ const WhyUs = () => {
                                     <div className={`absolute bottom-0 left-0 w-full h-1 bg-current opacity-0 group-hover:opacity-100 transition-all duration-500 ${item.iconColor}`}></div>
                                 </div>
                             ))}
-                        </div>
-
-                        {/* 3. CTA - FIXED VISIBILITY */}
-                        <div className="text-center">
-                            <Link to="/talent">
-                                <Button
-                                    text="Explore all industries"
-                                    text_font_size="18"
-                                    text_font_weight="600"
-                                    // High Contrast Colors for both modes
-                                    text_color={isLight ? "#000" : "#fff"}
-                                    fill_background="transparent"
-                                    border_border={isLight ? "2px solid #000" : "2px solid #fff"}
-                                    padding="16px 48px"
-                                    border_border_radius="12px"
-                                    className={`
-                    hover:scale-105 transition-transform shadow-lg
-                    ${isLight ? "hover:bg-gray-50" : "hover:bg-white/10"}
-                  `}
-                                />
-                            </Link>
                         </div>
 
                     </div>

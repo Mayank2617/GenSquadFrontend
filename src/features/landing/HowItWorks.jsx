@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+import { Link } from "react-router-dom";
 
 const HowItWorks = () => {
   const { isLight } = useTheme();
@@ -130,25 +131,28 @@ const HowItWorks = () => {
               {stepContent[activeStep].description}
             </p>
 
-            <Button
-              text="Get Started"
-              text_font_size="18"
-              text_font_family="Be Vietnam Pro"
-              text_font_weight="500"
-              text_line_height="23px"
-              text_color="#ffffff"
-              border_border="1px solid transparent"
-              border_border_radius="8px"
-              border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
-              fill_background_color={isLight ? "#6b46c1" : "#161616"}
-              padding="10px 40px 10px 26px"
-              className="inline-flex items-center gap-2 w-fit"
-            />
+            <Link to='/talent'>
+              <Button
+                text="Get Started"
+                text_font_size="18"
+                text_font_family="Be Vietnam Pro"
+                text_font_weight="500"
+                text_line_height="23px"
+                text_color="#ffffff"
+                border_border="1px solid transparent"
+                border_border_radius="8px"
+                border_border_image="linear-gradient(90deg,#8b5cf6 0%, #513590 100%)"
+                fill_background_color={isLight ? "#6b46c1" : "#161616"}
+                padding="10px 40px 10px 26px"
+                className="inline-flex items-center gap-2 w-fit"
+              />
+            </Link>
+
           </div>
         </div>
 
       </div>
-      
+
       {/* Animation Styles */}
       <style>{`
         @keyframes fadeIn {

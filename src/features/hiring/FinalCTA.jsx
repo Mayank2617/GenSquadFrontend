@@ -39,11 +39,11 @@ const FinalCTA = ({ content, isLight }) => {
               <Link to="/talent">
                 <Button text={content.primaryCta} text_font_size="18" text_font_weight="600" text_color="#ffffff" fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)" padding="18px 48px" border_border_radius="14px" className="shadow-xl shadow-purple-500/30 hover:scale-105 transition-all duration-300" />
               </Link>
-              {content.secondaryCta && (
+              {/* {content.secondaryCta && (
                 <Link to="/talent">
                   <Button text={content.secondaryCta} text_font_size="18" text_font_weight="600" text_color={isLight ? "#333" : "#fff"} fill_background="transparent" border_border={isLight ? "1px solid #e5e5e5" : "1px solid rgba(255,255,255,0.2)"} padding="18px 48px" border_border_radius="14px" className={`backdrop-blur-md hover:scale-105 transition-all duration-300 ${isLight ? "hover:bg-gray-50" : "hover:bg-white/5"}`} />
                 </Link>
-              )}
+              )} */}
             </div>
           </div>
         </div>

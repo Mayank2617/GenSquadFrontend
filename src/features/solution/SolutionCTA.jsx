@@ -42,29 +42,19 @@ const SolutionCTA = ({ data }) => {
               ${isLight ? "bg-purple-300" : "bg-purple-900"}
             `}></div>
 
-            <Button
-              text={buttonText}
-              text_font_size="18"
-              text_font_weight="600"
-              text_color="#ffffff"
-              fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)"
-              padding="16px 48px"
-              border_border_radius="12px"
-              className="shadow-xl shadow-purple-500/30 hover:scale-105 transition-transform duration-200 w-full sm:w-auto"
-            />
 
             <Link to="/talent">
-              <Button
-                text="Explore Talent"
-                text_font_size="18"
-                text_font_weight="600"
-                text_color={isLight ? "#111" : "#fff"}
-                fill_background="transparent"
-                border_border={isLight ? "1px solid #e5e5e5" : "1px solid rgba(255,255,255,0.15)"}
-                padding="16px 48px"
-                border_border_radius="12px"
-                className="hover:bg-white/5 backdrop-blur-sm transition-colors w-full sm:w-auto"
-              />
+                <Button
+                  text={buttonText}
+                  text_font_size="18"
+                  text_font_weight="600"
+                  text_color="#ffffff"
+                  fill_background="linear-gradient(90deg, #8b5cf6 0%, #513590 100%)"
+                  padding="16px 48px"
+                  border_border_radius="12px"
+                  className="shadow-xl shadow-purple-500/30 hover:scale-105 transition-transform duration-200 w-full sm:w-auto"
+                />
+
             </Link>
           </div>
 
