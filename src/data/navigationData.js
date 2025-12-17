@@ -83,20 +83,20 @@ export const navigationData = [
         title: "Techstack",
         iconPath: icons.stack,
         items: [
-          { name: ".Net", href: "/use-cases/techstack/.net" },
-          { name: "Angular", href: "/use-cases/techstack/angular" },
-          { name: "AWS", href: "/use-cases/techstack/aws" },
-          { name: "Flutter", href: "/use-cases/techstack/flutter" },
-          { name: "Golang", href: "/use-cases/techstack/golang" },
-          { name: "Javascript", href: "/use-cases/techstack/javascript" },
-          { name: "Kotlin", href: "/use-cases/techstack/kotlin" },
-          { name: "NodeJS", href: "/use-cases/techstack/nodejs" },
-          { name: "PHP", href: "/use-cases/techstack/php" },
+          { name: "OpenAI API", href: "/use-cases/techstack/openai-api" },
+          { name: "Hugging Face", href: "/use-cases/techstack/hugging-face" },
+          { name: "Langchain", href: "/use-cases/techstack/langchain" },
           { name: "Python", href: "/use-cases/techstack/python" },
-          { name: "React Native", href: "/use-cases/techstack/react-native" },
-          { name: "React JS", href: "/use-cases/techstack/react-js" },
-          { name: "Rubi", href: "/use-cases/techstack/rubi" },
-          { name: "Swift", href: "/use-cases/techstack/swift" }
+          { name: "NodeJS", href: "/use-cases/techstack/nodejs" },
+          { name: "GoLang", href: "/use-cases/techstack/golang" },
+          { name: "React", href: "/use-cases/techstack/react" },
+          { name: "Next.js", href: "/use-cases/techstack/nextjs" },
+          { name: "Django", href: "/use-cases/techstack/django" },
+          { name: "PostgreSQL", href: "/use-cases/techstack/postgresql" },
+          { name: "MongoDB", href: "/use-cases/techstack/mongodb" },
+          { name: "Amazon Web Services", href: "/use-cases/techstack/aws" },
+          { name: "Google Cloud Platform", href: "/use-cases/techstack/gcp" },
+          { name: "Kubernetes", href: "/use-cases/techstack/kubernetes" }
         ]
       }
     ]

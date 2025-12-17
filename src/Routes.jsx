@@ -5,7 +5,9 @@ import MainLayout from './layouts/MainLayout';
 import { ThemeProvider } from './hooks/useTheme';
 import VendorLayout from "./layouts/VendorLayout";
 
+
 // Lazy load pages
+const TechStackTemplate = lazy(() => import('./pages/TechStackTemplate'));
 const WhyUs = lazy(() => import('./pages/WhyUs'));
 const FractionalCTO = lazy(() => import('./pages/FractionalCTO'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
@@ -45,7 +47,7 @@ const AppRoutes = () => {
               <Route path="/how-we-vet-developers" element={<HowWeVet />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
-              
+
               {/* Dynamic Hiring Need Template */}
               <Route path="/use-cases/hiring-need/:slug" element={<HiringNeedTemplate />} />
 
@@ -53,12 +55,13 @@ const AppRoutes = () => {
               {/* Handles /hire/hire-ai-engineers, etc. */}
               <Route path="/hire/:slug" element={<ServicePageTemplate />} />
               <Route path="/use-cases/technology/:slug" element={<TechnologyTemplate />} />
+              <Route path="/use-cases/techstack/:slug" element={<TechStackTemplate />} />
               {/* Talent Profile Dynamic Route */}
               <Route path="/talent/:id" element={<TalentProfile />} />
-              
+
               <Route path="/n8n-workflows" element={<WorkflowLibrary />} />
               <Route path="/why-us" element={<WhyUs />} />
-              
+
             </Route>
 
             {/* Login Route */}

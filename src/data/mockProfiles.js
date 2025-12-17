@@ -135,6 +135,40 @@ export const mockProfiles = [
   },
   {
     id: 108, name: "Tom H.", role: "Robotics Eng.", experience: "7 Yrs", skills: ["ROS", "C++"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
-  }
+  },
+  {
+    id: 201,
+    name: "James L.",
+    role: "OpenAI Developer",
+    experience: "5 Yrs",
+    skills: ["GPT-4", "LangChain", "Python"],
+    image: "/images/img_ellipse_1.png",
+    serviceSlugs: [],
+    technologySlugs: [],
+    // ✅ NEW FIELD
+    techStackSlugs: ["openai-api"],
+    status: "Available"
+  },
+  {
+    id: 202,
+    name: "Maria G.",
+    role: "Prompt Engineer",
+    experience: "4 Yrs",
+    skills: ["Prompt Tuning", "Evaluation", "NLP"],
+    image: "/images/img_ellipse_1.png",
+    techStackSlugs: ["openai-api"],
+    status: "Available"
+  },
+  {
+    id: 203, name: "Chen W.", role: "AI Integrator", experience: "6 Yrs", skills: ["Node.js", "OpenAI API", "Vector DB"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Booked"
+  },
+  {
+    id: 204, name: "Sarah K.", role: "Full Stack AI", experience: "7 Yrs", skills: ["React", "Python", "GPT-4"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Available"
+  },
+  // Add 4 more to test "View More" functionality
+  { id: 205, name: "Tom B.", role: "Backend Dev", experience: "5 Yrs", skills: ["Python", "FastAPI"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Available" },
+  { id: 206, name: "Lisa M.", role: "AI Architect", experience: "9 Yrs", skills: ["System Design", "Azure OpenAI"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Available" },
+  { id: 207, name: "Raj P.", role: "ML Engineer", experience: "6 Yrs", skills: ["Embeddings", "Pinecone"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Available" },
+  { id: 208, name: "Emily D.", role: "Product Manager", experience: "8 Yrs", skills: ["AI Product", "Agile"], image: "/images/img_ellipse_1.png", techStackSlugs: ["openai-api"], status: "Booked" }
 
 ];
