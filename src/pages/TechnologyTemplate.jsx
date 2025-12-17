@@ -3,9 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
 
-// Layout
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
 
 // Features
 import TechnologyHero from '../features/technology/TechnologyHero';
@@ -50,7 +47,6 @@ const TechnologyTemplate = () => {
                 <title>{content.hero.title} | GenSquad</title>
             </Helmet>
 
-            <Navbar />
 
             <main className="flex-grow z-10">
                 {/* 1. Hero */}
@@ -74,13 +70,12 @@ const TechnologyTemplate = () => {
                 <TechnologyVetting content={content.vetting} isLight={isLight} />
 
                 {/* 7. Testimonialss */}
-                <Testimonials variant="industry"/>
+                <Testimonials variant="industry" />
 
                 {/* 8. FAQ */}
                 <FAQSection faq={content.faq} isLight={isLight} />
             </main>
 
-            <Footer />
         </div>
     );
 };
