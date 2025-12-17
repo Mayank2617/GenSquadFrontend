@@ -1,9 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import hook
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 
 const ProfileSidebar = ({ profile }) => {
   const { isLight } = useTheme();
+  const navigate = useNavigate(); // ✅ Initialize hook
+
+  // ✅ Handler to redirect to Booking Calendar
+  const handleHireClick = () => {
+    navigate(`/book-call?talentName=${encodeURIComponent(profile.name || "")}`);
+  };
 
   return (
     <div className={`
@@ -46,16 +53,17 @@ const ProfileSidebar = ({ profile }) => {
         </div>
         <div className="text-center">
           <span className={`block text-lg font-bold ${isLight ? "text-gray-900" : "text-white"}`}>
-            {profile.availability}
+            {profile.availability || "Immediate"}
           </span>
           <span className={`text-xs ${isLight ? "text-gray-500" : "text-[#666]"}`}>Availability</span>
         </div>
       </div>
 
       {/* 3. Hire Button */}
-     <div className="mb-8">
+      <div className="mb-8">
         <Button
           text="Hire Now"
+          onClick={handleHireClick} // ✅ Attached Handler Here
           text_font_size="16"
           text_font_weight="600"
           text_color="#ffffff"
@@ -105,7 +113,7 @@ const ProfileSidebar = ({ profile }) => {
           Top Skills
         </h4>
         <div className="flex flex-wrap gap-2">
-          {profile.topSkills.map((skill, i) => (
+          {profile.topSkills && profile.topSkills.map((skill, i) => (
             <span
               key={i}
               className={`

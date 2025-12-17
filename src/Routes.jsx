@@ -7,6 +7,7 @@ import VendorLayout from "./layouts/VendorLayout";
 
 
 // Lazy load pages
+const BookCall = lazy(() => import('./pages/BookCall'));
 const TechStackTemplate = lazy(() => import('./pages/TechStackTemplate'));
 const WhyUs = lazy(() => import('./pages/WhyUs'));
 const FractionalCTO = lazy(() => import('./pages/FractionalCTO'));
@@ -47,6 +48,7 @@ const AppRoutes = () => {
               <Route path="/how-we-vet-developers" element={<HowWeVet />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
+              <Route path="/book-call" element={<BookCall />} />
 
               {/* Dynamic Hiring Need Template */}
               <Route path="/use-cases/hiring-need/:slug" element={<HiringNeedTemplate />} />

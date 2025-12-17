@@ -1,89 +1,74 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom"; // 1. Import Link
+import React from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+import { Link } from "react-router-dom";
+
+// 📋 SEPARATE IMAGE GROUPS
+// Column 1: Images 1, 2, 3
+const imagesGroup1 = [
+  "/images/ListImage1.png",
+  "/images/ListImage2.png",
+  "/images/ListImage3.png",
+];
+
+// Column 2: Images 4, 5, 6
+const imagesGroup2 = [
+  "/images/ListImage4.png",
+  "/images/ListImage5.png",
+  "/images/ListImage6.png",
+];
+
+// Duplicate each group to create the seamless infinite loop
+const col1Images = [...imagesGroup1, ...imagesGroup1];
+const col2Images = [...imagesGroup2, ...imagesGroup2];
 
 const HeroSection = () => {
   const { isLight } = useTheme();
 
-  useEffect(() => {
-    // 1. Load the Script
-    if (!document.querySelector('script[src*="unicornStudio.umd.js"]')) {
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.35/dist/unicornStudio.umd.js";
-      script.async = true;
-      script.onload = () => {
-        if (window.UnicornStudio) {
-          window.UnicornStudio.init();
-        }
-      };
-      document.body.appendChild(script);
-    } else {
-      if (window.UnicornStudio && window.UnicornStudio.init) {
-        window.UnicornStudio.init();
-      }
-    }
-
-    // 2. BADGE HUNTER (Hides the 'Made with Unicorn Studio' badge)
-    const badgeHunter = setInterval(() => {
-      const badges = document.querySelectorAll('a[href*="unicorn.studio"]');
-      badges.forEach((badge) => {
-        badge.style.display = 'none';
-        badge.style.opacity = '0';
-        badge.style.visibility = 'hidden';
-        badge.style.pointerEvents = 'none';
-      });
-    }, 100);
-
-    const stopHunter = setTimeout(() => {
-      clearInterval(badgeHunter);
-    }, 5000);
-
-    return () => {
-      clearInterval(badgeHunter);
-      clearTimeout(stopHunter);
-    };
-  }, []);
-
   return (
-    <section className="w-full relative min-h-screen flex flex-col overflow-hidden">
+    // ✅ Added dynamic background classes based on isLight
+    <section className={` 
+      w-full relative overflow-hidden transition-colors duration-300
+      ${isLight
+        ? "bg-white"
+        : "bg-[#050505]"
+      }
+    `}>
+      <div className="w-full mt-20 mb-10 max-w-[1440px] mx-auto px-6 lg:px-[80px]">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 h-full min-h-[600px]">
 
-      {/* Animated Background */}
-      <div className="absolute inset-0 -z-10 pointer-events-none bg-black">
-        <div
-          data-us-project="IeQjo313ngSwpb4lfQQu"
-          style={{ width: '100%', height: '100%' }}
-        ></div>
-      </div>
+          {/* ================= LEFT CONTENT ================= */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start text-left z-10 lg:pt-0">
 
-      {/* Hero Content */}
-      <div className="relative z-10 w-full flex-grow flex flex-col justify-center items-center pt-[100px] pb-20">
-        <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-8 text-center">
-          <div className="flex flex-col items-center justify-center gap-6">
-
-            {/* Icon + Heading */}
-            <div className="inline-flex items-center justify-center gap-4 mb-2">
-              <div className="rounded-md bg-purple-600 w-12 h-12 flex items-center justify-center shadow-lg shadow-purple-500/30">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="#fff" />
-                </svg>
-              </div>
-              <h1 className={`font-space font-bold text-4xl sm:text-5xl md:text-7xl leading-tight ${isLight ? "text-gray-900" : "text-white"}`}>
-                Hire Top-Tier AI Engineers
-              </h1>
+            {/* Tag */}
+            <div className={`
+              inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6
+              ${isLight
+                ? "bg-purple-50 border-purple-100 text-purple-700"
+                : "bg-white/5 border-white/10 text-purple-300"
+              }
+            `}>
+              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+              <span className="text-xs font-bold tracking-wide uppercase font-space">Top 1% Talent</span>
             </div>
 
-            {/* Subtitle */}
-            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-medium ${isLight ? "text-gray-800" : "text-white"}`}>
-              in Just 48 Hours
-            </h2>
+            {/* Heading */}
+            <h1 className={`
+              font-space font-bold text-4xl sm:text-5xl lg:text-7xl leading-[1.1] mb-6
+              ${isLight ? "text-gray-900" : "text-white"}
+            `}>
+              Hire Top-Tier AI Engineers <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500">in Just 48 Hours</span>
+            </h1>
 
             {/* Description */}
-            <p className={`mt-4 max-w-[800px] mx-auto text-lg sm:text-xl leading-relaxed ${isLight ? "text-gray-600" : "text-[#bababa]"}`}>
-              Access a pre-vetted network of <strong>top 1% AI & software engineers.</strong> Reliable, specialized, and ready to deploy immediately.
+            <p className={`
+              text-lg sm:text-xl leading-relaxed mb-10 max-w-[90%]
+              ${isLight ? "text-gray-600" : "text-[#bababa]"}
+            `}>
+              Access a pre-vetted network of top 1% AI & software engineers. Reliable, specialized, and ready to deploy immediately.
             </p>
 
-            {/* Get Started Button (Linked to Talent Page) */}
+            {/* Button */}
             <div className="mt-8">
               <Link to="/talent">
                 <Button
@@ -104,27 +89,75 @@ const HeroSection = () => {
                 />
               </Link>
             </div>
+          </div>
 
-            {/* Chips */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <button className={`px-5 py-2.5 rounded-full border cursor-pointer backdrop-blur-md transition-colors ${isLight ? "bg-white/60 text-black border-gray-300 hover:bg-white" : "bg-white/10 text-white/90 border-white/20 hover:bg-white/20"}`}>
-                Vetted by Experts
-              </button>
-              <button className={`px-5 py-2.5 rounded-full border cursor-pointer backdrop-blur-md transition-colors ${isLight ? "bg-white/60 text-black border-gray-300 hover:bg-white" : "bg-white/10 text-white/90 border-white/20 hover:bg-white/20"}`}>
-                Real Project Validation
-              </button>
+          {/* ================= RIGHT IMAGE COLUMNS ================= */}
+          {/* mask-gradient handles the fade transparency */}
+          <div className="w-full lg:w-1/2 h-[600px] relative flex gap-6 overflow-hidden mask-gradient">
+
+            {/* COLUMN 1: Moving UP */}
+            <div className="w-1/2 relative h-full overflow-hidden">
+              <div className="animate-scroll-up flex flex-col gap-6 absolute w-full top-0">
+                {col1Images.map((src, i) => (
+                  <div key={i} className={`w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg shrink-0 ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
+                    <img
+                      src={src}
+                      alt={`Talent Group 1 - ${i}`}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                      onError={(e) => { e.target.style.display = 'none' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* COLUMN 2: Moving DOWN */}
+            <div className="w-1/2 relative h-full overflow-hidden">
+              <div className="animate-scroll-down flex flex-col gap-6 absolute w-full top-0">
+                {col2Images.map((src, i) => (
+                  <div key={i} className={`w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg shrink-0 ${isLight ? "bg-gray-100" : "bg-gray-800"}`}>
+                    <img
+                      src={src}
+                      alt={`Talent Group 2 - ${i}`}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                      onError={(e) => { e.target.style.display = 'none' }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
           </div>
+
         </div>
       </div>
 
-      {/* Backup CSS Rule to hide Unicorn Studio Badge */}
+      {/* 🎬 ANIMATION STYLES */}
       <style>{`
-        a[href*="unicorn.studio"] {
-          display: none !important;
-          opacity: 0 !important;
-          pointer-events: none !important;
+        /* Scroll UP */
+        @keyframes scrollUp {
+          0% { transform: translateY(0%); }
+          100% { transform: translateY(-50%); }
+        }
+
+        /* Scroll DOWN */
+        @keyframes scrollDown {
+          0% { transform: translateY(-50%); }
+          100% { transform: translateY(0%); }
+        }
+
+        .animate-scroll-up {
+          animation: scrollUp 40s linear infinite;
+        }
+
+        .animate-scroll-down {
+          animation: scrollDown 40s linear infinite;
+        }
+
+        /* CSS MASK: This fades the content to transparent at top/bottom */
+        .mask-gradient {
+          mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+          -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
         }
       `}</style>
     </section>
