@@ -68,15 +68,15 @@ export const navigationData = [
         title: "Technology",
         iconPath: icons.tech,
         items: [
-          { name: "AI & ML", href: "/use-cases/technology/ai-&-ml" },
-          { name: "Android", href: "/use-cases/technology/android" },
-          { name: "Cloud Computing", href: "/use-cases/technology/cloud-computing" },
-          { name: "iOS", href: "/use-cases/technology/ios" },
-          { name: "IoT", href: "/use-cases/technology/iot" },
-          { name: "Natural Language Processing", href: "/use-cases/technology/natural-language-processing" },
-          { name: "Predictive Analytics", href: "/use-cases/technology/predictive-analytics" },
-          { name: "Robotics", href: "/use-cases/technology/robotics" },
-          { name: "Web3 / Blockchain", href: "/use-cases/technology/web3-blockchain" }
+          { name: "Core AI & Machine Learning", href: "/use-cases/technology/core-ai-machine-learning" },
+          { name: "LLMs & Natural Language", href: "/use-cases/technology/llms-natural-language" },
+          { name: "Vision, Voice & Chatbots", href: "/use-cases/technology/vision-voice-chatbots" },
+          { name: "Data Science & Analytics", href: "/use-cases/technology/data-science-analytics" },
+          { name: "Data Engineering & Pipelines", href: "/use-cases/technology/data-engineering-pipelines" },
+          { name: "MLOps, DevOps & Cloud", href: "/use-cases/technology/mlops-devops-cloud" },
+          { name: "Backend & API Engineering", href: "/use-cases/technology/backend-api-engineering" },
+          { name: "Automation Platforms", href: "/use-cases/technology/automation-platforms" },
+          { name: "Vector Databases & Retrieval", href: "/use-cases/technology/vector-databases-retrieval" }
         ]
       },
       {

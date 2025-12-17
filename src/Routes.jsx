@@ -22,6 +22,7 @@ const AllTalent = lazy(() => import('./features/vendor/talent/AllTalent'));
 const TalentListPage = lazy(() => import('./features/vendor/talent/TalentListPage'));
 const Login = lazy(() => import('./pages/Login'));
 const HiringNeedTemplate = lazy(() => import('./pages/HiringNeedTemplate'));
+const TechnologyTemplate = lazy(() => import('./pages/TechnologyTemplate'));
 
 // ✅ 1. NEW IMPORT: Service Page Template
 const ServicePageTemplate = lazy(() => import('./pages/ServicePageTemplate'));
@@ -51,7 +52,7 @@ const AppRoutes = () => {
               {/* ✅ 2. NEW ROUTE: Dynamic Service Pages */}
               {/* Handles /hire/hire-ai-engineers, etc. */}
               <Route path="/hire/:slug" element={<ServicePageTemplate />} />
-
+              <Route path="/use-cases/technology/:slug" element={<TechnologyTemplate />} />
               {/* Talent Profile Dynamic Route */}
               <Route path="/talent/:id" element={<TalentProfile />} />
               

@@ -91,7 +91,50 @@ export const mockProfiles = [
     experience: "8 Yrs",
     skills: ["React", "Node.js"],
     image: "/images/img_ellipse_1.png",
-    serviceSlugs: ["hire-full-stack-developers"], 
+    serviceSlugs: ["hire-full-stack-developers"],
     status: "Available"
+  },
+  {
+    id: 101, // New Dummy for Tech Page
+    name: "Elena V.",
+    role: "Senior ML Engineer",
+    experience: "7 Yrs",
+    skills: ["PyTorch", "TensorFlow", "Reinforcement Learning"],
+    image: "/images/img_ellipse_1.png",
+    serviceSlugs: [],
+    // ✅ NEW LISTING MECHANISM
+    technologySlugs: ["core-ai-machine-learning"],
+    status: "Available"
+  },
+  {
+    id: 102,
+    name: "Marcus T.",
+    role: "AI Researcher",
+    experience: "9 Yrs",
+    skills: ["Computer Vision", "Deep Learning", "Python"],
+    image: "/images/img_ellipse_1.png",
+    serviceSlugs: [],
+    technologySlugs: ["core-ai-machine-learning"],
+    status: "Available"
+  },
+  // ... add 6 more duplicates or unique profiles with the "core-ai-machine-learning" slug to test pagination
+  {
+    id: 103, name: "Sarah L.", role: "Data Scientist", experience: "5 Yrs", skills: ["Scikit-learn", "Pandas"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
+  },
+  {
+    id: 104, name: "David K.", role: "ML Ops Lead", experience: "8 Yrs", skills: ["Kubeflow", "AWS", "Docker"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Booked"
+  },
+  {
+    id: 105, name: "Priya R.", role: "NLP Engineer", experience: "6 Yrs", skills: ["Transformers", "HuggingFace"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
+  },
+  {
+    id: 106, name: "James B.", role: "AI Architect", experience: "12 Yrs", skills: ["System Design", "Cloud Architecture"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
+  },
+  {
+    id: 107, name: "Nina W.", role: "Computer Vision", experience: "4 Yrs", skills: ["OpenCV", "YOLO"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
+  },
+  {
+    id: 108, name: "Tom H.", role: "Robotics Eng.", experience: "7 Yrs", skills: ["ROS", "C++"], image: "/images/img_ellipse_1.png", technologySlugs: ["core-ai-machine-learning"], status: "Available"
   }
+
 ];

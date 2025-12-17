@@ -7,8 +7,10 @@ const ServiceProfileGrid = ({ slug, isLight }) => {
   // ✅ STATE: Track how many profiles to show (Start with 4)
   const [visibleCount, setVisibleCount] = useState(4);
 
-  // 1. Filter profiles by slug
-  const profiles = mockProfiles.filter(profile => profile.serviceSlugs.includes(slug));
+  // ✅ FIXED FILTER LOGIC: Safely check if serviceSlugs exists before checking includes
+  const profiles = mockProfiles.filter(profile => 
+    profile.serviceSlugs && profile.serviceSlugs.includes(slug)
+  );
 
   // 2. Handler to show more
   const handleViewMore = () => {
@@ -16,7 +18,7 @@ const ServiceProfileGrid = ({ slug, isLight }) => {
   };
 
   return (
-    <section className="w-full py-10 px-6 lg:px-[60px]">
+    <section className="w-full py-20 px-6 lg:px-[60px]">
       <div className="max-w-[1200px] mx-auto">
         
         <div className="text-center mb-16">
@@ -53,7 +55,7 @@ const ServiceProfileGrid = ({ slug, isLight }) => {
           </div>
         )}
 
-        {/* Empty State Message (Optional) */}
+        {/* Empty State Message */}
         {profiles.length === 0 && (
            <div className={`text-center py-10 ${isLight ? "text-gray-500" : "text-gray-400"}`}>
               No profiles found for this category yet.
