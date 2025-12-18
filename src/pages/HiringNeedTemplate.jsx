@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
@@ -6,7 +6,7 @@ import Button from '../components/ui/Button';
 
 // Import Features Components
 import ExpertProfiles from '../features/landing/ExpertProfiles';
-import Testimonials from '../features/landing/Testimonials'; // ✅ IMPORTED TESTIMONIAL
+import Testimonials from '../features/landing/Testimonials'; 
 import HeroSection from '../features/hiring/HeroSection';
 import FeatureGrid from '../features/hiring/FeatureGrid';
 import FinalCTA from '../features/hiring/FinalCTA';
@@ -14,31 +14,92 @@ import FAQSection from '../features/hiring/FAQSection';
 
 // Import Data
 import { hiringNeedContent } from '../data/hiringNeedContent';
+// ✅ Import API
+import { getTalents } from '../services/api';
 
 const HiringNeedTemplate = () => {
     const { slug } = useParams();
     const { isLight } = useTheme();
+    
+    // ✅ State: Initialize as NULL to differentiate "loading" vs "empty"
+    const [dbProfiles, setDbProfiles] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // 1. Get Data
+    // 1. Get Static Content
     const content = hiringNeedContent[slug];
 
-    // 2. Handle Not Found
+    // ✅ 2. Fetch Logic
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchProfiles = async () => {
+            // 🛑 RESET STATE IMMEDIATELY ON SLUG CHANGE
+            setLoading(true);
+            setDbProfiles(null); 
+            
+            console.log(`%c[HiringTemplate] 🔄 NEW PAGE LOAD: ${slug}`, "background: purple; color: white; font-weight: bold;");
+
+            try {
+                const data = await getTalents();
+                
+                if (!isMounted) return;
+
+                if (Array.isArray(data)) {
+                    // Filter profiles
+                    const filtered = data.filter(profile => 
+                        profile.hiringSlugs && profile.hiringSlugs.includes(slug)
+                    );
+
+                    if (filtered.length > 0) {
+                        console.log(`[HiringTemplate] ✅ DB Success: Found ${filtered.length} profiles for ${slug}`);
+                        setDbProfiles(filtered);
+                    } else {
+                        console.warn(`[HiringTemplate] ⚠️ DB Empty: No profiles for ${slug}. Will use static fallback.`);
+                        setDbProfiles([]); // Set to empty array to trigger fallback logic
+                    }
+                }
+            } catch (error) {
+                console.error("[HiringTemplate] ❌ API Error:", error);
+                if (isMounted) setDbProfiles([]); // Fallback on error
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        fetchProfiles();
+
+        return () => { isMounted = false; };
+    }, [slug]);
+
+    // 3. Handle Page Not Found
     if (!content) {
-        return (
-            <div className={`min-h-screen flex items-center justify-center ${isLight ? "bg-white text-black" : "bg-black text-white"}`}>
-                <h1 className="text-3xl font-bold">Page Not Found</h1>
-            </div>
-        );
+        return <div className="min-h-screen flex items-center justify-center"><h1>Page Not Found</h1></div>;
     }
+
+    // ✅ DISPLAY LOGIC (The most important part)
+    let displayProfiles = [];
+    let source = "";
+
+    if (loading) {
+        displayProfiles = []; // Show nothing while loading
+        source = "LOADING";
+    } else if (dbProfiles && dbProfiles.length > 0) {
+        displayProfiles = dbProfiles.slice(0, 4); // Show DB Data
+        source = "DATABASE";
+    } else {
+        displayProfiles = content.expertProfiles?.profiles || []; // Show Static Data
+        source = "STATIC FALLBACK";
+    }
+
+    // 🔍 DEBUG: Log exactly what is being rendered
+    console.log(`[HiringTemplate] 🎨 RENDERING: ${source} | Count: ${displayProfiles.length} | First Profile: ${displayProfiles[0]?.name || displayProfiles[0]?.fullName || "None"}`);
 
     // 🎨 GLOBAL PAGE BACKGROUND
     const pageBackground = {
         background: isLight
-            ? `
-        radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), 
-        radial-gradient(circle at 100% 20%, rgba(59, 130, 246, 0.20) 0%, transparent 50%), 
-        linear-gradient(to bottom, #f5f3ff, #f0f9ff, #fdf4ff)
-      `
+            ? `radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), 
+               radial-gradient(circle at 100% 20%, rgba(59, 130, 246, 0.20) 0%, transparent 50%), 
+               linear-gradient(to bottom, #f5f3ff, #f0f9ff, #fdf4ff)`
             : "radial-gradient(50% 50% at 50% 50%, rgba(76, 29, 149, 0.35) 0%, rgba(10, 10, 10, 1) 100%), #0a0a0a",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
@@ -52,26 +113,9 @@ const HiringNeedTemplate = () => {
                 <meta name="description" content={content.hero.subtitle} />
             </Helmet>
 
-            {/* Global Grid Overlay */}
-            <div className="fixed inset-0 z-0 pointer-events-none">
-                <div
-                    className="absolute inset-0 opacity-[0.08]"
-                    style={{
-                        backgroundImage: isLight
-                            ? `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`
-                            : `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-                        backgroundSize: '50px 50px',
-                    }}
-                />
-            </div>
-
-            {/* CONTENT WRAPPER */}
             <div className="relative z-10">
-
-                {/* 1. HERO SECTION */}
                 <HeroSection content={content.hero} isLight={isLight} slug={slug} />
 
-                {/* 2. SECTION 2: AUGMENTATION TYPES (Soft Grid) */}
                 {content.augmentationTypes && (
                     <FeatureGrid
                         title={content.augmentationTypes.title}
@@ -82,16 +126,18 @@ const HiringNeedTemplate = () => {
                     />
                 )}
 
-                {/* 3. EXPERT PROFILES */}
+                {/* ✅ EXPERT PROFILES with Key to Force Re-mount */}
                 <ExpertProfiles
+                    key={`${slug}-${source}`} // Forces component to destroy and recreate if slug OR source changes
                     variant="industry"
                     title={content.expertProfiles?.title || "Meet Your Future Squad"}
                     subtitle={content.expertProfiles?.subtitle || "Browse available senior engineers ready to join your team within 48 hours."}
+                    profiles={displayProfiles}
+                    loading={loading}
                     subSection="hiring-need"
                     page={slug}
                 />
 
-                {/* 4. SECTION 4: CUSTOM SQUADS (Bold Grid) */}
                 {content.customSquads && (
                     <FeatureGrid
                         title={content.customSquads.title}
@@ -102,42 +148,16 @@ const HiringNeedTemplate = () => {
                     />
                 )}
 
-                {/* =========================================
-                    SECTION 5: VOICE OF TRUST (TESTIMONIAL)
-                   ========================================= */}
-                <Testimonials
-                    variant="industry"
-                />
+                <Testimonials variant="industry" />
 
-                {/* 6. FINAL CTA */}
-                {content.finalCTA && (
-                    <FinalCTA content={content.finalCTA} isLight={isLight} />
-                )}
-
-                {/* 7. FAQ */}
-                {content.faq && (
-                    <FAQSection faq={content.faq} isLight={isLight} />
-                )}
-
-                {/* 🎬 Global Animation Styles */}
+                {content.finalCTA && <FinalCTA content={content.finalCTA} isLight={isLight} />}
+                {content.faq && <FAQSection faq={content.faq} isLight={isLight} />}
+                
+                {/* Global Animation Styles (Shortened for brevity) */}
                 <style>{`
-          @keyframes gradient-x { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-          .animate-gradient-x { background-size: 200% auto; animation: gradient-x 5s ease infinite; }
-          @keyframes beam-load { 0% { width: 0%; opacity: 0; } 50% { width: 50%; opacity: 1; } 100% { width: 100%; opacity: 0; } }
-          .animate-beam-load { animation: beam-load 2s infinite linear; }
-          @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-          .animate-slide-in-right { animation: slideInRight 0.6s ease-out forwards; }
-          .animate-slide-in-right-delayed { animation: slideInRight 0.6s ease-out 0.2s forwards; opacity: 0; }
-          @keyframes streak { 0% { transform: translateX(-150%); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(350%); opacity: 0; } }
-          .animate-streak-fast { animation: streak 3s linear infinite; }
-          .animate-streak-medium { animation: streak 5s linear infinite; }
-          .animate-streak-slow { animation: streak 7s linear infinite; }
-          @keyframes spin-ultra-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-          .animate-spin-ultra-slow { animation: spin-ultra-slow 20s linear infinite; }
-          @keyframes spin-reverse-ultra-slow { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-          .animate-spin-reverse-ultra-slow { animation: spin-reverse-ultra-slow 20s linear infinite; }
-        `}</style>
-
+                  @keyframes gradient-x { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+                  .animate-gradient-x { background-size: 200% auto; animation: gradient-x 5s ease infinite; }
+                `}</style>
             </div>
         </div>
     );

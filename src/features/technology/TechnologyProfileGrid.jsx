@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { mockProfiles } from '../../data/mockProfiles';
 import Button from '../../components/ui/Button';
-import TalentCard from '../services/TalentCard'; // Reusing the card we built earlier
+import TalentCard from '../services/TalentCard'; 
 
-const TechnologyProfileGrid = ({ slug, content, isLight }) => {
-  const [visibleCount, setVisibleCount] = useState(8); // Show 8 initially
-
-  // ✅ LISTING FILTER: Check technologySlugs array
-  const profiles = mockProfiles.filter(profile => 
-    profile.technologySlugs && profile.technologySlugs.includes(slug)
-  );
+const TechnologyProfileGrid = ({ slug, content, isLight, profiles = [], loading }) => {
+  // ✅ CHANGE: Start with only 4 visible
+  const [visibleCount, setVisibleCount] = useState(4); 
 
   const handleViewMore = () => {
-    setVisibleCount(prev => prev + 4);
+    // ✅ CHANGE: Show ALL remaining profiles when clicked
+    setVisibleCount(profiles.length); 
   };
 
   return (
@@ -28,33 +24,44 @@ const TechnologyProfileGrid = ({ slug, content, isLight }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
-          {profiles.slice(0, visibleCount).map((profile) => (
-             <TalentCard key={profile.id} profile={profile} />
-          ))}
-        </div>
+        {loading ? (
+            <div className={`text-center py-20 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
+                <p className="text-xl animate-pulse">Loading Specialists...</p>
+            </div>
+        ) : (
+            <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+                  {/* Slice happens HERE now, controlled by the button */}
+                  {profiles.slice(0, visibleCount).map((profile, index) => (
+                     <TalentCard key={profile._id || index} profile={profile} />
+                  ))}
+                </div>
 
-        {visibleCount < profiles.length && (
-          <div className="flex justify-center">
-              <Button 
-                  text="View All Profiles" 
-                  onClick={handleViewMore}
-                  text_font_size="16" 
-                  text_font_weight="600" 
-                  text_color={isLight ? "#333" : "#fff"} 
-                  fill_background="transparent" 
-                  border_border={isLight ? "1px solid #ddd" : "1px solid #333"} 
-                  padding="14px 32px" 
-                  border_border_radius="10px" 
-              />
-          </div>
+                {/* Show Button only if there are hidden profiles */}
+                {visibleCount < profiles.length && (
+                  <div className="flex justify-center">
+                      <Button 
+                          text="View All Profiles" 
+                          onClick={handleViewMore}
+                          text_font_size="16" 
+                          text_font_weight="600" 
+                          text_color={isLight ? "#333" : "#fff"} 
+                          fill_background="transparent" 
+                          border_border={isLight ? "1px solid #ddd" : "1px solid #333"} 
+                          padding="14px 32px" 
+                          border_border_radius="10px" 
+                      />
+                  </div>
+                )}
+
+                {!loading && profiles.length === 0 && (
+                   <div className={`text-center py-10 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
+                      No specialists currently listed for this technology.
+                   </div>
+                )}
+            </>
         )}
 
-        {profiles.length === 0 && (
-           <div className={`text-center py-10 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
-              No specialists currently listed for this technology.
-           </div>
-        )}
       </div>
     </section>
   );

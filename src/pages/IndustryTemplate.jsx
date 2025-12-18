@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
@@ -16,24 +16,52 @@ import IndustryFAQ from '../features/industry/IndustryFAQ';
 
 // Import Data
 import { industryContent } from '../data/industryContent';
+import { getTalents } from '../services/api'; 
 
 const IndustryTemplate = () => {
   const { slug } = useParams();
   const { isLight } = useTheme();
+  const [dbProfiles, setDbProfiles] = useState([]);
 
-  // 1. Get Data for current slug
   const content = industryContent[slug];
 
-  // 2. Handle Not Found
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        console.log(`📡 Fetching profiles for industry: ${slug}`); // DEBUG LOG
+        const data = await getTalents();
+        
+        console.log("📦 All Profiles from DB:", data); // DEBUG LOG
+
+        if (Array.isArray(data)) {
+          // Filter profiles
+          const filtered = data.filter(profile => {
+             // Check if industrySlugs exists and includes the current slug
+             const hasSlug = profile.industrySlugs && profile.industrySlugs.includes(slug);
+             return hasSlug;
+          });
+
+          console.log(`🔍 Found ${filtered.length} matches for ${slug}`, filtered); // DEBUG LOG
+          setDbProfiles(filtered);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching industry profiles:", error);
+      }
+    };
+
+    fetchProfiles();
+  }, [slug]);
+
   if (!content) {
-    return (
-      <div className={`min-h-screen flex items-center justify-center ${isLight ? "bg-white text-black" : "bg-black text-white"}`}>
-        <h1 className="text-3xl font-bold">Industry Not Found</h1>
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center"><h1>Industry Not Found</h1></div>;
   }
 
-  // 🎨 BACKGROUND
+  // ✅ DISPLAY LOGIC
+  const top4Profiles = dbProfiles.slice(0, 4);
+  
+  // If we have DB profiles, use them. Otherwise, use static content.
+  const displayProfiles = top4Profiles.length > 0 ? top4Profiles : content.talent.profiles;
+
   const sharedBackgroundStyle = {
     background: isLight 
       ? `radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.20) 0%, transparent 50%), 
@@ -51,7 +79,6 @@ const IndustryTemplate = () => {
         <meta name="description" content={content.hero.subtitle} />
       </Helmet>
 
-      {/* 1. HERO */}
       <IndustryHero 
         title={content.hero.title}
         subtitle={content.hero.subtitle}
@@ -59,42 +86,30 @@ const IndustryTemplate = () => {
       />
 
       <div className="w-full relative" style={sharedBackgroundStyle}>
-        
-        {/* 2. LOGOS */}
         <CompanyLogos variant="industry" />
-
-        {/* 4. TECH SPECS */}
-        <IndustrySolutionsTabs 
-          data={content.techSpecs} 
-        />
-
-        {/* 3. SERVICES */}
+        <IndustrySolutionsTabs data={content.techSpecs} />
         <IndustryInfoGrid 
           title={content.services.title}
           subtitle={content.services.subtitle}
           items={content.services.cards}
         />
 
-         {/* 6. EXPERTS */}
+        {/* EXPERT PROFILES */}
         <ExpertProfiles 
           variant="industry" 
           title={content.talent.title}
           subtitle={content.talent.subtitle}
-          profiles={content.talent.profiles}
+          profiles={displayProfiles} 
           subSection="industry"
           page={slug}
         />
 
-        {/* 5. SOLUTIONS */}
         <IndustryWhyChoose 
           title={content.solutions.title}
           subtitle={content.solutions.subtitle}
           items={content.solutions.cards}
         />
 
-       
- 
-        {/* 7. VETTING */}
         <VettingProcess 
           variant="industry" 
           title={content.vetting.title}
@@ -102,7 +117,6 @@ const IndustryTemplate = () => {
           steps={content.vetting.steps}
         />
 
-        {/* 8. TESTIMONIALS */}
         <Testimonials 
           variant="industry" 
           title={content.testimonials.title}
@@ -110,10 +124,7 @@ const IndustryTemplate = () => {
           items={content.testimonials.items}
         />
 
-        {/* 9. FAQ (NEW) */}
-        <IndustryFAQ 
-          data={content.faq} 
-        />
+        <IndustryFAQ data={content.faq} />
         
         <div className="pb-32"></div>
       </div>

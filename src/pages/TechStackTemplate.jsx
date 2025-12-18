@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
@@ -15,12 +15,61 @@ import FinalCTA from '../features/hiring/FinalCTA';
 
 // Data
 import { techStackContent } from '../data/techStackContent';
+// ✅ Import API
+import { getTalents } from '../services/api';
 
 const TechStackTemplate = () => {
   const { slug } = useParams();
   const { isLight } = useTheme();
 
+  // ✅ State for Real Profiles
+  const [dbProfiles, setDbProfiles] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const content = techStackContent[slug];
+
+  // ✅ Fetch Real Profiles from DB (Race Condition Safe)
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProfiles = async () => {
+      // 🛑 RESET STATE IMMEDIATELY ON SLUG CHANGE
+      setLoading(true);
+      setDbProfiles(null);
+
+      console.log(`%c[TechStackTemplate] 🔄 NEW PAGE LOAD: ${slug}`, "background: indigo; color: white; font-weight: bold;");
+
+      try {
+        const data = await getTalents();
+
+        if (!isMounted) return;
+
+        if (Array.isArray(data)) {
+          // Filter based on 'techStackSlugs'
+          const filtered = data.filter(profile =>
+            profile.techStackSlugs && profile.techStackSlugs.includes(slug)
+          );
+
+          if (filtered.length > 0) {
+            console.log(`[TechStackTemplate] ✅ Found ${filtered.length} profiles for ${slug}`);
+            setDbProfiles(filtered);
+          } else {
+            console.warn(`[TechStackTemplate] ⚠️ No profiles for ${slug}. Using static fallback.`);
+            setDbProfiles([]); // Trigger fallback
+          }
+        }
+      } catch (error) {
+        console.error("[TechStackTemplate] ❌ API Error:", error);
+        if (isMounted) setDbProfiles([]);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchProfiles();
+
+    return () => { isMounted = false; };
+  }, [slug]);
 
   if (!content) {
     return (
@@ -28,6 +77,17 @@ const TechStackTemplate = () => {
         <h1 className="text-2xl">Tech Stack Page Not Found</h1>
       </div>
     );
+  }
+
+  // ✅ DISPLAY LOGIC
+  let displayProfiles = [];
+  if (loading) {
+    displayProfiles = [];
+  } else if (dbProfiles && dbProfiles.length > 0) {
+    // Pass ALL profiles, let the grid handle slicing/view more
+    displayProfiles = dbProfiles;
+  } else {
+    displayProfiles = content.talent?.profiles || []; // Static Fallback
   }
 
   // Consistent Global Gradient
@@ -58,7 +118,14 @@ const TechStackTemplate = () => {
         </section>
 
         {/* 3. Profiles */}
-        <TechStackProfileGrid slug={slug} isLight={isLight} />
+        {/* We pass 'key' to force re-render, and 'profiles' to inject real data */}
+        <TechStackProfileGrid 
+            key={`${slug}-${loading}`}
+            slug={slug} 
+            isLight={isLight} 
+            profiles={displayProfiles} // ✅ Passing Real Data
+            loading={loading}
+        />
 
         {/* 4. CTA */}
         <FinalCTA content={content.cta} isLight={isLight} />

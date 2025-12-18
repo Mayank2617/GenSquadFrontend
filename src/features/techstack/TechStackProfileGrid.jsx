@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { mockProfiles } from '../../data/mockProfiles';
+// ❌ REMOVED: import { mockProfiles } from '../../data/mockProfiles'; 
 import Button from '../../components/ui/Button';
-import TalentCard from '../services/TalentCard'; // Reusing the shared card
+import TalentCard from '../services/TalentCard'; 
 
-const TechStackProfileGrid = ({ slug, isLight }) => {
-  const [visibleCount, setVisibleCount] = useState(8);
+// ✅ Updated to accept 'profiles' and 'loading' from parent
+const TechStackProfileGrid = ({ slug, isLight, profiles = [], loading }) => {
+  // ✅ CHANGE: Start with only 4 visible
+  const [visibleCount, setVisibleCount] = useState(4);
 
-  // ✅ NEW LISTING MECHANISM: Check techStackSlugs
-  // Uses optional chaining (?.) to prevent crashes if property is missing
-  const profiles = mockProfiles.filter(profile => 
-    profile.techStackSlugs?.includes(slug)
-  );
+  // ❌ REMOVED Local Filtering (Logic is now in Parent)
+  // const profiles = mockProfiles.filter(...) 
 
   const handleViewMore = () => {
-    setVisibleCount(prev => prev + 4);
+    // ✅ CHANGE: Show ALL remaining profiles when clicked
+    setVisibleCount(profiles.length);
   };
 
   return (
@@ -29,33 +29,45 @@ const TechStackProfileGrid = ({ slug, isLight }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
-          {profiles.slice(0, visibleCount).map((profile) => (
-             <TalentCard key={profile.id} profile={profile} />
-          ))}
-        </div>
+        {/* ✅ Loading State */}
+        {loading ? (
+            <div className={`text-center py-20 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
+                <p className="text-xl animate-pulse">Loading Specialists...</p>
+            </div>
+        ) : (
+            <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+                  {/* ✅ Using the passed 'profiles' prop & slicing based on visibleCount */}
+                  {profiles.slice(0, visibleCount).map((profile, index) => (
+                     <TalentCard key={profile._id || index} profile={profile} />
+                  ))}
+                </div>
 
-        {visibleCount < profiles.length && (
-          <div className="flex justify-center">
-              <Button 
-                  text="View More Profiles" 
-                  onClick={handleViewMore}
-                  text_font_size="16" 
-                  text_font_weight="600" 
-                  text_color={isLight ? "#333" : "#fff"} 
-                  fill_background="transparent" 
-                  border_border={isLight ? "1px solid #ddd" : "1px solid #333"} 
-                  padding="14px 32px" 
-                  border_border_radius="10px" 
-              />
-          </div>
+                {/* Show Button only if there are hidden profiles */}
+                {visibleCount < profiles.length && (
+                  <div className="flex justify-center">
+                      <Button 
+                          text="View More Profiles" 
+                          onClick={handleViewMore}
+                          text_font_size="16" 
+                          text_font_weight="600" 
+                          text_color={isLight ? "#333" : "#fff"} 
+                          fill_background="transparent" 
+                          border_border={isLight ? "1px solid #ddd" : "1px solid #333"} 
+                          padding="14px 32px" 
+                          border_border_radius="10px" 
+                      />
+                  </div>
+                )}
+
+                {!loading && profiles.length === 0 && (
+                   <div className={`text-center py-10 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
+                      No specialists currently listed for this stack.
+                   </div>
+                )}
+            </>
         )}
 
-        {profiles.length === 0 && (
-           <div className={`text-center py-10 ${isLight ? "text-slate-500" : "text-gray-400"}`}>
-              No specialists currently listed for this stack.
-           </div>
-        )}
       </div>
     </section>
   );

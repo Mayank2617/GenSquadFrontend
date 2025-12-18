@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
-
-
 
 // Features
 import ServiceHero from '../features/services/ServiceHero';
@@ -15,13 +13,62 @@ import CompanyLogos from '../features/landing/CompanyLogos';
 
 // Data
 import { servicePagesContent } from '../data/servicePagesContent';
+// ✅ Import API
+import { getTalents } from '../services/api';
 
 const ServicePageTemplate = () => {
   const { slug } = useParams();
   const { isLight } = useTheme();
 
+  // ✅ State for Real Profiles
+  const [dbProfiles, setDbProfiles] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   // 1. Get Data
   const content = servicePagesContent[slug];
+
+  // ✅ 2. Fetch Real Profiles from DB
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProfiles = async () => {
+      // 🛑 RESET STATE IMMEDIATELY ON SLUG CHANGE
+      setLoading(true);
+      setDbProfiles(null);
+
+      console.log(`%c[ServiceTemplate] 🔄 NEW PAGE LOAD: ${slug}`, "background: teal; color: white; font-weight: bold;");
+
+      try {
+        const data = await getTalents();
+
+        if (!isMounted) return;
+
+        if (Array.isArray(data)) {
+          // ✅ Filter Logic: Check 'hiringSlugs' for pages like "hire-ai-engineers"
+          const filtered = data.filter(profile =>
+            profile.hiringSlugs && profile.hiringSlugs.includes(slug)
+          );
+
+          if (filtered.length > 0) {
+            console.log(`[ServiceTemplate] ✅ Found ${filtered.length} profiles for ${slug}`);
+            setDbProfiles(filtered);
+          } else {
+            console.warn(`[ServiceTemplate] ⚠️ No profiles for ${slug}. Using static fallback.`);
+            setDbProfiles([]); // Trigger fallback
+          }
+        }
+      } catch (error) {
+        console.error("[ServiceTemplate] ❌ API Error:", error);
+        if (isMounted) setDbProfiles([]);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchProfiles();
+
+    return () => { isMounted = false; };
+  }, [slug]);
 
   // 2. Handle Not Found
   if (!content) {
@@ -32,7 +79,19 @@ const ServicePageTemplate = () => {
     );
   }
 
-  // 🎨 GLOBAL PAGE BACKGROUND (Exact match from SolutionTemplate)
+  // ✅ DISPLAY LOGIC
+  let displayProfiles = [];
+  if (loading) {
+    displayProfiles = [];
+  } else if (dbProfiles && dbProfiles.length > 0) {
+    // Pass ALL profiles, let the grid handle slicing
+    displayProfiles = dbProfiles;
+  } else {
+    // Fallback if no DB matches
+    displayProfiles = []; 
+  }
+
+  // 🎨 GLOBAL PAGE BACKGROUND
   const pageBackground = {
     background: isLight 
       ? `
@@ -54,7 +113,6 @@ const ServicePageTemplate = () => {
         <title>{content.hero.title} {content.hero.titleHighlight} | GenSquad</title>
       </Helmet>
 
-
       <main className="flex-grow z-10">
         
         {/* 1. HERO */}
@@ -67,7 +125,14 @@ const ServicePageTemplate = () => {
 
         {/* 3. PROFILE LISTING */}
         <div id="available-experts">
-            <ServiceProfileGrid slug={slug} isLight={isLight} />
+            {/* ✅ Pass Real Data & Loading State */}
+            <ServiceProfileGrid 
+                key={`${slug}-${loading}`}
+                slug={slug} 
+                isLight={isLight} 
+                profiles={displayProfiles} // Real Data
+                loading={loading}
+            />
         </div>
 
         {/* 4. TestimonialsS */}

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Ensure this points to your running Backend Server
-const API_URL = 'https://gensquadbackend.onrender.com/api/talent';
+const API_URL = 'http://localhost:5000/api/talent';
+// || 'https://gensquadbackend.onrender.com/api/talent'
 
 export const createTalent = async (formData) => {
   const response = await axios.post(API_URL, formData, {
@@ -22,6 +23,9 @@ export const getAllTalent = async () => {
   return response.data;
 };
 
+// ✅ ADDED: Alias for compatibility with new templates
+export const getTalents = getAllTalent;
+
 export const getTalentById = async (id) => {
   const response = await axios.get(`${API_URL}/${id}`);
   return response.data;
@@ -34,11 +38,11 @@ export const getExperts = async (subSection, page) => {
   try {
     const response = await axios.get(API_URL);
     const allTalent = response.data;
-    
+
     // Filter based on the new fields you will add to Backend
     // If fields are missing in DB, this returns empty array [] -> UI shows dummy data
-    return allTalent.filter(t => 
-      t.subSection?.toLowerCase() === subSection?.toLowerCase() && 
+    return allTalent.filter(t =>
+      t.subSection?.toLowerCase() === subSection?.toLowerCase() &&
       t.page?.toLowerCase() === page?.toLowerCase()
     );
   } catch (error) {

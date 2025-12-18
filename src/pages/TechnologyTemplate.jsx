@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useTheme } from '../hooks/useTheme';
-
 
 // Features
 import TechnologyHero from '../features/technology/TechnologyHero';
@@ -12,16 +11,56 @@ import TechnologyVetting from '../features/technology/TechnologyVetting';
 import CompanyLogos from '../features/landing/CompanyLogos';
 import Testimonials from '../features/landing/Testimonials';
 import FAQSection from '../features/hiring/FAQSection';
-import FinalCTA from '../features/hiring/FinalCTA'; // Reusing this generic CTA component
+import FinalCTA from '../features/hiring/FinalCTA'; 
 
 // Data
 import { technologyContent } from '../data/technologyContent';
+// API
+import { getTalents } from '../services/api';
 
 const TechnologyTemplate = () => {
     const { slug } = useParams();
     const { isLight } = useTheme();
 
+    const [dbProfiles, setDbProfiles] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     const content = technologyContent[slug];
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchProfiles = async () => {
+            setLoading(true);
+            setDbProfiles(null);
+            console.log(`%c[TechTemplate] 🔄 NEW PAGE LOAD: ${slug}`, "background: green; color: white; font-weight: bold;");
+
+            try {
+                const data = await getTalents();
+                if (!isMounted) return;
+
+                if (Array.isArray(data)) {
+                    const filtered = data.filter(profile =>
+                        profile.technologySlugs && profile.technologySlugs.includes(slug)
+                    );
+
+                    if (filtered.length > 0) {
+                        console.log(`[TechTemplate] ✅ Found ${filtered.length} profiles for ${slug}`);
+                        setDbProfiles(filtered);
+                    } else {
+                        console.warn(`[TechTemplate] ⚠️ No profiles for ${slug}. Using static fallback.`);
+                        setDbProfiles([]);
+                    }
+                }
+            } catch (error) {
+                console.error("[TechTemplate] ❌ API Error:", error);
+                if (isMounted) setDbProfiles([]);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchProfiles();
+        return () => { isMounted = false; };
+    }, [slug]);
 
     if (!content) {
         return (
@@ -31,7 +70,17 @@ const TechnologyTemplate = () => {
         );
     }
 
-    // Same global gradient as Services/Solutions
+    // ✅ DISPLAY LOGIC: PASS ALL PROFILES (Don't slice here!)
+    let displayProfiles = [];
+    if (loading) {
+        displayProfiles = [];
+    } else if (dbProfiles && dbProfiles.length > 0) {
+        // 🔴 CHANGE: Removed .slice(0, 4). Now passing ALL matches.
+        displayProfiles = dbProfiles; 
+    } else {
+        displayProfiles = content.talent?.profiles || [];
+    }
+
     const pageBackground = {
         background: isLight
             ? `radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%), 
@@ -47,35 +96,28 @@ const TechnologyTemplate = () => {
                 <title>{content.hero.title} | GenSquad</title>
             </Helmet>
 
-
             <main className="flex-grow z-10">
-                {/* 1. Hero */}
                 <TechnologyHero content={content.hero} isLight={isLight} />
 
-                {/* 2. Logos */}
-                <section className={``}>
+                <section>
                     <CompanyLogos variant="industry" />
                 </section>
 
-                {/* 3. Profiles */}
-                <TechnologyProfileGrid slug={slug} content={content.talent} isLight={isLight} />
+                <TechnologyProfileGrid 
+                    key={`${slug}-${loading}`}
+                    slug={slug} 
+                    content={content.talent} 
+                    profiles={displayProfiles} 
+                    loading={loading}
+                    isLight={isLight} 
+                />
 
-                {/* 4. CTA Strip (Optional placement, or after features) */}
                 <FinalCTA content={content.cta} isLight={isLight} />
-
-                {/* 5. Features (6 Cards) */}
                 <TechnologyFeatures features={content.features} isLight={isLight} />
-
-                {/* 6. Vetting */}
                 <TechnologyVetting content={content.vetting} isLight={isLight} />
-
-                {/* 7. Testimonialss */}
                 <Testimonials variant="industry" />
-
-                {/* 8. FAQ */}
                 <FAQSection faq={content.faq} isLight={isLight} />
             </main>
-
         </div>
     );
 };
