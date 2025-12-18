@@ -19,7 +19,7 @@ const ListingHero = () => {
   const iconBg = isLight ? "bg-purple-50 text-purple-600" : "bg-purple-500/20 text-purple-300";
 
   return (
-    <section className={`w-full relative pt-20 pb-10 overflow-hidden ${bgMain} transition-colors duration-300`}>
+    <section className={`w-full relative pb-10 pt-20 overflow-hidden ${bgMain} transition-colors duration-300`}>
       
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">

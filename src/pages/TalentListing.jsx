@@ -33,7 +33,7 @@ const TalentListing = () => {
       </Helmet>
 
       {/* 1. HERO SECTION */}
-      <div className="pt-[80px]">
+      <div className="">
         <ListingHero />
       </div>
 
