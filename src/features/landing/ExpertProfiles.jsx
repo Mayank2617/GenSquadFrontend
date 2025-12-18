@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { Link } from 'react-router-dom';
-import { getExperts } from "../../services/api";
+import { getExperts } from "../../services/api"; // Keep for fallback if needed
 
-const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSection, page }) => {
+const ExpertProfiles = ({ variant = "home", title, subtitle, profiles = [], loading = false, subSection, page }) => {
   const { isLight } = useTheme();
 
-  // 1. ORIGINAL DUMMY DATA (Your Exact Design Data)
+  // 1. ORIGINAL DUMMY DATA (Fallback)
   const defaultExperts = [
     {
       id: 1,
@@ -59,6 +59,7 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
   ];
 
   // 2. STATE
+  // Initialize with empty if loading, otherwise defaults
   const [displayedExperts, setDisplayedExperts] = useState(defaultExperts);
   const [expandedDesc, setExpandedDesc] = useState({});
   const [expandedSkills, setExpandedSkills] = useState({});
@@ -66,16 +67,25 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
   // 3. FETCH & MAP DATA
   useEffect(() => {
     let isMounted = true;
-    const fetchRealData = async () => {
-      // If props provided (Industry Page), use them immediately
+
+    const handleData = async () => {
+      // ✅ CASE A: Props passed from parent (e.g. Landing.jsx or TechnologyTemplate)
       if (profiles && profiles.length > 0) {
         const normalizedProps = profiles.map((p, i) => normalizeProfile(p, i));
-        setDisplayedExperts(normalizedProps);
+        if (isMounted) setDisplayedExperts(normalizedProps);
         return;
       }
 
-      // If configuration provided (Home Page), try fetch
-      if (subSection && page) {
+      // ✅ CASE B: Parent passed empty array explicitly (Search results found nothing)
+      if (profiles && profiles.length === 0 && !loading) {
+         // If specifically passed empty array, show empty. 
+         // But if we are in "initial load" (loading=true), wait.
+         if (isMounted) setDisplayedExperts([]); 
+         return;
+      }
+
+      // ✅ CASE C: Internal Fetch (Fallback for standalone usage)
+      if (!profiles && subSection && page) {
         try {
           const data = await getExperts(subSection, page);
           if (isMounted && data.length > 0) {
@@ -83,25 +93,33 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
             setDisplayedExperts(normalizedDB);
           }
         } catch (err) {
-          console.error("Failed to load experts", err);
+          console.error("Failed to load experts internally", err);
         }
       }
     };
 
-    fetchRealData();
+    handleData();
     return () => { isMounted = false; };
-  }, [subSection, page, profiles]);
+  }, [subSection, page, profiles, loading]);
 
   // 4. HELPER: Normalize Data to Match Design
   const normalizeProfile = (data, index, isFromDB = false) => {
+    // Ensure skills is always an array of strings
+    let safeSkills = ["Tech Expert"];
+    if (Array.isArray(data.skills)) {
+        safeSkills = data.skills;
+    } else if (data.topSkills && Array.isArray(data.topSkills)) {
+        // Handle case where skills might be objects { name: "Java", ... }
+        safeSkills = data.topSkills.map(s => (typeof s === 'object' ? s.name : s));
+    }
+
     return {
       id: data._id || data.id || index, 
-      name: data.fullName || data.name,
-      role: data.title || data.role,
+      name: data.fullName || data.name || "GenSquad Expert",
+      role: data.title || data.role || "Senior Developer",
       image: data.profileImage || data.image || "/images/img_ellipse_1.png",
-      skills: Array.isArray(data.skills) ? data.skills : 
-              (data.topSkills ? data.topSkills.map(s => s.name) : ["Python", "Cloud", "AI"]),
-      description: data.about || data.description || "No description provided.",
+      skills: safeSkills,
+      description: data.about || data.description || "Expert developer with proven track record in delivering scalable solutions.",
       badges: data.badges || [
         { icon: "/images/fintech.svg", text: "Verified", bg: "#3b82f6" },
         { icon: "/images/iit.svg", text: "Senior", bg: "#10b981" }
@@ -142,9 +160,24 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
           </p>
         </div>
 
+        {/* LOADING STATE */}
+        {loading && (
+             <div className="w-full py-20 text-center animate-pulse">
+                <p className={`text-xl ${isLight ? "text-gray-400" : "text-gray-600"}`}>Finding the best matches...</p>
+             </div>
+        )}
+
+        {/* EMPTY STATE */}
+        {!loading && displayedExperts.length === 0 && (
+            <div className="w-full py-20 text-center">
+                <p className={`text-lg ${isLight ? "text-gray-500" : "text-gray-400"}`}>No specific experts found for this category yet.</p>
+            </div>
+        )}
+
         {/* GRID (Mobile: 1 col, Desktop: 2 cols - displaying 4 cards total) */}
+        {!loading && displayedExperts.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 w-full mt-10">
-          {displayedExperts.map((expert) => {
+          {displayedExperts.map((expert, idx) => {
             const isDescExpanded = expandedDesc[expert.id];
             const isSkillsExpanded = expandedSkills[expert.id];
 
@@ -154,7 +187,7 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
 
             return (
               <div
-                key={expert.id}
+                key={expert.id || idx}
                 // ✅ UPDATED: Added 'relative z-10' and explicit solid colors (bg-[#111]) to block grid lines
                 className={`
                   flex flex-col gap-4 rounded-[14px] p-[20px] shadow-md transition-all relative z-10
@@ -170,6 +203,7 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
                     src={expert.image}
                     className="w-[64px] h-[64px] rounded-full object-cover"
                     alt={expert.name}
+                    onError={(e) => {e.target.src = "/images/img_ellipse_1.png"}} // Fallback image
                   />
 
                   <div>
@@ -265,7 +299,7 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
                 {/* BUTTON */}
                 <div className="mt-auto pt-4">
                   <div className="p-[2px] rounded-[10px] bg-gradient-to-r from-[#8b5cf6] to-[#513590] inline-block w-full sm:w-auto">
-                    <Link to={expert.id?.toString().length > 5 ? `/talent/${expert.id}` : "/talent"} className="w-full">
+                    <Link to={`/talent/${expert.id}`} className="w-full">
                       <button
                         className={`w-full sm:w-auto px-8 py-3 rounded-[8px] text-[16px] flex items-center justify-center gap-2
                           ${isLight
@@ -287,6 +321,7 @@ const ExpertProfiles = ({ variant = "home", title, subtitle, profiles, subSectio
             );
           })}
         </div>
+        )}
 
         {/* VIEW MORE CTA */}
         <div className="flex justify-center mt-[40px]">
