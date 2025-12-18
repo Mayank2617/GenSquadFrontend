@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Ensure this points to your running Backend Server
-const API_URL = 'http://localhost:5000/api/talent';
+const API_URL = 'https://gensquadbackend.onrender.com/api/talent' || 'http://localhost:5000/api/talent';
 // || 'https://gensquadbackend.onrender.com/api/talent'
 
 export const createTalent = async (formData) => {
