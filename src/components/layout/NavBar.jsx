@@ -65,13 +65,24 @@ const NavBar = () => {
               </div>
             ))}
 
-            {/* 2. ✅ NEW: N8N Workflow Direct Link */}
+            {/* 2. N8N Workflow Direct Link */}
             <Link 
               to="/n8n-workflows" 
               className="text-sm font-medium text-black dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-2"
             >
               N8N Workflows
               {/* Optional 'New' Badge */}
+              <span className="bg-orange-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wide">
+                NEW
+              </span>
+            </Link>
+
+            {/* 3. ✅ ADDED: Jobs Direct Link */}
+            <Link 
+              to="/jobs" 
+              className="text-sm font-medium text-black dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-2"
+            >
+              Jobs
               <span className="bg-orange-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold tracking-wide">
                 NEW
               </span>

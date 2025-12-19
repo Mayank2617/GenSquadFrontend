@@ -26,6 +26,7 @@ const TalentListPage = lazy(() => import('./features/vendor/talent/TalentListPag
 const Login = lazy(() => import('./pages/Login'));
 const HiringNeedTemplate = lazy(() => import('./pages/HiringNeedTemplate'));
 const TechnologyTemplate = lazy(() => import('./pages/TechnologyTemplate'));
+const JobsTemplate = lazy(() => import('./pages/JobsTemplate')); // <--- Added Jobs Import
 
 // ✅ 1. NEW IMPORT: Service Page Template
 const ServicePageTemplate = lazy(() => import('./pages/ServicePageTemplate'));
@@ -49,6 +50,9 @@ const AppRoutes = () => {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/fractal-cto-cpo" element={<FractionalCTO />} />
               <Route path="/book-call" element={<BookCall />} />
+
+              {/* <--- Added Jobs Route */}
+              <Route path="/jobs" element={<JobsTemplate />} />
 
               {/* Dynamic Hiring Need Template */}
               <Route path="/use-cases/hiring-need/:slug" element={<HiringNeedTemplate />} />
