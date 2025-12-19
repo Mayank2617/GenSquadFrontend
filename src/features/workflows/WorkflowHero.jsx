@@ -1,11 +1,12 @@
 import React from "react";
 import { useTheme } from "../../hooks/useTheme";
 
-const WorkflowHero = () => {
+// ✅ 1. Accept 'onCategoryChange' prop along with 'onSearch'
+const WorkflowHero = ({ onSearch, onCategoryChange }) => {
   const { isLight } = useTheme();
 
-  // 📋 DUMMY DATA FOR DROPDOWNS
-  const categories = ["Marketing", "Sales", "DevOps", "Finance", "HR"];
+  // 📋 DROPDOWN OPTIONS
+  const categories = ["Marketing", "Sales", "DevOps", "Finance", "HR", "Productivity", "Engineering"];
   const complexities = ["Beginner", "Intermediate", "Advanced"];
   const triggers = ["Webhook", "Schedule", "App Event", "Manual"];
 
@@ -82,7 +83,8 @@ const WorkflowHero = () => {
             
             <input 
               type="text" 
-              placeholder="Search workflows (e.g. 'Slack notification', 'OpenAI')" 
+              placeholder="Search workflows (e.g. 'Slack notification', 'OpenAI')"
+              onChange={(e) => onSearch && onSearch(e.target.value)} 
               className={`
                 w-full bg-transparent outline-none text-base font-dm placeholder-opacity-60
                 ${isLight ? "text-gray-900 placeholder-gray-400" : "text-white placeholder-[#666]"}
@@ -93,8 +95,29 @@ const WorkflowHero = () => {
 
         {/* 5. FILTERS ROW */}
         <div className="flex flex-wrap justify-center gap-4 mb-16 w-full max-w-3xl">
-          {[
-            { label: "All Categories", options: categories },
+          
+          {/* ✅ UPDATED CATEGORY DROPDOWN */}
+          {/* <div className="relative group">
+            <select 
+              onChange={(e) => onCategoryChange && onCategoryChange(e.target.value)} // Trigger Logic
+              className={`
+                appearance-none cursor-pointer px-5 py-2.5 pr-10 rounded-lg text-sm font-medium border outline-none transition-all
+                ${isLight 
+                  ? "bg-white border-gray-200 text-gray-700 hover:border-purple-400 hover:shadow-md" 
+                  : "bg-[#161616] border-[#333] text-[#bababa] hover:border-white/30 hover:bg-[#222]"
+                }
+              `}
+            >
+              <option value="">All Categories</option>
+              {categories.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+            </select>
+            <svg width="12" height="12" className={`absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${isLight ? "text-gray-400" : "text-[#666]"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div> */}
+
+          {/* Other filters (Visual only for now unless you want them wired too) */}
+          {/* {[
             { label: "All Complexity", options: complexities },
             { label: "All Triggers", options: triggers }
           ].map((filter, idx) => (
@@ -113,7 +136,7 @@ const WorkflowHero = () => {
                 <path d="M6 9l6 6 6-6"/>
               </svg>
             </div>
-          ))}
+          ))} */}
         </div>
 
         {/* 6. STATS GRID */}
