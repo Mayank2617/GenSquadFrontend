@@ -146,8 +146,11 @@ const TalentProfile = () => {
         <title>{profile.name} | GenSquad Profile</title>
       </Helmet>
 
-      {/* Main Content Grid */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-8">
+      {/* Main Content Grid 
+          ✅ FIX: Added pt-[120px] to clear navbar. 
+          ✅ Layout handles mobile (flex-col) vs desktop (flex-row) correctly.
+      */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-[120px] pb-12 flex flex-col lg:flex-row gap-8">
         <ProfileSidebar profile={profile} />
         <ProfileDetails profile={profile} />
       </div>

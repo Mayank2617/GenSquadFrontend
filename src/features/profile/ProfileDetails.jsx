@@ -44,16 +44,13 @@ const ProfileDetails = ({ profile }) => {
         <div className="flex flex-col md:flex-row gap-8 items-center">
           
           {/* VISUAL CHART AREA */}
-          <div className="relative w-40 h-40 flex-shrink-0 group">
+          <div className="relative w-40 h-40 flex-shrink-0 group mx-auto md:mx-0">
             
             {/* TOOLTIP: "Black Box" appearing ONLY when hovering chart */}
             <div className={`
               absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 transition-opacity duration-200
               ${hoveredSkill ? "opacity-100" : "opacity-0"}
             `}>
-              {/* ✅ FIX: Constrained width (max-w-[110px]) prevents overflow.
-                 ✅ FIX: 'line-clamp-2' ensures long names wrap but don't break layout.
-              */}
               <div className="bg-black/90 text-white px-2 py-1.5 rounded-lg text-xs font-bold shadow-xl backdrop-blur-sm text-center border border-white/10 max-w-[110px]">
                 <span className="block text-[10px] text-gray-300 uppercase tracking-wider mb-0.5 leading-tight line-clamp-2 break-words">
                   {hoveredSkill?.name}
